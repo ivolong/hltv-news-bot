@@ -1,12 +1,6 @@
 const discord = require("discord.js")
 const client = new discord.Client()
 
-const reactive_messages = {
-	hltv: "hltv",
-	fantasy: "hltv fantasy",
-	scrims: "scrims"
-}
-
 client.on("ready", () => {
 	console.log("Ready")
 	client.user.setActivity("hltv for " + client.guilds.cache.reduce((a, guild) => a + guild.memberCount, 0).toLocaleString("en") + " people", { type: "WATCHING" })
@@ -25,25 +19,6 @@ client.on("guildCreate", (guild) => {
 			description: "hi thanks for adding me\n\nmake sure there is a channel called `#news-feed` and make sure **i can read and send messages in it** - i will post new articles in there\n\nif you want to be pinged with article notifications, **create a role called `@hltv` and make sure i can ping it**\n\nmessage <@243498117767495681> for help"
 		}
 	}).catch(() => {})
-})
-
-client.on("message", (message) => {
-	if (message.channel.type == "text") {
-		if (message.guild.id == "702129084725067806") {
-			if (reactive_messages[message.content.replace("!", "")]) {
-				role_id = message.guild.roles.cache.find(role => role.name == reactive_messages[message.content.replace("!", "")])
-				
-				message.member.roles.add(role_id).catch(() => {})
-				message.react(client.emojis.resolveIdentifier("751992994021769387"))
-			} else if (reactive_messages[message.content.replace("remove!", "")]) {
-				role_id = message.guild.roles.cache.find(role => role.name == reactive_messages[message.content.replace("remove!", "")])
-				
-				message.member.roles.remove(role_id).catch(() => {})
-				message.react(client.emojis.resolveIdentifier("751992994021769387"))
-
-			}
-		}
-	}
 })
 
 client.on("newArticle", (article) => {
