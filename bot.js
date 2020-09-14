@@ -3,7 +3,7 @@ const client = new discord.Client()
 
 client.on("ready", () => {
 	console.log("Ready")
-	client.user.setActivity("hltv for " + client.guilds.cache.reduce((a, guild) => a + guild.memberCount, 0).toLocaleString("en") + " people", { type: "WATCHING" })
+	client.user.setActivity("hltv for " + client.guilds.cache.reduce((a, guild) => a + guild.memberCount, 0).toLocaleString("en") + " users/" + client.guilds.cache.size.toLocaleString("en") + " servers", { type: "WATCHING" })
 
 	hltv_checker()
 	cs_blog_checker()
