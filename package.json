@@ -1,0 +1,16 @@
+{
+    "name": "grand-project",
+    "version": "1.0.0",
+    "description": "many things",
+    "author": "Ivo Long",
+    "license": "ISC",
+    "dependencies": {
+        "express": "*",
+        "http": "*",
+        "dotenv": "*",
+        "path": "*",
+        "discord.js": "*",
+        "rss-parser": "*",
+        "fs": "*"
+    }
+}
