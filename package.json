@@ -1,13 +1,10 @@
 {
-    "name": "grand-project",
+    "name": "hltv-news-bot",
     "version": "1.0.0",
-    "description": "many things",
+    "description": "discord bot checking for new hltv articles",
     "author": "Ivo Long",
     "license": "ISC",
     "dependencies": {
-        "express": "*",
-        "http": "*",
-        "dotenv": "*",
         "path": "*",
         "discord.js": "*",
         "rss-parser": "*",
