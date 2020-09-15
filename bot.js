@@ -42,8 +42,8 @@ client.on("guildCreate", (guild) => {
 			},
 			reason: "pingable hltv role by hltv newsmen))",
 		})
-		.then(embed.embed.description = embed.embed.description + "\n\nif you want to be notified, type `!hltv` and i'll give you a pingable role. type `remove!hltv` to remove it")
-		.catch(console.error)
+			.then(embed.embed.description = embed.embed.description + "\n\nif you want to be notified, type `!hltv` and i'll give you a pingable role. type `remove!hltv` to remove it")
+			.catch(() => {})
 
 		embed.embed.description = embed.embed.description + "\n\njoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help"
 
@@ -57,12 +57,12 @@ client.on("message", (message) => {
 			role_id = message.guild.roles.cache.find(role => role.name == reactive_messages[message.content.replace("!", "")])
 				
 			message.member.roles.add(role_id).catch(() => {})
-			message.react(client.emojis.resolveIdentifier("751992994021769387"))
+				.then(message.react(client.emojis.resolveIdentifier("751992994021769387")))
 		} else if (reactive_messages[message.content.replace("remove!", "")]) {
 			role_id = message.guild.roles.cache.find(role => role.name == reactive_messages[message.content.replace("remove!", "")])
 				
 			message.member.roles.remove(role_id).catch(() => {})
-			message.react(client.emojis.resolveIdentifier("751992994021769387"))
+				.then(message.react(client.emojis.resolveIdentifier("751992994021769387")))
 
 		}
 	}
