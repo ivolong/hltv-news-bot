@@ -20,35 +20,28 @@ client.on("guildCreate", (guild) => {
 	guild.owner.send({
 		embed: {
 			title: "instructions",
-			description: "hi thanks for adding me\n\nmake sure there is a channel called `#news-feed` and make sure **i can read and send messages in it** - i will post new articles in there\n\nif you want to be pinged with article notifications, **create a role called `@hltv` and make sure i can ping it**\n\njoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help"
+			description: "hi thanks for adding me\n\nmake sure there is a channel called `#news-feed` and make sure **i can read and send messages in it** - i will post new articles in there\n\nif you want to be pinged with article notifications, **make sure there is a role called `@hltv` and make sure i can ping it**\n\njoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help"
 		}
 	}).catch(() => {})
 
-	channel = guild.channels.cache.find(channel => channel.name == "news-feed")
-	role = guild.roles.cache.find(role => role.name == "hltv")
+	guild.roles.create({
+		data: {
+			name: "hltv",
+			color: "#3c6ea1",
+		},
+		reason: "pingable hltv role by hltv newsmen))",
+	}).catch(() => {})
 
-	if (channel) {
-		embed = {
-			embed: {
-				title: "instructions",
-				description: "hi thanks for adding me\n\ni'll post new articles from hltv in here"
-			}
-		}
-
-		guild.roles.create({
-			data: {
-				name: "hltv",
-				color: "#3c6ea1",
-			},
-			reason: "pingable hltv role by hltv newsmen))",
+	guild.channels.create("news-feed", { "reason": "hltv news article updates channel by hltv newsmen))" })
+		.then((channel) => {
+			channel.send({
+				embed: {
+					title: "instructions",
+					description: "hi thanks for adding me\n\ni'll post new articles from hltv in here\n\nif you want to be notified, type `!hltv` and i'll give you a pingable role **if it exists**. type `remove!hltv` to remove it\n\njoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help"
+				}
+			}).catch(() => {})
 		})
-			.then(embed.embed.description = embed.embed.description + "\n\nif you want to be notified, type `!hltv` and i'll give you a pingable role. type `remove!hltv` to remove it")
-			.catch(() => {})
-
-		embed.embed.description = embed.embed.description + "\n\njoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help"
-
-		channel.send(embed).catch(() => {})
-	}
+		.catch(() => {})
 })
 
 client.on("message", (message) => {
