@@ -68,7 +68,7 @@ client.on("newArticle", (article) => {
 
 		if (channel) {
 			embed = {
-				content: article.title,
+				content: article.title + " " + article.link,
 				embed: {
 					title: article.title,
 					description: article.content,
