@@ -12,7 +12,7 @@ client.on("ready", () => {
 	hltv_checker()
 	cs_blog_checker()
 
-	setInterval(hltv_checker, 5e3)
+	setInterval(hltv_checker, 1e3)
 	setInterval(cs_blog_checker, 60e3)
 })
 
