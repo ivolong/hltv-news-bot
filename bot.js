@@ -7,20 +7,20 @@ const reactive_messages = {
 
 client.on("ready", () => {
 	console.log("Ready")
-	client.user.setActivity("hltv for " + client.guilds.cache.reduce((a, guild) => a + guild.memberCount, 0).toLocaleString("en") + " users/" + client.guilds.cache.size.toLocaleString("en") + " servers", { type: "WATCHING" })
+	client.user.setActivity("HLTV for " + client.guilds.cache.reduce((a, guild) => a + guild.memberCount, 0).toLocaleString("en") + " users/" + client.guilds.cache.size.toLocaleString("en") + " servers", { type: "WATCHING" })
 
 	hltv_checker()
 	cs_blog_checker()
 
-	setInterval(hltv_checker, 1e3)
+	setInterval(hltv_checker, 3e3)
 	setInterval(cs_blog_checker, 60e3)
 })
 
 client.on("guildCreate", (guild) => {
 	guild.owner.send({
 		embed: {
-			title: "instructions",
-			description: "hi thanks for adding me\n\nmake sure there is a channel called `#news-feed` and make sure **i can read and send messages in it** - i will post new articles in there\n\nif you want to be pinged with article notifications, **make sure there is a role called `@hltv` and make sure i can ping it**\n\njoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help"
+			title: "Instructions",
+			description: "Hi thanks for adding me.\n\nMake sure there is a channel called `#news-feed` and make sure **I can read and send messages in it** - I will post new articles in there.\n\nIf you want to be pinged with article notifications, **make sure there is a role called `@hltv` and make sure I can ping it**.\n\nJoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help."
 		}
 	}).catch(() => {})
 
@@ -29,15 +29,15 @@ client.on("guildCreate", (guild) => {
 			name: "hltv",
 			color: "#3c6ea1",
 		},
-		reason: "pingable hltv role by hltv newsmen))",
+		reason: "Pingable HLTV role by HLTV News Bot",
 	}).catch(() => {})
 
-	guild.channels.create("news-feed", { "reason": "hltv news article updates channel by hltv newsmen))" })
+	guild.channels.create("news-feed", { "reason": "HLTV news article updates channel by HLTV News Bot" })
 		.then((channel) => {
 			channel.send({
 				embed: {
-					title: "instructions",
-					description: "hi thanks for adding me\n\ni'll post new articles from hltv in here\n\nif you want to be notified, type `!hltv` and i'll give you a pingable role **if it exists**. type `remove!hltv` to remove it\n\njoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help"
+					title: "Instructions",
+					description: "Hi thanks for adding me.\n\ni'll post new articles from HLTV in here.\n\nIf you want to be notified, type `!HLTV` and I'll give you a pingable role **if it exists**. Type `remove!HLTV` to remove it.\n\nJoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help."
 				}
 			}).catch(() => {})
 		})
