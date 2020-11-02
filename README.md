@@ -1,7 +1,7 @@
 # hltv-news-bot
 A Discord bot that checks https://hltv.org for new articles
 
-https://discord.com/oauth2/authorize?client_id=745404733857988740&permissions=134144&scope=bot
+https://discord.com/oauth2/authorize?client_id=745404733857988740&permissions=268586000&scope=bot
 
 # instructions
 1) create a channel called #news-feed
