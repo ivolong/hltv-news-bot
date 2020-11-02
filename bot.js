@@ -17,12 +17,12 @@ client.on("ready", () => {
 })
 
 client.on("guildCreate", (guild) => {
-	guild.owner.send({
-		embed: {
-			title: "Instructions",
-			description: "Hi thanks for adding me.\n\nMake sure there is a channel called `#news-feed` and make sure **I can read and send messages in it** - I will post new articles in there.\n\nIf you want to be pinged with article notifications, **make sure there is a role called `@hltv` and make sure I can ping it**.\n\nJoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help."
-		}
-	}).catch(() => {})
+// 	guild.owner.send({
+// 		embed: {
+// 			title: "Instructions",
+// 			description: "Hi thanks for adding me.\n\nMake sure there is a channel called `#news-feed` and make sure **I can read and send messages in it** - I will post new articles in there.\n\nIf you want to be pinged with article notifications, **make sure there is a role called `@hltv` and make sure I can ping it**.\n\nJoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help."
+// 		}
+// 	}).catch(() => {})
 
 	guild.roles.create({
 		data: {
