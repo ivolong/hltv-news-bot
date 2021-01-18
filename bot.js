@@ -61,7 +61,7 @@ client.on("message", (message) => {
 			message.channel.send({
 				embed: {
 					title: "General Help",
-					description: "Want notifications when there's a new article?\nType `!hltv` and I'll give you a pingable role.\nType `remove!hltv` to remove the role.\n\n`!hltv-invite` to invite me to your server.\n\nJoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help."
+					description: "In order to work, this bot needs a channel called `#news-feed` to post articles in and (optionally) a role called `@hltv` to ping with notifications.\n\nWant notifications when there's a new article?\nType `!hltv` and I'll give you a pingable role.\nType `remove!hltv` to remove the role.\n\n`!hltv-invite` to invite me to your server.\n\nJoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help."
 				}
 			}).catch(() => {})
 			
