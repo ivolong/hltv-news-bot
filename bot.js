@@ -7,7 +7,7 @@ const reactive_messages = {
 
 client.on("ready", () => {
 	console.log("Ready")
-	client.user.setActivity("HLTV for " + client.guilds.cache.reduce((a, guild) => a + guild.memberCount, 0).toLocaleString("en") + " users/" + client.guilds.cache.size.toLocaleString("en") + " servers", { type: "WATCHING" })
+	client.user.setActivity("!hltv-help | " + client.guilds.cache.reduce((a, guild) => a + guild.memberCount, 0).toLocaleString("en") + " users/" + client.guilds.cache.size.toLocaleString("en") + " servers", { type: "WATCHING" })
 
 	hltv_checker()
 	cs_blog_checker()
@@ -29,15 +29,15 @@ client.on("guildCreate", (guild) => {
 			name: "hltv",
 			color: "#3c6ea1",
 		},
-		reason: "Pingable HLTV role by HLTV News Bot",
+		reason: "Pingable HLTV role by HLTV News bot.",
 	}).catch(() => {})
 
-	guild.channels.create("news-feed", { "reason": "HLTV news article updates channel by HLTV News Bot" })
+	guild.channels.create("news-feed", { "reason": "HLTV news article updates channel by HLTV News bot." })
 		.then((channel) => {
 			channel.send({
 				embed: {
-					title: "Instructions",
-					description: "Hi thanks for adding me.\n\ni'll post new articles from HLTV in here.\n\nIf you want to be notified, type `!HLTV` and I'll give you a pingable role **if it exists**. Type `remove!HLTV` to remove it.\n\nJoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help."
+					title: "Information",
+					description: "Thanks for adding me.\n\nI'll post new articles from HLTV in here.\n\nDo you want notifications?\nType `!hltv` and I'll give you a pingable role **if it exists**.\nType `remove!hltv` to remove the role.\n\nType `!hltv-help` for general help.\n\nType `!hltv-invite` to invite me to your server.\n\nJoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help."
 				}
 			}).catch(() => {})
 		})
@@ -57,6 +57,22 @@ client.on("message", (message) => {
 			message.member.roles.remove(role_id).catch(() => {})
 				.then(message.react(client.emojis.resolveIdentifier("751992994021769387")))
 
+		} else if (message.content == "!hltv-help") {
+			message.channel.send({
+				embed: {
+					title: "General Help",
+					description: "Want notifications when there's a new article?\nType `!hltv` and I'll give you a pingable role.\nType `remove!hltv` to remove the role.\n\n`!hltv-invite` to invite me to your server.\n\nJoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help."
+				}
+			}).catch(() => {})
+			
+		} else if (message.content == "!hltv-invite") {
+			message.channel.send({
+				embed: {
+					title: "HLTV News",
+					description: "[Click to get HLTV News article notifications](https://discord.com/oauth2/authorize?client_id=745404733857988740&permissions=268586000&scope=bot) in your server."
+				}
+			}).catch(() => {})
+			
 		}
 	}
 })
