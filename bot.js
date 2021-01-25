@@ -47,19 +47,10 @@ client.on("guildCreate", (guild) => {
 client.on("message", (message) => {
 	if (message.channel.type == "dm") {
 		if (message.content == "!hltv-help") {
-			message.channel.send({
-				embed: {
-					title: "General Help",
-					description: "In order to work, this bot needs a channel called `#news-feed` to post articles in and (optionally) a role called `@hltv` to ping with notifications.\n\nWant notifications when there's a new article?\nType `!hltv` and I'll give you a pingable role.\nType `remove!hltv` to remove the role.\n\n`!hltv-invite` to invite me to your server.\n\nJoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help."
-				}
-			}).catch(() => {})
+			reply_with_help(message)
+
 		} else if (message.content == "!hltv-invite") {
-			message.channel.send({
-				embed: {
-					title: "HLTV News",
-					description: "[Click to get HLTV News article notifications](https://discord.com/oauth2/authorize?client_id=745404733857988740&permissions=268586000&scope=bot) in your server."
-				}
-			}).catch(() => {})
+			reply_with_invite(message)
 		}
 
 	} else if (message.channel.type == "text") {
@@ -75,21 +66,10 @@ client.on("message", (message) => {
 				.then(message.react(client.emojis.resolveIdentifier("751992994021769387")))
 
 		} else if (message.content == "!hltv-help") {
-			message.channel.send({
-				embed: {
-					title: "General Help",
-					description: "In order to work, this bot needs a channel called `#news-feed` to post articles in and (optionally) a role called `@hltv` to ping with notifications.\n\nWant notifications when there's a new article?\nType `!hltv` and I'll give you a pingable role.\nType `remove!hltv` to remove the role.\n\n`!hltv-invite` to invite me to your server.\n\nJoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help."
-				}
-			}).catch(() => {})
-			
+			reply_with_help(message)
+
 		} else if (message.content == "!hltv-invite") {
-			message.channel.send({
-				embed: {
-					title: "HLTV News",
-					description: "[Click to get HLTV News article notifications](https://discord.com/oauth2/authorize?client_id=745404733857988740&permissions=268586000&scope=bot) in your server."
-				}
-			}).catch(() => {})
-			
+			reply_with_invite(message)
 		}
 	}
 })
@@ -158,6 +138,24 @@ function cs_blog_checker (current_article) {
 		let data = JSON.stringify(newest_article);
 		fs.writeFileSync("current_cs_article.json", data)
 	})()
+}
+
+function reply_with_help (message) {
+	message.channel.send({
+		embed: {
+			title: "General Help",
+			description: "In order to work, this bot needs a channel called `#news-feed` to post articles in and (optionally) a role called `@hltv` to ping with notifications.\n\nWant notifications when there's a new article?\nType `!hltv` and I'll give you a pingable role.\nType `remove!hltv` to remove the role.\n\n`!hltv-invite` to invite me to your server.\n\nJoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help."
+		}
+	}).catch(() => {})
+}
+
+function reply_with_invite (message) {
+	message.channel.send({
+		embed: {
+			title: "HLTV News",
+			description: "[Click to get HLTV News article notifications](https://discord.com/oauth2/authorize?client_id=745404733857988740&permissions=268586000&scope=bot) in your server."
+		}
+	}).catch(() => {})
 }
 
 client.login(process.env.discord_api_token)
