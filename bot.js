@@ -45,7 +45,24 @@ client.on("guildCreate", (guild) => {
 })
 
 client.on("message", (message) => {
-	if (message.channel.type == "text") {
+	if (message.channel.type == "dm") {
+		if (message.content == "!hltv-help") {
+			message.channel.send({
+				embed: {
+					title: "General Help",
+					description: "In order to work, this bot needs a channel called `#news-feed` to post articles in and (optionally) a role called `@hltv` to ping with notifications.\n\nWant notifications when there's a new article?\nType `!hltv` and I'll give you a pingable role.\nType `remove!hltv` to remove the role.\n\n`!hltv-invite` to invite me to your server.\n\nJoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help."
+				}
+			}).catch(() => {})
+		} else if (message.content == "!hltv-invite") {
+			message.channel.send({
+				embed: {
+					title: "HLTV News",
+					description: "[Click to get HLTV News article notifications](https://discord.com/oauth2/authorize?client_id=745404733857988740&permissions=268586000&scope=bot) in your server."
+				}
+			}).catch(() => {})
+		}
+
+	} else if (message.channel.type == "text") {
 		if (reactive_messages[message.content.replace("!", "")]) {
 			role_id = message.guild.roles.cache.find(role => role.name == reactive_messages[message.content.replace("!", "")])
 				
