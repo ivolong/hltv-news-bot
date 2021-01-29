@@ -64,12 +64,13 @@ client.on("message", (message) => {
 			role_id = message.guild.roles.cache.find(role => role.name == reactive_messages[message.content.replace("!", "")])
 				
 			message.member.roles.add(role_id).catch(() => {})
-				.then(message.react(client.emojis.resolveIdentifier("751992994021769387")))
+				.then(message.react(client.emojis.resolveIdentifier("751992994021769387")).catch(() => {}))
+			
 		} else if (reactive_messages[message.content.replace("remove!", "")]) {
 			role_id = message.guild.roles.cache.find(role => role.name == reactive_messages[message.content.replace("remove!", "")])
 				
 			message.member.roles.remove(role_id).catch(() => {})
-				.then(message.react(client.emojis.resolveIdentifier("751992994021769387")))
+				.then(message.react(client.emojis.resolveIdentifier("751992994021769387")).catch(() => {}))
 
 		}
 	}
@@ -98,7 +99,7 @@ client.on("newArticle", (article) => {
 				embed.content = embed.content + " <@&" + role.id + ">" 
 			}
 
-			channel.send(embed)
+			channel.send(embed).catch(() => {})
 		}
 	})
 })
