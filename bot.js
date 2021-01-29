@@ -52,15 +52,14 @@ client.on("guildCreate", (guild) => {
 })
 
 client.on("message", (message) => {
-	if (message.channel.type == "dm") {
-		if (message.content == "!hltv-help") {
-			reply_with_help(message)
+	if (message.content == "!hltv-help") {
+		reply_with_help(message)
 
-		} else if (message.content == "!hltv-invite") {
-			reply_with_invite(message)
-		}
+	} else if (message.content == "!hltv-invite") {
+		reply_with_invite(message)
+	}
 
-	} else if (message.channel.type == "text") {
+	if (message.channel.type == "text") {
 		if (reactive_messages[message.content.replace("!", "")]) {
 			role_id = message.guild.roles.cache.find(role => role.name == reactive_messages[message.content.replace("!", "")])
 				
@@ -72,11 +71,6 @@ client.on("message", (message) => {
 			message.member.roles.remove(role_id).catch(() => {})
 				.then(message.react(client.emojis.resolveIdentifier("751992994021769387")))
 
-		} else if (message.content == "!hltv-help") {
-			reply_with_help(message)
-
-		} else if (message.content == "!hltv-invite") {
-			reply_with_invite(message)
 		}
 	}
 })
@@ -148,7 +142,7 @@ function cs_blog_checker (current_article) {
 }
 
 function reply_with_help (message) {
-	message.channel.send({
+	message.reply({
 		embed: {
 			title: "General Help",
 			description: "In order to work, this bot needs a channel called `#news-feed` to post articles in and (optionally) a role called `@hltv` to ping with notifications.\n\nWant notifications when there's a new article?\nType `!hltv` and I'll give you a pingable role.\nType `remove!hltv` to remove the role.\n\n`!hltv-invite` to invite me to your server.\n\nJoin [here](https://discord.gg/2CRSS2V) and message <@243498117767495681> for help."
@@ -157,10 +151,10 @@ function reply_with_help (message) {
 }
 
 function reply_with_invite (message) {
-	message.channel.send({
+	message.reply({
 		embed: {
 			title: "HLTV News",
-			description: "[Click to get HLTV News article notifications](https://discord.com/oauth2/authorize?client_id=745404733857988740&permissions=268586000&scope=bot) in your server."
+			description: "Add me to your server via [Top.gg](https://top.gg/bot/745404733857988740) (the Discord bot list)."
 		}
 	}).catch(() => {})
 }
