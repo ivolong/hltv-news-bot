@@ -1,6 +1,13 @@
 const discord = require("discord.js")
 const client = new discord.Client()
 
+const DBL = require("dblapi.js")
+const dbl = new DBL('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0NTQwNDczMzg1Nzk4ODc0MCIsImJvdCI6dHJ1ZSwiaWF0IjoxNjExOTM0MjUxfQ.hWD8X5Xpc6eBVBGIi96bNTNW1bsIx-bHPb0oxnEH5zg', client)
+
+dbl.on('posted', () => {
+	console.log('Server count posted to Top.gg');
+})
+
 const reactive_messages = {
 	hltv: "hltv"
 }
