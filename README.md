@@ -1,4 +1,4 @@
-# HLTV News Bot
+# HLTV News
 A Discord bot that checks https://hltv.org for new articles and posts them in your server with optional @ping notifications.
 
 https://top.gg/bot/745404733857988740
