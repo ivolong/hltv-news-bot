@@ -13,7 +13,6 @@ const reactive_messages = {
 }
 
 client.on("ready", () => {
-	console.log("Ready")
 	client.user.setActivity("!hltv-help | " + client.guilds.cache.reduce((a, guild) => a + guild.memberCount, 0).toLocaleString("en") + " users/" + client.guilds.cache.size.toLocaleString("en") + " servers", { type: "WATCHING" })
 
 	hltv_checker()
