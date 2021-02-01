@@ -5,7 +5,7 @@ const DBL = require("dblapi.js")
 const dbl = new DBL(process.env.dbl_api_token, client)
 
 dbl.on('posted', () => {
-	console.log('Server count posted to Top.gg');
+	console.log('Server count posted to Top.gg')
 })
 
 const reactive_messages = {
