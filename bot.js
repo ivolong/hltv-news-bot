@@ -12,14 +12,25 @@ const reactive_messages = {
 	hltv: "hltv"
 }
 
-client.on("ready", () => {
+function updateActivity (client) {
 	client.user.setActivity("!hltv-help | " + client.guilds.cache.reduce((a, guild) => a + guild.memberCount, 0).toLocaleString("en") + " users/" + client.guilds.cache.size.toLocaleString("en") + " servers", { type: "WATCHING" })
+}
+
+client.on("ready", () => {
+	updateActivity(client)
 
 	hltv_checker()
 	cs_blog_checker()
 
 	setInterval(hltv_checker, 3e3)
 	setInterval(cs_blog_checker, 60e3)
+
+	console.log( client.guilds.cache.sort(function(a, b){return b.memberCount - a.memberCount}).map(guild => [guild.name, guild.memberCount]) )
+
+	setInterval(() => {
+		dbl.postStats(client.guilds.size, client.shards.Id, client.shards.total)
+		updateActivity(client)
+    }, 600e3)
 })
 
 client.on("guildCreate", (guild) => {
