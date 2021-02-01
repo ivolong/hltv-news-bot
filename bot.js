@@ -28,7 +28,7 @@ client.on("ready", () => {
 	console.log( client.guilds.cache.sort(function(a, b){return b.memberCount - a.memberCount}).map(guild => [guild.name, guild.memberCount]) )
 
 	setInterval(() => {
-		dbl.postStats(client.guilds.size, client.shards.Id, client.shards.total)
+		dbl.postStats(client.guilds.size)
 		updateActivity(client)
     }, 600e3)
 })
