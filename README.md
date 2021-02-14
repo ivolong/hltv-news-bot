@@ -13,4 +13,4 @@ https://top.gg/bot/745404733857988740
 Server members can opt into notifications by typing `!hltv` and opt out with `remove!hltv`.
 Get help with `!hltv-help`.
 
-Note: the bot is open to missing occasional articles very rarely and there is a minor delay (<5 seconds) on checking for new articles to prevent spamming hltv.
+Note: the bot is open to missing occasional articles very rarely and there is a minor delay (<5 seconds) on checking for new articles to prevent spamming HLTV.
