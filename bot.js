@@ -13,7 +13,7 @@ const reactive_messages = {
 }
 
 function updateActivity (client) {
-	client.user.setActivity("!hltv-help | " + client.guilds.cache.reduce((a, guild) => a + guild.memberCount, 0).toLocaleString("en") + " users/" + client.guilds.cache.size.toLocaleString("en") + " servers", { type: "WATCHING" })
+	client.user.setActivity("!hltv-help | client.guilds.cache.size.toLocaleString("en") + " servers", { type: "WATCHING" })
 }
 
 client.on("ready", () => {
