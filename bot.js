@@ -22,8 +22,8 @@ client.on("ready", () => {
 	hltv_checker()
 	cs_blog_checker()
 
-	setInterval(hltv_checker, 3e3)
-	setInterval(cs_blog_checker, 60e3)
+	setInterval(hltv_checker, process.env.check_hltv_interval)
+	setInterval(cs_blog_checker, process.env.check_cs_interval)
 
 	setInterval(() => {
 		dbl.postStats(client.guilds.size)
