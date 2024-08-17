@@ -1,0 +1,23 @@
+{
+    "name": "hltv-news-bot",
+    "version": "1.0.0",
+    "description": "Discord.js bot notifying your servers of new articles on HLTV.org",
+    "author": "Ivo Long",
+    "license": "MIT",
+    "dependencies": {
+        "@discordjs/builders": "0.11.0",
+        "@discordjs/rest": "0.2.0-canary.0",
+        "dblapi.js": "2.4.1",
+        "discord-api-types": "0.26.1",
+        "discord.js": "^13.17.1",
+        "dotenv": "10.0.0",
+        "express": "4.17.2",
+        "fs": "0.0.1-security",
+        "http": "0.0.1-security",
+        "path": "0.12.7",
+        "rss-parser": "3.12.0"
+    },
+    "engines": {
+        "node": "^18.0"
+    }
+}
