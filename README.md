@@ -1,5 +1,7 @@
 # HLTV News Bot
 
+[![Super-Linter](https://github.com/ivolong/hltv-news-bot/actions/workflows/super-linter.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
+
 A Discord bot that checks https://hltv.org for new articles and posts them in your server with optional @ping notifications.
 
 Add it to your server via [Discord.com](https://discord.com/oauth2/authorize?client_id=745404733857988740&permissions=2416134160&scope=applications.commands%20bot).
