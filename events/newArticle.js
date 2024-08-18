@@ -1,11 +1,14 @@
 module.exports = (client, article) => {
   console.log(`Received articleUpdate='${JSON.stringify(article)}'`)
 
+  let channel
+  let role
+  let embed
   client.guilds.cache.forEach(guild => {
-    channel = guild.channels.cache.find(channel => channel.name == 'news-feed')
+    channel = guild.channels.cache.find(channel => channel.name === 'news-feed')
 
     if (channel) {
-      role = guild.roles.cache.find(role => role.name == 'hltv')
+      role = guild.roles.cache.find(role => role.name === 'hltv')
 
       embed = {
         content: `${article.title} ${article.link}`,

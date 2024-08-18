@@ -13,8 +13,10 @@ module.exports = {
   postUpdate: function (client, content, title, description) {
     console.log(`Posting update to servers: content='${content}' title='${title}' description='${description}'`)
 
+    let channel
+    let embed
     client.guilds.cache.forEach(guild => {
-      channel = guild.channels.cache.find(channel => channel.name == 'news-feed')
+      channel = guild.channels.cache.find(channel => channel.name === 'news-feed')
 
       if (channel) {
         embed = {

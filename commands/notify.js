@@ -6,9 +6,9 @@ module.exports = {
     .setDescription('Get notified when HLTV publishes an article'),
 
   async execute (interaction) {
-    role_id = interaction.guild.roles.cache.find(role => role.name == 'hltv')
+    const roleId = interaction.guild.roles.cache.find(role => role.name === 'hltv')
 
-    await interaction.member.roles.add(role_id).catch(() => {})
+    await interaction.member.roles.add(roleId).catch(() => {})
       .then(interaction.reply("Done, role added (you'll get a @ping)")).catch(() => {})
   }
 }

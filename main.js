@@ -1,12 +1,12 @@
 const fs = require('fs')
-const rss_parser = require('rss-parser')
+const RssParser = require('rss-parser')
 const { REST } = require('@discordjs/rest')
 const { Routes } = require('discord-api-types/v9')
 const { Client, Intents, Collection } = require('discord.js')
 
 const botUtils = require('./utils/bot.js')
 
-const rss = new rss_parser({
+const rss = new RssParser({
   timeout: 5000
 })
 
@@ -29,7 +29,7 @@ for (const file of commandFiles) {
   client.commands.set(command.data.name, command)
 }
 
-if (process.env.DECLARE_SLASH_COMMANDS == 1) {
+if (process.env.DECLARE_SLASH_COMMANDS === 1) {
   console.log(`Declaring slash commands=${commands.size()}`)
 
   const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_REST_CLIENT_TOKEN);
@@ -94,16 +94,16 @@ function rssChecker (name, url) {
     await rss.parseURL(url, function (error, feed) {
       if (error) return console.error(error)
 
-      const newest_article = feed.items[0]
+      const newestArticle = feed.items[0]
 
-      file = fs.readFileSync(articleStorageFileLocation)
-      const current_article = JSON.parse(file)
+      const file = fs.readFileSync(articleStorageFileLocation)
+      const currentArticle = JSON.parse(file)
 
-      if (current_article.guid && newest_article.guid != current_article.guid) {
-        client.emit('newArticle', newest_article)
+      if (currentArticle.guid && newestArticle.guid !== currentArticle.guid) {
+        client.emit('newArticle', newestArticle)
       }
 
-      const data = JSON.stringify(newest_article)
+      const data = JSON.stringify(newestArticle)
       fs.writeFileSync(articleStorageFileLocation, data)
     })
   })()
