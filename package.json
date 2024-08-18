@@ -5,7 +5,7 @@
     "author": "Ivo Long",
     "license": "MIT",
     "dependencies": {
-        "@discordjs/builders": "2.1.0",
+        "@discordjs/builders": "1.8.2",
         "@discordjs/rest": "2.3.0",
         "discord-api-types": "0.37.94",
         "discord.js": "14.15.3",
@@ -18,5 +18,8 @@
     },
     "engines": {
         "node": "^18.0"
+    },
+    "devDependencies": {
+        "standard": "^17.1.0"
     }
 }
