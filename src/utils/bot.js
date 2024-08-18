@@ -44,6 +44,8 @@ module.exports = {
   },
 
   setCommands: function (client) {
+    console.log('Setting commands')
+
     const commands = []
     const commandFiles = fs.readdirSync(path.join(__dirname, '..', 'commands')).filter(file => file.endsWith('.js'))
 
