@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const RssParser = require('rss-parser')
 const { REST } = require('@discordjs/rest')
 const { Routes } = require('discord-api-types/v9')
@@ -44,12 +45,12 @@ module.exports = {
 
   setCommands: function (client) {
     const commands = []
-    const commandFiles = fs.readdirSync(`${__dirname}/../commands/`).filter(file => file.endsWith('.js'))
+    const commandFiles = fs.readdirSync(path.join(__dirname, '..', 'commands')).filter(file => file.endsWith('.js'))
 
     client.commands = new Collection()
 
     for (const file of commandFiles) {
-      const command = require(`${__dirname}/../commands/${file}`)
+      const command = require(path.join(__dirname, '..', 'commands', file))
       commands.push(command.data.toJSON())
       client.commands.set(command.data.name, command)
     }
@@ -75,7 +76,7 @@ module.exports = {
   },
 
   rssChecker: function (name, url, client) {
-    const articleStorageFileLocation = `${__dirname}/../storage/current_${name}_article.json`;
+    const articleStorageFileLocation = path.join(__dirname, '..', 'storage', `current_${name}_article.json`);
 
     (async () => {
       await rss.parseURL(url, function (error, feed) {

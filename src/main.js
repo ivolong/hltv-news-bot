@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const { Client, Intents } = require('discord.js')
 const { AutoPoster } = require('topgg-autoposter')
 
@@ -28,11 +29,11 @@ client.on('ready', () => {
   console.log('Start up successful')
 })
 
-fs.readdir('./events/', (error, files) => {
+fs.readdir(path.join(__dirname, 'events'), (error, files) => {
   if (error) return console.error(error)
 
   files.forEach(file => {
-    const event = require(`./events/${file}`)
+    const event = require(path.join(__dirname, 'events', file))
     const eventName = file.split('.')[0]
     client.on(eventName, event.bind(null, client))
   })
