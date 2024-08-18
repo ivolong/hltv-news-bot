@@ -3,6 +3,7 @@ const RssParser = require('rss-parser')
 const { REST } = require('@discordjs/rest')
 const { Routes } = require('discord-api-types/v9')
 const { Client, Intents, Collection } = require('discord.js')
+const { AutoPoster } = require('topgg-autoposter')
 
 const botUtils = require('./utils/bot.js')
 
@@ -45,6 +46,10 @@ if (process.env.DECLARE_SLASH_COMMANDS === 1) {
     }
   })()
 }
+
+AutoPoster(process.env.TOPGG_CLIENT_TOKEN, client).on('posted', () => {
+  console.log('Statistics posted to Top.gg')
+})
 
 client.on('ready', () => {
   setInterval(rssChecker, 5000, 'hltv', 'https://www.hltv.org/rss/news')
