@@ -3,8 +3,6 @@ const path = require('path')
 const { Client, Intents } = require('discord.js')
 const { AutoPoster } = require('topgg-autoposter')
 
-const botUtils = require('./utils/bot.js')
-
 const client = new Client({
   restRequestTimeout: 60000,
   intents: [
@@ -13,20 +11,8 @@ const client = new Client({
   ]
 })
 
-botUtils.setCommands(client)
-
 AutoPoster(process.env.TOPGG_CLIENT_TOKEN, client).on('posted', () => {
   console.log('Statistics posted to Top.gg')
-})
-
-client.on('ready', () => {
-  setInterval(botUtils.rssChecker, 5000, 'hltv', 'https://www.hltv.org/rss/news', client)
-
-  setInterval(botUtils.updateActivity, 600e3, client)
-
-  // botUtils.postUpdate(client, content, title, description)
-
-  console.log('Start up successful')
 })
 
 fs.readdir(path.join(__dirname, 'events'), (error, files) => {
