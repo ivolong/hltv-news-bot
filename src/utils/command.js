@@ -1,18 +1,18 @@
 module.exports = {
-    async getSlashCommandString(commands, commandNames) {
-        commands = await commands.fetch()
+  async getSlashCommandString (commands, commandNames) {
+    commands = await commands.fetch()
 
-        let commandNameStrings = []
-        for (const commandName of commandNames) {
-            let command = commands.find(command => command.name === commandName)
+    const commandNameStrings = []
+    for (const commandName of commandNames) {
+      const command = commands.find(command => command.name === commandName)
 
-            if (command) {
-                commandNameStrings.push(`</${command.name}:${command.id}>`)
-            } else {
-                commandNameStrings.push(`\`/${commandName}\``)
-            }
-        }
-
-        return commandNameStrings
+      if (command) {
+        commandNameStrings.push(`</${command.name}:${command.id}>`)
+      } else {
+        commandNameStrings.push(`\`/${commandName}\``)
+      }
     }
+
+    return commandNameStrings
+  }
 }
