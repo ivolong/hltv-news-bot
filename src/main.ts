@@ -15,12 +15,12 @@ AutoPoster(process.env.TOPGG_CLIENT_TOKEN, client).on('posted', () => {
   console.log('Statistics posted to Top.gg')
 })
 
-fs.readdir(path.join(__dirname, 'events'), (error, files) => {
+fs.readdir(path.join(__dirname, 'events'), (error: Error, files: string[]) => {
   if (error) return console.error(error)
 
   files.forEach(file => {
     const event = require(path.join(__dirname, 'events', file))
-    const eventName = file.split('.')[0]
+    const eventName: string = file.split('.')[0]
     client.on(eventName, event.bind(null, client))
   })
 })
