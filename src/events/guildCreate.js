@@ -11,7 +11,7 @@ module.exports = async (client, guild) => {
     reason: 'Pingable HLTV role by HLTV News bot.'
   }).catch(() => {})
 
-  const [notify, mute, help, invite] = await commandUtils.getSlashCommandString(client.application.commands, ['notify', 'mute', 'help', 'invite'])
+  const [notify, mute, help, invite] = commandUtils.getSlashCommandString(await client.application.commands.fetch(), ['notify', 'mute', 'help', 'invite'])
 
   guild.channels.create('news-feed', { reason: 'HLTV news article updates channel by HLTV News bot.' })
     .then((channel) => {

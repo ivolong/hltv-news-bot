@@ -1,7 +1,5 @@
 module.exports = {
-  async getSlashCommandString (commands, commandNames) {
-    commands = await commands.fetch()
-
+  getSlashCommandString (commands, commandNames) {
     const commandNameStrings = []
     for (const commandName of commandNames) {
       const command = commands.find(command => command.name === commandName)
