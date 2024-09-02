@@ -1,8 +1,8 @@
-const path = require('path')
+import { Client } from 'discord.js'
 
-const botUtils = require(path.join(__dirname, '..', 'utils', 'bot.js'))
+const botUtils = require('../utils/bot.js')
 
-module.exports = (client) => {
+module.exports = (client: Client) => {
   console.log('Online')
 
   botUtils.setCommands(client)

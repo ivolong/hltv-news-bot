@@ -1,3 +1,7 @@
+import { SlashCommandBuilder } from '@discordjs/builders'
+import { Client } from 'discord.js'
+import { Item, Output } from 'rss-parser'
+
 const fs = require('fs')
 const path = require('path')
 const RssParser = require('rss-parser')
@@ -10,7 +14,7 @@ const rss = new RssParser({
 })
 
 module.exports = {
-  updateActivity: function (client) {
+  updateActivity: function (client: Client) {
     const serverCount = client.guilds.cache.size
     const memberCount = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
 
@@ -18,10 +22,10 @@ module.exports = {
 
     console.log(`Updating userActivity='${userActivityString}'`)
 
-    client.user.setActivity(userActivityString, { type: 'PLAYING' })
+    client.user?.setActivity(userActivityString, { type: 'PLAYING' })
   },
 
-  postUpdate: function (client, content, title, description) {
+  postUpdate: function (client: Client, content: string, title: string, description: string) {
     console.log(`Posting update to servers: content='${content}' title='${title}' description='${description}'`)
 
     let channel
@@ -29,25 +33,25 @@ module.exports = {
     client.guilds.cache.forEach(guild => {
       channel = guild.channels.cache.find(channel => channel.name === 'news-feed')
 
-      if (channel) {
-        embed = {
-          content,
-          embeds: [{
-            title,
-            description
-          }]
-        }
+      if (!channel || channel.type !== 'GUILD_TEXT') return
 
-        channel.send(embed).catch(() => {})
+      embed = {
+        content,
+        embeds: [{
+          title,
+          description
+        }]
       }
+
+      channel.send(embed).catch(() => {})
     })
   },
 
-  setCommands: function (client) {
+  setCommands: function (client: Client) {
     console.log('Setting commands')
 
-    const commands = []
-    const commandFiles = fs.readdirSync(path.join(__dirname, '..', 'commands')).filter(file => file.endsWith('.js'))
+    const commands: SlashCommandBuilder[] = []
+    const commandFiles: string[] = fs.readdirSync(path.join(__dirname, '..', 'commands'))
 
     client.commands = new Collection()
 
@@ -57,11 +61,11 @@ module.exports = {
       client.commands.set(command.data.name, command)
     }
 
-    if (process.env.DECLARE_SLASH_COMMANDS === 1) this.declareSlashCommands(commands)
+    if (process.env.DECLARE_SLASH_COMMANDS === '1') this.declareSlashCommands(commands)
   },
 
-  declareSlashCommands: function (commands) {
-    console.log(`Declaring slash commands=${commands.size()}`)
+  declareSlashCommands: function (commands: SlashCommandBuilder[]) {
+    console.log(`Declaring slash commands=${commands.length}`)
 
     const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_REST_CLIENT_TOKEN);
 
@@ -77,11 +81,11 @@ module.exports = {
     })()
   },
 
-  rssChecker: function (name, url, client) {
-    const articleStorageFileLocation = path.join(__dirname, '..', 'storage', `current_${name}_article.json`);
+  rssChecker: function (name: string, url: string, client: Client) {
+    const articleStorageFileLocation = path.join(__dirname, '..', '..', 'storage', `current_${name}_article.json`);
 
     (async () => {
-      await rss.parseURL(url, function (error, feed) {
+      await rss.parseURL(url, function (error: Error, feed: Output<Item>) {
         if (error) return console.error(error)
 
         const newestArticle = feed.items[0]

@@ -1,8 +1,8 @@
-const path = require('path')
+import { Client, Guild } from 'discord.js'
 
-const commandUtils = require(path.join(__dirname, '..', 'utils', 'command.js'))
+const commandUtils = require('../utils/command.js')
 
-module.exports = async (client, guild) => {
+module.exports = async (client: Client, guild: Guild) => {
   console.log(`Added to new server='${guild}'`)
 
   guild.roles.create({
@@ -11,7 +11,7 @@ module.exports = async (client, guild) => {
     reason: 'Pingable HLTV role by HLTV News bot.'
   }).catch(() => {})
 
-  const [notify, mute, help, invite] = commandUtils.getSlashCommandString(await client.application.commands.fetch(), ['notify', 'mute', 'help', 'invite'])
+  const [notify, mute, help, invite] = commandUtils.getSlashCommandString(await client.application?.commands.fetch(), ['notify', 'mute', 'help', 'invite'])
 
   guild.channels.create('news-feed', { reason: 'HLTV news article updates channel by HLTV News bot.' })
     .then((channel) => {

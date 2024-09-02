@@ -1,5 +1,7 @@
+import { ApplicationCommand, Collection, Snowflake } from 'discord.js'
+
 module.exports = {
-  getSlashCommandString (commands, commandNames) {
+  getSlashCommandString (commands: Collection<Snowflake, ApplicationCommand>, commandNames: string[]) {
     const commandNameStrings = []
     for (const commandName of commandNames) {
       const command = commands.find(command => command.name === commandName)

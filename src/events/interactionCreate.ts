@@ -1,4 +1,6 @@
-module.exports = async (client, interaction) => {
+import { Client, Interaction } from 'discord.js'
+
+module.exports = async (client: Client, interaction: Interaction) => {
   if (!interaction.isCommand()) return
 
   const command = client.commands.get(interaction.commandName)
