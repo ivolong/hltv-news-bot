@@ -7,7 +7,7 @@ module.exports = (client: Client) => {
 
   botUtils.setCommands(client)
 
-  setInterval(botUtils.rssChecker, process.env.RSS_CHECK_INTERVAL, 'hltv', 'https://www.hltv.org/rss/news', client)
+  setInterval(botUtils.rssChecker, 3e3, 'hltv', 'https://www.hltv.org/rss/news', client)
 
-  setInterval(botUtils.updateActivity, process.env.DISCORD_UPDATE_ACTIVITY_INTERVAL, client)
+  setInterval(botUtils.updateActivity, 60e3, client)
 }
