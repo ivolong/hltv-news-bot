@@ -1,6 +1,6 @@
-import { SlashCommandBuilder } from "@discordjs/builders"
-import { Client } from "discord.js"
-import { Item, Output } from "rss-parser"
+import { SlashCommandBuilder } from '@discordjs/builders'
+import { Client } from 'discord.js'
+import { Item, Output } from 'rss-parser'
 
 const fs = require('fs')
 const path = require('path')
@@ -33,7 +33,7 @@ module.exports = {
     client.guilds.cache.forEach(guild => {
       channel = guild.channels.cache.find(channel => channel.name === 'news-feed')
 
-      if (!channel || channel.type != 'GUILD_TEXT') return
+      if (!channel || channel.type !== 'GUILD_TEXT') return
 
       embed = {
         content,
@@ -61,7 +61,7 @@ module.exports = {
       client.commands.set(command.data.name, command)
     }
 
-    if (process.env.DECLARE_SLASH_COMMANDS === "1") this.declareSlashCommands(commands)
+    if (process.env.DECLARE_SLASH_COMMANDS === '1') this.declareSlashCommands(commands)
   },
 
   declareSlashCommands: function (commands: SlashCommandBuilder[]) {

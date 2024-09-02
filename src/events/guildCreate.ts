@@ -1,4 +1,4 @@
-import { Client, Guild } from "discord.js"
+import { Client, Guild } from 'discord.js'
 
 const commandUtils = require('../utils/command.js')
 

@@ -1,4 +1,4 @@
-import { Client, Interaction } from "discord.js"
+import { Client, Interaction } from 'discord.js'
 
 module.exports = async (client: Client, interaction: Interaction) => {
   if (!interaction.isCommand()) return

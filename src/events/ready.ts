@@ -1,4 +1,4 @@
-import { Client } from "discord.js"
+import { Client } from 'discord.js'
 
 const botUtils = require('../utils/bot.js')
 

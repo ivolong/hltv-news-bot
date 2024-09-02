@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js"
+import { CommandInteraction } from 'discord.js'
 
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
@@ -8,6 +8,6 @@ module.exports = {
     .setDescription('Support the running of this bot'),
 
   async execute (interaction: CommandInteraction) {
-    interaction.reply('Please consider supporting me on [Patreon](https://www.patreon.com/hltvnewsbot). Thank you!')
+    await interaction.reply('Please consider supporting me on [Patreon](https://www.patreon.com/hltvnewsbot). Thank you!')
   }
 }

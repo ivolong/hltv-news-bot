@@ -1,4 +1,4 @@
-import { CommandInteraction, GuildMemberRoleManager } from "discord.js"
+import { CommandInteraction } from 'discord.js'
 
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
@@ -12,7 +12,7 @@ module.exports = {
 
     const pingRole = interaction.guild?.roles.cache.find(role => role.name === 'hltv')
 
-    if (!pingRole) return interaction.reply('Sorry, there is no `@hltv` role in this server.')
+    if (!pingRole) return await interaction.reply('Sorry, there is no `@hltv` role in this server.')
 
     await interaction.member?.roles.add(pingRole)
 

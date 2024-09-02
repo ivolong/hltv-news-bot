@@ -1,5 +1,5 @@
-import { Client } from "discord.js"
-import { Item } from "rss-parser"
+import { Client } from 'discord.js'
+import { Item } from 'rss-parser'
 
 module.exports = (client: Client, article: Item) => {
   console.log(`Received articleUpdate='${JSON.stringify(article)}'`)
@@ -10,7 +10,7 @@ module.exports = (client: Client, article: Item) => {
   client.guilds.cache.forEach(guild => {
     channel = guild.channels.cache.find(channel => channel.name === 'news-feed')
 
-    if (!channel || channel.type != 'GUILD_TEXT') return
+    if (!channel || channel.type !== 'GUILD_TEXT') return
 
     role = guild.roles.cache.find(role => role.name === 'hltv')
 

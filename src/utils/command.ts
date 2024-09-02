@@ -1,4 +1,4 @@
-import { ApplicationCommand, Collection, Snowflake } from "discord.js"
+import { ApplicationCommand, Collection, Snowflake } from 'discord.js'
 
 module.exports = {
   getSlashCommandString (commands: Collection<Snowflake, ApplicationCommand>, commandNames: string[]) {
