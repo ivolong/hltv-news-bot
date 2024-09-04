@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const { Client, Intents } = require('discord.js')
 const { AutoPoster } = require('topgg-autoposter')
+import { logger } from './utils/logging.js'
 
 const client = new Client({
   restRequestTimeout: 60000,
@@ -12,11 +13,11 @@ const client = new Client({
 })
 
 AutoPoster(process.env.TOPGG_CLIENT_TOKEN, client).on('posted', () => {
-  console.log('Statistics posted to Top.gg')
+  logger.info('Statistics posted to Top.gg')
 })
 
 fs.readdir(path.join(__dirname, 'events'), (error: Error, files: string[]) => {
-  if (error) return console.error(error)
+  if (error) return logger.error(error)
 
   files.forEach(file => {
     const event = require(path.join(__dirname, 'events', file))

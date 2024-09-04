@@ -1,9 +1,10 @@
 import { Client, Guild } from 'discord.js'
 
 const commandUtils = require('../utils/command.js')
+import { logger } from '../utils/logging.js'
 
 module.exports = async (client: Client, guild: Guild) => {
-  console.log(`Added to new server='${guild}'`)
+  logger.info('guildCreate', guild)
 
   guild.roles.create({
     name: 'hltv',

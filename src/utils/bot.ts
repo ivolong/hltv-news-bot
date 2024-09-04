@@ -9,6 +9,8 @@ const { REST } = require('@discordjs/rest')
 const { Routes } = require('discord-api-types/v9')
 const { Collection } = require('discord.js')
 
+import { logger } from '../utils/logging.js'
+
 const rss = new RssParser({
   timeout: 5000
 })
@@ -23,7 +25,15 @@ module.exports = {
   },
 
   postUpdate: function (client: Client, content: string, title: string, description: string) {
-    console.log(`Posting update to servers: content='${content}' title='${title}' description='${description}'`)
+    const message = {
+      content,
+      embeds: [{
+        title,
+        description
+      }]
+    }
+
+    logger.info('Posting update to servers', message)
 
     let channel
     let embed
@@ -32,20 +42,12 @@ module.exports = {
 
       if (!channel || channel.type !== 'GUILD_TEXT') return
 
-      embed = {
-        content,
-        embeds: [{
-          title,
-          description
-        }]
-      }
-
-      channel.send(embed).catch(() => {})
+      channel.send(message).catch(() => {})
     })
   },
 
   setCommands: function (client: Client) {
-    console.log('Setting commands')
+    logger.info('Setting commands')
 
     const commands: SlashCommandBuilder[] = []
     const commandFiles: string[] = fs.readdirSync(path.join(__dirname, '..', 'commands'))
@@ -62,7 +64,7 @@ module.exports = {
   },
 
   declareSlashCommands: function (commands: SlashCommandBuilder[]) {
-    console.log(`Declaring slash commands=${commands.length}`)
+    logger.info('Declaring slash commands', commands)
 
     const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_REST_CLIENT_TOKEN);
 

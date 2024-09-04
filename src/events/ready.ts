@@ -1,9 +1,10 @@
 import { Client } from 'discord.js'
 
 const botUtils = require('../utils/bot.js')
+import { logger } from '../utils/logging.js'
 
 module.exports = (client: Client) => {
-  console.log('Online')
+  logger.info('Online')
 
   botUtils.setCommands(client)
 
