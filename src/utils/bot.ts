@@ -16,13 +16,10 @@ const rss = new RssParser({
 module.exports = {
   updateActivity: function (client: Client) {
     const serverCount = client.guilds.cache.size
-    const memberCount = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
 
-    const userActivityString = `/help | ${serverCount.toLocaleString('en')} servers & ${memberCount.toLocaleString('en')} members`
+    const userActivityString = `/help | ${serverCount.toLocaleString('en')} servers`
 
-    console.log(`Updating userActivity='${userActivityString}'`)
-
-    client.user?.setActivity(userActivityString, { type: 'PLAYING' })
+    client.user?.setActivity(userActivityString, { type: 'WATCHING' })
   },
 
   postUpdate: function (client: Client, content: string, title: string, description: string) {
