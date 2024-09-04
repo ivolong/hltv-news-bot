@@ -75,7 +75,7 @@ module.exports = {
           { body: commands }
         )
       } catch (error) {
-        console.error(error)
+        logger.error(error)
       }
     })()
   },
@@ -85,7 +85,7 @@ module.exports = {
 
     (async () => {
       await rss.parseURL(url, function (error: Error, feed: Output<Item>) {
-        if (error) return console.error(error)
+        if (error) return logger.error(error)
 
         const newestArticle = feed.items[0]
 

@@ -13,7 +13,7 @@ module.exports = async (client: Client, interaction: Interaction) => {
   try {
     await command.execute(interaction)
   } catch (error) {
-    if (error) console.error(error)
+    if (error) logger.error(error)
 
     await interaction.reply({
       content: 'Sorry, an error occurred. Please try again later.',
