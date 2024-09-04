@@ -1,4 +1,5 @@
 import { Client, Interaction } from 'discord.js'
+import { logger } from '../utils/logging.js'
 
 module.exports = async (client: Client, interaction: Interaction) => {
   if (!interaction.isCommand()) return
@@ -7,7 +8,7 @@ module.exports = async (client: Client, interaction: Interaction) => {
 
   if (!command) return
 
-  console.log(`Interaction name='${interaction.commandName}' created`)
+  logger.info('interactionCreate', interaction)
 
   try {
     await command.execute(interaction)

@@ -1,12 +1,13 @@
 import { Client } from 'discord.js'
 import { Item } from 'rss-parser'
+import { logger } from '../utils/logging.js'
 
 module.exports = (client: Client, article: Item) => {
-  console.log(`Received articleUpdate='${JSON.stringify(article)}'`)
+  logger.info('newArticle', article)
 
   let channel
   let role
-  let embed
+  let message
   client.guilds.cache.forEach(guild => {
     channel = guild.channels.cache.find(channel => channel.name === 'news-feed')
 
@@ -14,7 +15,7 @@ module.exports = (client: Client, article: Item) => {
 
     role = guild.roles.cache.find(role => role.name === 'hltv')
 
-    embed = {
+    message = {
       content: `${article.title} ${article.link}`,
       embeds: [{
         title: article.title,
@@ -27,8 +28,8 @@ module.exports = (client: Client, article: Item) => {
       }]
     }
 
-    if (role) embed.content = embed.content.concat(` <@&${role.id}>`)
+    if (role) message.content = message.content.concat(` <@&${role.id}>`)
 
-    channel.send(embed).catch(() => {})
+    channel.send(message).catch(() => {})
   })
 }
