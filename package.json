@@ -28,6 +28,11 @@
     "engines": {
         "node": "^18.0"
     },
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ]
+    },
     "devDependencies": {
         "@types/jest": "^29.5.12",
         "@types/node": "^22.5.2",
