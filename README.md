@@ -32,4 +32,4 @@ Additional support can be found in the [community Discord server](https://discor
 
 ## Issues & Contributions
 
-Feel free to report an issue or open a pull request on this repository.
+Feel free to report an issue or open a pull request on this repository
