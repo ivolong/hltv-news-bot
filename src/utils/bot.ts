@@ -12,6 +12,9 @@ const { Collection } = require("discord.js");
 import { logger } from "../utils/logging.js";
 
 const rss = new RssParser({
+  customFields: {
+    item: [["media:content", "media", { keepArray: false }]],
+  },
   timeout: 5000,
 });
 
@@ -43,7 +46,6 @@ module.exports = {
     logger.info("Posting update to servers", message);
 
     let channel;
-    let embed;
     client.guilds.cache.forEach((guild) => {
       channel = guild.channels.cache.find(
         (channel) => channel.name === "news-feed",
@@ -112,12 +114,12 @@ module.exports = {
         const file = fs.readFileSync(articleStorageFileLocation);
         const currentArticle = JSON.parse(file);
 
+        const data = JSON.stringify(newestArticle);
+        fs.writeFileSync(articleStorageFileLocation, data);
+
         if (currentArticle.guid && newestArticle.guid !== currentArticle.guid) {
           client.emit("newArticle", newestArticle);
         }
-
-        const data = JSON.stringify(newestArticle);
-        fs.writeFileSync(articleStorageFileLocation, data);
       });
     })();
   },

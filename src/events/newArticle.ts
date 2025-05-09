@@ -2,7 +2,15 @@ import { Client } from "discord.js";
 import { Item } from "rss-parser";
 import { logger } from "../utils/logging.js";
 
-module.exports = (client: Client, article: Item) => {
+type HltvArticle = Item & {
+  media: {
+    $: {
+      url: string;
+    };
+  };
+};
+
+module.exports = (client: Client, article: HltvArticle) => {
   logger.info("newArticle", article);
 
   let channel;
@@ -25,6 +33,9 @@ module.exports = (client: Client, article: Item) => {
           description: article.content,
           url: article.link,
           color: 0x3c6ea1,
+          thumbnail: {
+            url: article.media.$.url,
+          },
           footer: {
             text: article.pubDate,
           },
