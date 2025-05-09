@@ -85,14 +85,26 @@ module.exports = {
 
     (async () => {
       await rss.parseURL(url, function (error: Error, feed: Output<Item>) {
-        if (error) return logger.error(error)
+        if (error) {
+          logger.error(error)
+          return
+        }
 
         const newestArticle = feed.items[0]
+
+        let isStale = false
+        const pubDate = new Date(newestArticle.pubDate!)
+        if (isNaN(pubDate.getTime())) {
+          logger.warn("Could not parse article publish date, cannot determine staleness", newestArticle)
+        } else {
+          const now = new Date()
+          isStale = (now.getTime() - pubDate.getTime()) > (5 * 60 * 1000)
+        }
 
         const file = fs.readFileSync(articleStorageFileLocation)
         const currentArticle = JSON.parse(file)
 
-        if (currentArticle.guid && newestArticle.guid !== currentArticle.guid) {
+        if (currentArticle.guid && newestArticle.guid !== currentArticle.guid && !isStale) {
           client.emit('newArticle', newestArticle)
         }
 
