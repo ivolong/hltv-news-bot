@@ -1,104 +1,124 @@
-import { SlashCommandBuilder } from '@discordjs/builders'
-import { Client } from 'discord.js'
-import { Item, Output } from 'rss-parser'
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { Client } from "discord.js";
+import { Item, Output } from "rss-parser";
 
-const fs = require('fs')
-const path = require('path')
-const RssParser = require('rss-parser')
-const { REST } = require('@discordjs/rest')
-const { Routes } = require('discord-api-types/v9')
-const { Collection } = require('discord.js')
+const fs = require("fs");
+const path = require("path");
+const RssParser = require("rss-parser");
+const { REST } = require("@discordjs/rest");
+const { Routes } = require("discord-api-types/v9");
+const { Collection } = require("discord.js");
 
-import { logger } from '../utils/logging.js'
+import { logger } from "../utils/logging.js";
 
 const rss = new RssParser({
-  timeout: 5000
-})
+  timeout: 5000,
+});
 
 module.exports = {
   updateActivity: function (client: Client) {
-    const serverCount = client.guilds.cache.size
+    const serverCount = client.guilds.cache.size;
 
-    const userActivityString = `/help | ${serverCount.toLocaleString('en')} servers`
+    const userActivityString = `/help | ${serverCount.toLocaleString("en")} servers`;
 
-    client.user?.setActivity(userActivityString, { type: 'WATCHING' })
+    client.user?.setActivity(userActivityString, { type: "WATCHING" });
   },
 
-  postUpdate: function (client: Client, content: string, title: string, description: string) {
+  postUpdate: function (
+    client: Client,
+    content: string,
+    title: string,
+    description: string,
+  ) {
     const message = {
       content,
-      embeds: [{
-        title,
-        description
-      }]
-    }
+      embeds: [
+        {
+          title,
+          description,
+        },
+      ],
+    };
 
-    logger.info('Posting update to servers', message)
+    logger.info("Posting update to servers", message);
 
-    let channel
-    let embed
-    client.guilds.cache.forEach(guild => {
-      channel = guild.channels.cache.find(channel => channel.name === 'news-feed')
+    let channel;
+    let embed;
+    client.guilds.cache.forEach((guild) => {
+      channel = guild.channels.cache.find(
+        (channel) => channel.name === "news-feed",
+      );
 
-      if (!channel || channel.type !== 'GUILD_TEXT') return
+      if (!channel || channel.type !== "GUILD_TEXT") return;
 
-      channel.send(message).catch(() => {})
-    })
+      channel.send(message).catch(() => {});
+    });
   },
 
   setCommands: function (client: Client) {
-    logger.info('Setting commands')
+    logger.info("Setting commands");
 
-    const commands: SlashCommandBuilder[] = []
-    const commandFiles: string[] = fs.readdirSync(path.join(__dirname, '..', 'commands'))
+    const commands: SlashCommandBuilder[] = [];
+    const commandFiles: string[] = fs.readdirSync(
+      path.join(__dirname, "..", "commands"),
+    );
 
-    client.commands = new Collection()
+    client.commands = new Collection();
 
     for (const file of commandFiles) {
-      const command = require(path.join(__dirname, '..', 'commands', file))
-      commands.push(command.data.toJSON())
-      client.commands.set(command.data.name, command)
+      const command = require(path.join(__dirname, "..", "commands", file));
+      commands.push(command.data.toJSON());
+      client.commands.set(command.data.name, command);
     }
 
-    if (process.env.DECLARE_SLASH_COMMANDS === '1') this.declareSlashCommands(commands)
+    if (process.env.DECLARE_SLASH_COMMANDS === "1")
+      this.declareSlashCommands(commands);
   },
 
   declareSlashCommands: function (commands: SlashCommandBuilder[]) {
-    logger.info('Declaring slash commands', commands)
+    logger.info("Declaring slash commands", commands);
 
-    const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_REST_CLIENT_TOKEN);
+    const rest = new REST({ version: "9" }).setToken(
+      process.env.DISCORD_REST_CLIENT_TOKEN,
+    );
 
     (async () => {
       try {
         await rest.put(
           Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
-          { body: commands }
-        )
+          { body: commands },
+        );
       } catch (error) {
-        logger.error(error)
+        logger.error(error);
       }
-    })()
+    })();
   },
 
   rssChecker: function (name: string, url: string, client: Client) {
-    const articleStorageFileLocation = path.join(__dirname, '..', '..', 'storage', `current_${name}_article.json`);
+    const articleStorageFileLocation = path.join(
+      __dirname,
+      "..",
+      "..",
+      "storage",
+      `current_${name}_article.json`,
+    );
 
     (async () => {
       await rss.parseURL(url, function (error: Error, feed: Output<Item>) {
-        if (error) return logger.error(error)
+        if (error) return logger.error(error);
 
-        const newestArticle = feed.items[0]
+        const newestArticle = feed.items[0];
 
-        const file = fs.readFileSync(articleStorageFileLocation)
-        const currentArticle = JSON.parse(file)
+        const file = fs.readFileSync(articleStorageFileLocation);
+        const currentArticle = JSON.parse(file);
 
         if (currentArticle.guid && newestArticle.guid !== currentArticle.guid) {
-          client.emit('newArticle', newestArticle)
+          client.emit("newArticle", newestArticle);
         }
 
-        const data = JSON.stringify(newestArticle)
-        fs.writeFileSync(articleStorageFileLocation, data)
-      })
-    })()
-  }
-}
+        const data = JSON.stringify(newestArticle);
+        fs.writeFileSync(articleStorageFileLocation, data);
+      });
+    })();
+  },
+};

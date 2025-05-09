@@ -12,10 +12,10 @@ A Discord bot that checks [HLTV](https://hltv.org) for new articles and posts th
 
 [Add the bot to your Discord server](https://discord.com/oauth2/authorize?client_id=745404733857988740&permissions=2416134160&scope=applications.commands%20bot) and **give it the required permissions**. The bot will create a channel called <kbd>#news-feed</kbd> and a role called <kbd>@hltv</kbd> that it can ping. If it fails, follow steps 1-3:
 
-1) Create a channel called <kbd>#news-feed</kbd>.
-2) Give the bot permission to read and send messages in the <kbd>#news-feed</kbd> channel.
-3) Create a role called <kbd>@hltv</kbd> that the bot can ping.
-  
+1. Create a channel called <kbd>#news-feed</kbd>.
+2. Give the bot permission to read and send messages in the <kbd>#news-feed</kbd> channel.
+3. Create a role called <kbd>@hltv</kbd> that the bot can ping.
+
 The bot will post messages in the <kbd>#news-feed</kbd> channel and ping the <kbd>@hltv</kbd> role every time theres a new article.
 
 Note: the bot is open to missing occasional articles very rarely and there is a minor delay (<5 seconds) on checking for new articles to prevent spamming HLTV.
