@@ -12,7 +12,7 @@ module.exports = (client: Client) => {
 
   setInterval(
     botUtils.rssChecker,
-    5e3,
+    15e3,
     "hltv",
     "https://www.hltv.org/rss/news",
     client,
