@@ -34,12 +34,21 @@ module.exports = (client: Client, article: HltvArticle) => {
           description: article.content,
           url: article.link,
           color: 0x3c6ea1,
-          thumbnail: {
+          author: {
+            name: "HLTV",
+            icon_url:
+              "https://www.hltv.org/img/static/favicon/apple-touch-icon.png",
+            url: "https://www.hltv.org",
+          },
+          image: {
             url: article.media.$.url,
           },
           footer: {
-            text: article.pubDate,
+            text: "HLTV.org - The home of competitive Counter-Strike",
+            icon_url:
+              "https://www.hltv.org/img/static/favicon/apple-touch-icon.png",
           },
+          timestamp: article.isoDate,
         },
       ],
     };
