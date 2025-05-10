@@ -2,7 +2,8 @@ import { Client } from "discord.js";
 import { Item } from "rss-parser";
 import { logger } from "../utils/logging.js";
 
-type HltvArticle = Item & {
+export type HltvArticle = Item & {
+  pubDate: Date;
   media: {
     $: {
       url: string;

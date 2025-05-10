@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { Client } from "discord.js";
-import { Item, Output } from "rss-parser";
+import { Output } from "rss-parser";
 
 const fs = require("fs");
 const path = require("path");
@@ -9,6 +9,7 @@ const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const { Collection } = require("discord.js");
 
+import { HltvArticle } from "../events/newArticle.js";
 import { logger } from "../utils/logging.js";
 
 const rss = new RssParser({
@@ -106,21 +107,31 @@ module.exports = {
     );
 
     (async () => {
-      await rss.parseURL(url, function (error: Error, feed: Output<Item>) {
-        if (error) return logger.error(error);
+      await rss.parseURL(
+        url,
+        function (error: Error, feed: Output<HltvArticle>) {
+          if (error) return logger.error(error);
 
-        const newestArticle = feed.items[0];
+          const newestArticle = feed.items[0];
 
-        const file = fs.readFileSync(articleStorageFileLocation);
-        const currentArticle = JSON.parse(file);
+          const file = fs.readFileSync(articleStorageFileLocation);
+          const currentArticle = JSON.parse(file);
 
-        const data = JSON.stringify(newestArticle);
-        fs.writeFileSync(articleStorageFileLocation, data);
+          const currentArticleDate = new Date(currentArticle.pubDate);
+          const newestArticleDate = new Date(newestArticle.pubDate);
+          const isStale = newestArticleDate < currentArticleDate;
 
-        if (currentArticle.guid && newestArticle.guid !== currentArticle.guid) {
-          client.emit("newArticle", newestArticle);
-        }
-      });
+          if (
+            currentArticle.guid &&
+            newestArticle.guid !== currentArticle.guid &&
+            !isStale
+          ) {
+            const data = JSON.stringify(newestArticle);
+            fs.writeFileSync(articleStorageFileLocation, data);
+            client.emit("newArticle", newestArticle);
+          }
+        },
+      );
     })();
   },
 };
