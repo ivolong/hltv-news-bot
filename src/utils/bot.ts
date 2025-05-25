@@ -82,7 +82,7 @@ module.exports = {
     logger.info("Declaring slash commands", commands);
 
     const rest = new REST({ version: "9" }).setToken(
-      process.env.DISCORD_REST_CLIENT_TOKEN,
+      process.env.DISCORD_CLIENT_TOKEN,
     );
 
     (async () => {
