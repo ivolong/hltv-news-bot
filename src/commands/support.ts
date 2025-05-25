@@ -9,7 +9,7 @@ module.exports = {
 
   async execute(interaction: CommandInteraction) {
     await interaction.reply(
-      "Please consider supporting me on [Patreon](https://www.patreon.com/hltvnewsbot). Thank you!",
+      "Please consider supporting me on [Patreon](https://www.patreon.com/hltvnewsbot) for some cool perks. Thank you!",
     );
   },
 };

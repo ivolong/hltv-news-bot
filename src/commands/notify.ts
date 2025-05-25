@@ -16,23 +16,22 @@ module.exports = {
 
     if (!pingRole) {
       await interaction.reply({
-        content: "Sorry, there is no `@hltv` role in this server.",
+        content:
+          "There is no `@hltv` role in this server for me to assign you.",
         ephemeral: true,
       });
       return;
     }
 
     await interaction.member?.roles.add(pingRole).catch(async () => {
-      await interaction.reply({
-        content:
-          "Sorry, I don't have permission to do that. Please contact the server administrator.",
-        ephemeral: true,
-      });
+      await interaction.reply(
+        `Sorry, I don't have permission to manage the <@&${pingRole.id}> role. Please contact the server administrator.`,
+      );
     });
 
     await interaction
       .reply({
-        content: "Done, role added (you'll get a @ping)",
+        content: "Done, role added (you'll get a @ping).",
         ephemeral: true,
       })
       .catch(() => {});

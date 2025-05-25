@@ -16,7 +16,7 @@ module.exports = {
     );
 
     interaction.reply(
-      `Click on my name (<@${process.env.DISCORD_CLIENT_ID}>), then '+ Add App' and follow the required steps. Check out ${help} for assistance.`,
+      `Click on my name (<@${process.env.DISCORD_CLIENT_ID}>), then \`+ Add App\` and follow the required steps. Check out ${help} for assistance.`,
     );
   },
 };
