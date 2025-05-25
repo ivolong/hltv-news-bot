@@ -17,7 +17,7 @@ module.exports = {
     if (!pingRole) {
       await interaction.reply({
         content:
-          "There is no `@hltv` role in this server for me to assign you.",
+          "There is no `@hltv` role in this server for me to assign (you won't get pinged).",
         ephemeral: true,
       });
       return;
