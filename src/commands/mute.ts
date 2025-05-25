@@ -15,16 +15,26 @@ module.exports = {
     );
 
     if (!pingRole) {
-      await interaction.reply(
-        "Sorry, there is no `@hltv` role in this server.",
-      );
+      await interaction.reply({
+        content: "Sorry, there is no `@hltv` role in this server.",
+        ephemeral: true,
+      });
       return;
     }
 
-    await interaction.member?.roles.remove(pingRole);
+    await interaction.member?.roles.remove(pingRole).catch(async () => {
+      await interaction.reply({
+        content:
+          "Sorry, I don't have permission to do that. Please contact the server administrator.",
+        ephemeral: true,
+      });
+    });
 
     await interaction
-      .reply("Done, role removed (you won't get pinged)")
+      .reply({
+        content: "Done, role removed (you won't get pinged)",
+        ephemeral: true,
+      })
       .catch(() => {});
   },
 };
