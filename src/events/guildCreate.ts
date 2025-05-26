@@ -27,11 +27,11 @@ module.exports = async (client: Client, guild: Guild) => {
       channel
         .send({
           content:
-            "https://discord.gg/dE3NFqTzEx https://www.patreon.com/hltvnewsbot",
+            "https://discord.gg/dE3NFqTzEx",
           embeds: [
             {
               title: "Information",
-              description: `Thanks for adding me.\n\nI'll post new articles from HLTV in here. **Please do not rename this channel** but feel free to move it around.\n\nDo you want notifications?\nType ${notify} and I'll give you a pingable role.\nType ${mute} to remove the role.\n\nType ${help} for general help.\n\nType ${invite} to invite me to your server.\n\nJoin [here](https://discord.gg/dE3NFqTzEx) for assistance.\n\nPlease consider supporting me on [Patreon](https://www.patreon.com/hltvnewsbot). Thank you!`,
+              description: `Thanks for adding me.\n\nI'll post new articles from HLTV in here. **Please do not rename this channel** but feel free to move it around.\n\nDo you want notifications?\nType ${notify} and I'll give you a pingable role.\nType ${mute} to remove the role.\n\nType ${help} for general help.\n\nType ${invite} to invite me to your server.\n\nJoin [here](https://discord.gg/dE3NFqTzEx) for assistance.`,
             },
           ],
         })
