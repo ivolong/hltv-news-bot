@@ -8,7 +8,7 @@ module.exports = async (client: Client, interaction: Interaction) => {
 
   if (!command) return;
 
-  logger.info("interactionCreate", interaction);
+  logger.info("Slash command used", interaction);
 
   try {
     await command.execute(interaction);

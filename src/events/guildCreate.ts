@@ -4,7 +4,7 @@ const commandUtils = require("../utils/command.js");
 import { logger } from "../utils/logging.js";
 
 module.exports = async (client: Client, guild: Guild) => {
-  logger.info("guildCreate", guild);
+  logger.info("Added to new guild", guild);
 
   guild.roles
     .create({
@@ -12,7 +12,9 @@ module.exports = async (client: Client, guild: Guild) => {
       color: "#3c6ea1",
       reason: "Pingable HLTV role by HLTV News bot.",
     })
-    .catch(() => {});
+    .catch((error) => {
+      logger.error("Unable to create role", error);
+    });
 
   const [notify, mute, help, invite] = commandUtils.getSlashCommandString(
     await client.application?.commands.fetch(),
@@ -34,7 +36,11 @@ module.exports = async (client: Client, guild: Guild) => {
             },
           ],
         })
-        .catch(() => {});
+        .catch((error) => {
+          logger.error("Unable to send welcome message", error);
+        });
     })
-    .catch(() => {});
+    .catch((error) => {
+      logger.error("Unable to create channel", error);
+    });
 };

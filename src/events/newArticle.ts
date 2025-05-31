@@ -12,7 +12,7 @@ export type HltvArticle = Item & {
 };
 
 module.exports = (client: Client, article: HltvArticle) => {
-  logger.info("newArticle", article);
+  logger.info("New article received", article);
 
   const stats = {
     channelsFound: 0,
