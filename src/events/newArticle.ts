@@ -19,11 +19,12 @@ module.exports = (client: Client, article: HltvArticle) => {
     rolesFound: 0,
     sendFailures: 0,
   };
+  const lastGuildId = client.guilds.cache.lastKey();
 
   let channel;
   let role;
   let message;
-  client.guilds.cache.forEach((guild) => {
+  client.guilds.cache.forEach((guild, index) => {
     channel = guild.channels.cache.find(
       (channel) => channel.name === "news-feed",
     );
@@ -65,10 +66,15 @@ module.exports = (client: Client, article: HltvArticle) => {
       stats.rolesFound++;
     }
 
-    channel.send(message).catch(() => {
-      stats.sendFailures++;
-    });
+    channel
+      .send(message)
+      .catch(() => {
+        stats.sendFailures++;
+      })
+      .finally(() => {
+        if (index === lastGuildId) {
+          logger.info("New article sent to servers", { stats });
+        }
+      });
   });
-
-  logger.info("New article sent to servers", { stats });
 };
