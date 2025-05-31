@@ -17,7 +17,7 @@ module.exports = (client: Client, article: HltvArticle) => {
   const stats = {
     channelsFound: 0,
     rolesFound: 0,
-    messagesSent: 0,
+    sendFailures: 0,
   };
 
   let channel;
@@ -65,13 +65,9 @@ module.exports = (client: Client, article: HltvArticle) => {
       stats.rolesFound++;
     }
 
-    let errorWhileSending;
-    try {
-      channel.send(message);
-    } catch {
-      errorWhileSending = true;
-    }
-    if (!errorWhileSending) stats.messagesSent++;
+    channel.send(message).catch(() => {
+      stats.sendFailures++;
+    });
   });
 
   logger.info("New article sent to servers", { stats });
