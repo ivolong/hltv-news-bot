@@ -72,7 +72,7 @@ module.exports = (client: Client, article: HltvArticle) => {
       errorWhileSending = true;
     }
     if (!errorWhileSending) stats.messagesSent++;
-
-    logger.info("New article posted", { stats });
   });
+
+  logger.info("New article sent to servers", { stats });
 };
