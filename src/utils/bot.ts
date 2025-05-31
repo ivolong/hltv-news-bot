@@ -59,7 +59,7 @@ module.exports = {
   },
 
   setCommands: function (client: Client) {
-    logger.info("Setting commands");
+    logger.info("Loading commands");
 
     const commands: SlashCommandBuilder[] = [];
     const commandFiles: string[] = fs.readdirSync(
@@ -79,7 +79,7 @@ module.exports = {
   },
 
   declareSlashCommands: function (commands: SlashCommandBuilder[]) {
-    logger.info("Declaring slash commands", commands);
+    logger.info("Declaring slash commands", { commands });
 
     const rest = new REST({ version: "9" }).setToken(
       process.env.DISCORD_CLIENT_TOKEN,
