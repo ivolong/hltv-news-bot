@@ -14,6 +14,12 @@ export type HltvArticle = Item & {
 module.exports = (client: Client, article: HltvArticle) => {
   logger.info("newArticle", article);
 
+  const stats = {
+    channelsFound: 0,
+    rolesFound: 0,
+    messagesSent: 0,
+  };
+
   let channel;
   let role;
   let message;
@@ -23,6 +29,7 @@ module.exports = (client: Client, article: HltvArticle) => {
     );
 
     if (!channel || channel.type !== "GUILD_TEXT") return;
+    stats.channelsFound++;
 
     role = guild.roles.cache.find((role) => role.name === "hltv");
 
@@ -53,8 +60,19 @@ module.exports = (client: Client, article: HltvArticle) => {
       ],
     };
 
-    if (role) message.content = message.content.concat(` <@&${role.id}>`);
+    if (role) {
+      message.content = message.content.concat(` <@&${role.id}>`);
+      stats.rolesFound++;
+    }
 
-    channel.send(message).catch(() => {});
+    let errorWhileSending;
+    try {
+      channel.send(message);
+    } catch {
+      errorWhileSending = true;
+    }
+    if (!errorWhileSending) stats.messagesSent++;
+
+    logger.info("New article posted", { stats });
   });
 };
