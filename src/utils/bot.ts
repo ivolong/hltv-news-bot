@@ -92,7 +92,7 @@ module.exports = {
           { body: commands },
         );
       } catch (error) {
-        logger.error(error);
+        logger.error("Error declaring slash commands", error);
       }
     })();
   },
@@ -110,7 +110,10 @@ module.exports = {
       await rss.parseURL(
         url,
         function (error: Error, feed: Output<HltvArticle>) {
-          if (error) return logger.error(error);
+          if (error) {
+            logger.error(`Error processing RSS feed ${url}`, error);
+            return;
+          }
 
           const newestArticle = feed.items[0];
 

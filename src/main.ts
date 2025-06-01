@@ -15,7 +15,7 @@ AutoPoster(process.env.TOPGG_CLIENT_TOKEN, client).on("posted", () => {
 
 fs.readdir(path.join(__dirname, "events"), (error: Error, files: string[]) => {
   if (error) {
-    logger.error(error);
+    logger.error("Error reading events directory", error);
     return;
   }
 
