@@ -74,8 +74,9 @@ module.exports = {
       client.commands.set(command.data.name, command);
     }
 
-    if (process.env.DECLARE_SLASH_COMMANDS === "1")
+    if (process.env.DECLARE_SLASH_COMMANDS === "1") {
       this.declareSlashCommands(commands);
+    }
   },
 
   declareSlashCommands: function (commands: SlashCommandBuilder[]) {
@@ -89,7 +90,9 @@ module.exports = {
       try {
         await rest.put(
           Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
-          { body: commands },
+          {
+            body: commands,
+          },
         );
       } catch (error) {
         logger.error("Error declaring slash commands", error);

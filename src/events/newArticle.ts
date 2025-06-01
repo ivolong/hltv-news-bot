@@ -1,3 +1,4 @@
+import debounce from "debounce";
 import { Client } from "discord.js";
 import { Item } from "rss-parser";
 import { logger } from "../utils/logging.js";
@@ -11,26 +12,43 @@ export type HltvArticle = Item & {
   };
 };
 
+type StatsType = {
+  server: {
+    channels: number;
+    roles: number;
+  };
+  message: {
+    errors: { [key: string]: number };
+  };
+};
+
+const logStats = debounce((guid, stats) => {
+  logger.info(`Article ${guid} sent to guilds`, { stats });
+}, 10e3);
+
 module.exports = (client: Client, article: HltvArticle) => {
   logger.info("New article received", article);
 
-  const stats = {
-    channelsFound: 0,
-    rolesFound: 0,
-    sendFailures: 0,
+  const stats: StatsType = {
+    server: {
+      channels: 0,
+      roles: 0,
+    },
+    message: {
+      errors: {},
+    },
   };
-  const lastGuildId = client.guilds.cache.lastKey();
 
   let channel;
   let role;
   let message;
-  client.guilds.cache.forEach((guild, index) => {
+  client.guilds.cache.forEach((guild) => {
     channel = guild.channels.cache.find(
       (channel) => channel.name === "news-feed",
     );
 
     if (!channel || channel.type !== "GUILD_TEXT") return;
-    stats.channelsFound++;
+    stats.server.channels++;
 
     role = guild.roles.cache.find((role) => role.name === "hltv");
 
@@ -63,18 +81,19 @@ module.exports = (client: Client, article: HltvArticle) => {
 
     if (role) {
       message.content = message.content.concat(` <@&${role.id}>`);
-      stats.rolesFound++;
+      stats.server.roles++;
     }
 
     channel
       .send(message)
-      .catch(() => {
-        stats.sendFailures++;
+      .catch((error: Error) => {
+        if (!(error.message in stats.message.errors)) {
+          stats.message.errors[error.message] = 0;
+        }
+        stats.message.errors[error.message]++;
       })
       .finally(() => {
-        if (index === lastGuildId) {
-          logger.info("New article sent to servers", { stats });
-        }
+        logStats(article.guid, stats);
       });
   });
 };
