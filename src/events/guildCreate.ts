@@ -10,7 +10,7 @@ module.exports = async (client: Client, guild: Guild) => {
     .create({
       name: "hltv",
       color: "#3c6ea1",
-      reason: "Pingable HLTV role by HLTV News bot.",
+      reason: "Receives HLTV News article notifications.",
     })
     .catch((error) => {
       logger.error("Unable to create role", error);
@@ -23,16 +23,27 @@ module.exports = async (client: Client, guild: Guild) => {
 
   guild.channels
     .create("news-feed", {
-      reason: "HLTV news article updates channel by HLTV News bot.",
+      reason: "News feed from HLTV.",
     })
     .then((channel) => {
       channel
         .send({
-          content: "https://discord.gg/dE3NFqTzEx",
+          content: client.user?.displayName,
           embeds: [
             {
-              title: "Information",
-              description: `Thanks for adding me.\n\nI'll post new articles from HLTV in here. **Please do not rename this channel** but feel free to move it around.\n\nDo you want notifications?\nType ${notify} and I'll give you a pingable role.\nType ${mute} to remove the role.\n\nType ${help} for general help.\n\nType ${invite} to invite me to your server.\n\nJoin [here](https://discord.gg/dE3NFqTzEx) for assistance.`,
+              title: client.user?.displayName,
+              color: 0x3c6ea1,
+              url: "https://ko-fi.com/ivolong",
+              description: `I'll post new articles from HLTV in here. **Please do not rename this channel** but feel free to move it around.\n\nDo you want notifications?\nType ${notify} and I'll ping you with new stories.\nType ${mute} to stop being pinged.\n\nType ${help} for general help.\n\nType ${invite} to invite me to your server.\n\n**Need more help?** [Get help](https://discord.gg/dE3NFqTzEx)\n\n❤️ Please consider [supporting me](https://ko-fi.com/ivolong) running this bot - thank you!`,
+              author: {
+                name: `Thank you for using ${client.user?.displayName}`,
+                icon_url: client.user?.defaultAvatarURL,
+                url: "https://ko-fi.com/ivolong",
+              },
+              footer: {
+                text: "Not affiliated with HLTV.org or Better Collective A/S.",
+                icon_url: client.user?.defaultAvatarURL,
+              },
             },
           ],
         })
