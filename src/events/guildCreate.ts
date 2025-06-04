@@ -42,7 +42,7 @@ module.exports = async (client: Client, guild: Guild) => {
               },
               footer: {
                 text: "Not affiliated with HLTV.org or Better Collective A/S.",
-                icon_url: client.user?.defaultAvatarURL,
+                icon_url: client.user?.displayAvatarURL(),
               },
             },
           ],
