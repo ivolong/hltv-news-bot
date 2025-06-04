@@ -37,7 +37,7 @@ module.exports = async (client: Client, guild: Guild) => {
               description: `I'll post new articles from HLTV in here. **Please do not rename this channel** but feel free to move it around.\n\nDo you want notifications?\nType ${notify} and I'll ping you with new stories.\nType ${mute} to stop being pinged.\n\nType ${help} for general help.\n\nType ${invite} to invite me to your server.\n\n**Need more help?** [Get help](https://discord.gg/dE3NFqTzEx)\n\nPlease consider [supporting me](https://ko-fi.com/ivolong) running this bot - thank you! ❤️`,
               author: {
                 name: `Thank you for using ${client.user?.displayName}`,
-                icon_url: client.user?.defaultAvatarURL,
+                icon_url: `${client.user?.displayAvatarURL}`,
                 url: "https://ko-fi.com/ivolong",
               },
               footer: {
