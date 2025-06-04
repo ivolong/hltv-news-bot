@@ -28,7 +28,7 @@ module.exports = async (client: Client, guild: Guild) => {
     .then((channel) => {
       channel
         .send({
-          content: client.user?.displayName,
+          content: "https://discord.gg/dE3NFqTzEx",
           embeds: [
             {
               title: client.user?.displayName,
