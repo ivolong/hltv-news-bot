@@ -14,13 +14,21 @@ export type HltvArticle = Item & {
 
 type StatsType = {
   server: {
-    channels: number;
-    roles: number;
-    members: 0;
+    count: number;
+    members: number;
+    withChannel: {
+      count: number;
+      members: number;
+      withRole: {
+        count: number;
+        members: number;
+      };
+    };
   };
   message: {
     errors: { [key: string]: number };
-    members: 0;
+    members: number;
+    roles: number;
   };
 };
 
@@ -33,13 +41,21 @@ module.exports = (client: Client, article: HltvArticle) => {
 
   const stats: StatsType = {
     server: {
-      channels: 0,
-      roles: 0,
+      count: 0,
       members: 0,
+      withChannel: {
+        count: 0,
+        members: 0,
+        withRole: {
+          count: 0,
+          members: 0,
+        },
+      },
     },
     message: {
       errors: {},
       members: 0,
+      roles: 0,
     },
   };
 
@@ -47,14 +63,17 @@ module.exports = (client: Client, article: HltvArticle) => {
   let role;
   let message;
   client.guilds.cache.forEach((guild) => {
+    stats.server.count += guild.memberCount;
+    stats.server.members += guild.memberCount;
+
     channel = guild.channels.cache.find(
       (channel) => channel.name === "news-feed",
     );
 
     if (!channel || channel.type !== "GUILD_TEXT") return;
-    stats.server.channels++;
-    stats.server.members += guild.memberCount;
-    stats.message.members += guild.memberCount;
+
+    stats.server.withChannel.count++;
+    stats.server.withChannel.members += guild.memberCount;
 
     role = guild.roles.cache.find((role) => role.name === "hltv");
 
@@ -87,20 +106,29 @@ module.exports = (client: Client, article: HltvArticle) => {
 
     if (role) {
       message.content = message.content.concat(` <@&${role.id}>`);
-      stats.server.roles++;
+      stats.server.withChannel.withRole.count++;
+      stats.server.withChannel.withRole.members += guild.memberCount;
     }
 
+    let errored;
     channel
       .send(message)
       .catch((error: Error) => {
+        errored = true;
+
         if (!(error.message in stats.message.errors)) {
           stats.message.errors[error.message] = 0;
         }
         stats.message.errors[error.message]++;
-        stats.message.members -= guild.memberCount;
       })
       .finally(() => {
         logStats(article.guid, stats);
       });
+
+    if (!errored) {
+      stats.message.members += guild.memberCount;
+
+      if (role) stats.message.roles++;
+    }
   });
 };
