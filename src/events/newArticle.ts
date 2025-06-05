@@ -16,9 +16,11 @@ type StatsType = {
   server: {
     channels: number;
     roles: number;
+    members: 0;
   };
   message: {
     errors: { [key: string]: number };
+    members: 0;
   };
 };
 
@@ -33,9 +35,11 @@ module.exports = (client: Client, article: HltvArticle) => {
     server: {
       channels: 0,
       roles: 0,
+      members: 0,
     },
     message: {
       errors: {},
+      members: 0,
     },
   };
 
@@ -49,6 +53,8 @@ module.exports = (client: Client, article: HltvArticle) => {
 
     if (!channel || channel.type !== "GUILD_TEXT") return;
     stats.server.channels++;
+    stats.server.members += guild.memberCount;
+    stats.message.members += guild.memberCount;
 
     role = guild.roles.cache.find((role) => role.name === "hltv");
 
@@ -91,6 +97,7 @@ module.exports = (client: Client, article: HltvArticle) => {
           stats.message.errors[error.message] = 0;
         }
         stats.message.errors[error.message]++;
+        stats.message.members -= guild.memberCount;
       })
       .finally(() => {
         logStats(article.guid, stats);
