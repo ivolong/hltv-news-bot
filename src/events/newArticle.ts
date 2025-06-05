@@ -63,7 +63,7 @@ module.exports = (client: Client, article: HltvArticle) => {
   let role;
   let message;
   client.guilds.cache.forEach((guild) => {
-    stats.server.count += guild.memberCount;
+    stats.server.count++;
     stats.server.members += guild.memberCount;
 
     channel = guild.channels.cache.find(
