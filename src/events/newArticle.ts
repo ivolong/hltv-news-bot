@@ -1,5 +1,5 @@
 import debounce from "debounce";
-import { Client } from "discord.js";
+import { Client, Role } from "discord.js";
 import { Item } from "rss-parser";
 import { logger } from "../utils/logging.js";
 
@@ -60,7 +60,7 @@ module.exports = (client: Client, article: HltvArticle) => {
   };
 
   let channel;
-  let role;
+  let role: Role | undefined;
   let message;
   client.guilds.cache.forEach((guild) => {
     stats.server.count++;
@@ -110,7 +110,7 @@ module.exports = (client: Client, article: HltvArticle) => {
       stats.server.withChannel.withRole.members += guild.memberCount;
     }
 
-    let errored;
+    let errored: boolean;
     channel
       .send(message)
       .catch((error: Error) => {
@@ -122,13 +122,13 @@ module.exports = (client: Client, article: HltvArticle) => {
         stats.message.errors[error.message]++;
       })
       .finally(() => {
+        if (!errored) {
+          stats.message.members += guild.memberCount;
+
+          if (role) stats.message.roles++;
+        }
+
         logStats(article.guid, stats);
       });
-
-    if (!errored) {
-      stats.message.members += guild.memberCount;
-
-      if (role) stats.message.roles++;
-    }
   });
 };
