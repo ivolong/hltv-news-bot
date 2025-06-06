@@ -1,9 +1,9 @@
 import { Client, Guild } from "discord.js";
 
-const commandUtils = require("../utils/command.js");
+import { getSlashCommandString } from "../utils/command.js";
 import { logger } from "../utils/logging.js";
 
-module.exports = async (client: Client, guild: Guild) => {
+export default async function guildCreate(client: Client, guild: Guild) {
   logger.info("Added to new guild", guild);
 
   guild.roles
@@ -16,9 +16,9 @@ module.exports = async (client: Client, guild: Guild) => {
       logger.error("Unable to create role", error);
     });
 
-  const [notify, mute, help, invite] = commandUtils.getSlashCommandString(
-    await client.application?.commands.fetch(),
+  const [notify, mute, help, invite] = getSlashCommandString(
     ["notify", "mute", "help", "invite"],
+    await client.application?.commands.fetch(),
   );
 
   guild.channels
@@ -54,4 +54,4 @@ module.exports = async (client: Client, guild: Guild) => {
     .catch((error) => {
       logger.error("Unable to create channel", error);
     });
-};
+}

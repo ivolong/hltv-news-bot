@@ -1,11 +1,14 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const name = "mute";
+const description = "Stop getting notified when HLTV publishes an article";
 
-module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("mute")
-    .setDescription("Stop getting notified when HLTV publishes an article"),
+export default {
+  name,
+  description,
+
+  data: new SlashCommandBuilder().setName(name).setDescription(description),
 
   async execute(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;

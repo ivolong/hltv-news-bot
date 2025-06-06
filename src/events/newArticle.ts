@@ -1,6 +1,7 @@
 import debounce from "debounce";
 import { Client, Role } from "discord.js";
 import { Item } from "rss-parser";
+
 import { logger } from "../utils/logging.js";
 
 export type HltvArticle = Item & {
@@ -36,7 +37,7 @@ const logStats = debounce((guid, stats) => {
   logger.info(`Article ${guid} sent to guilds`, { stats });
 }, 10e3);
 
-module.exports = (client: Client, article: HltvArticle) => {
+export default function newArticle(client: Client, article: HltvArticle) {
   logger.info("New article received", article);
 
   const stats: StatsType = {
@@ -131,4 +132,4 @@ module.exports = (client: Client, article: HltvArticle) => {
         logStats(article.guid, stats);
       });
   });
-};
+}

@@ -1,18 +1,21 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
-const { SlashCommandBuilder } = require("@discordjs/builders");
+import { getSlashCommandString } from "../utils/command.js";
 
-const commandUtils = require("../utils/command.js");
+const name = "invite";
+const description = "Get HLTV News notifications in your server";
 
-module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("invite")
-    .setDescription("Get HLTV News notifications in your server"),
+export default {
+  name,
+  description,
+
+  data: new SlashCommandBuilder().setName(name).setDescription(description),
 
   async execute(interaction: CommandInteraction) {
-    const [help] = commandUtils.getSlashCommandString(
-      await interaction.client.application?.commands.fetch(),
+    const [help] = getSlashCommandString(
       ["help"],
+      await interaction.client.application?.commands.fetch(),
     );
 
     interaction.reply(

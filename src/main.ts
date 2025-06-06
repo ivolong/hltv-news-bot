@@ -1,7 +1,10 @@
-const fs = require("fs");
-const path = require("path");
-const { Client, Intents } = require("discord.js");
-const { AutoPoster } = require("topgg-autoposter");
+import { Client, Intents } from "discord.js";
+import { AutoPoster } from "topgg-autoposter";
+
+import guildCreate from "./events/guildCreate.js";
+import interactionCreate from "./events/interactionCreate.js";
+import newArticle from "./events/newArticle.js";
+import ready from "./events/ready.js";
 import { logger } from "./utils/logging.js";
 
 const client = new Client({
@@ -9,21 +12,13 @@ const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 
-AutoPoster(process.env.TOPGG_CLIENT_TOKEN, client).on("posted", () => {
+AutoPoster(process.env.TOPGG_CLIENT_TOKEN!, client).on("posted", () => {
   logger.info("Statistics posted to Top.gg");
 });
 
-fs.readdir(path.join(__dirname, "events"), (error: Error, files: string[]) => {
-  if (error) {
-    logger.error("Error reading events directory", error);
-    return;
-  }
-
-  files.forEach((file) => {
-    const event = require(path.join(__dirname, "events", file));
-    const eventName: string = file.split(".")[0];
-    client.on(eventName, event.bind(null, client));
-  });
-});
+client.on("ready", ready.bind(null, client));
+client.on("guildCreate", guildCreate.bind(null, client));
+client.on("interactionCreate", interactionCreate.bind(null, client));
+client.on("newArticle", newArticle.bind(null, client));
 
 client.login(process.env.DISCORD_CLIENT_TOKEN);
