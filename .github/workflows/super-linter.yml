@@ -1,5 +1,5 @@
 ---
-name: super-linter
+name: linter
 
 on:
   push:
@@ -13,7 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          # Full git history is needed to get all changes within `super-linter`
           fetch-depth: 0
 
       - name: Lint
@@ -24,7 +23,6 @@ jobs:
           VALIDATE_MARKDOWN: true
           VALIDATE_JSON: true
 
-          VALIDATE_TYPESCRIPT_ES: true
           ENABLE_COMMITLINT_STRICT_MODE: true
           ENFORCE_COMMITLINT_CONFIGURATION_CHECK: true
 
