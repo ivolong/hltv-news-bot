@@ -6,6 +6,7 @@ import interactionCreate from "./events/interactionCreate.js";
 import newArticle from "./events/newArticle.js";
 import ready from "./events/ready.js";
 import { logger } from "./utils/logging.js";
+import { updateDiscordBotsGgStats } from "./utils/third-parties.js";
 
 const client = new Client({
   restRequestTimeout: 60000,
