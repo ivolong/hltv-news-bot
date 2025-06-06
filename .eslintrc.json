@@ -13,7 +13,7 @@
     "plugin:import/recommended",
     "plugin:import/typescript"
   ],
-  "ignorePatterns": ["dist/**/*", ".eslintrc.js"],
+  "ignorePatterns": ["dist/**/*", "../../action/**/*"],
   "rules": {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
