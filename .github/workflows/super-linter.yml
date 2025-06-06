@@ -26,6 +26,9 @@ jobs:
         env:
           VALIDATE_ALL_CODEBASE: true
 
+          VALIDATE_MARKDOWN: true
+          VALIDATE_JSON: true
+
           VALIDATE_TYPESCRIPT_ES: true
           ENABLE_COMMITLINT_STRICT_MODE: true
           ENFORCE_COMMITLINT_CONFIGURATION_CHECK: true
