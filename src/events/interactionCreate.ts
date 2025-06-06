@@ -1,7 +1,11 @@
 import { Client, Interaction } from "discord.js";
+
 import { logger } from "../utils/logging.js";
 
-module.exports = async (client: Client, interaction: Interaction) => {
+export default async function interactionCreate(
+  client: Client,
+  interaction: Interaction,
+) {
   if (!interaction.isCommand()) return;
 
   const command = client.commands.get(interaction.commandName);
@@ -20,4 +24,4 @@ module.exports = async (client: Client, interaction: Interaction) => {
       ephemeral: true,
     });
   }
-};
+}
