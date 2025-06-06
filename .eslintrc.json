@@ -13,7 +13,7 @@
     "plugin:import/recommended",
     "plugin:import/typescript"
   ],
-  "ignorePatterns": ["dist/**/*", "../../action/**/*"],
+  "ignorePatterns": ["dist/**/*", "tsconfig.json"],
   "rules": {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
