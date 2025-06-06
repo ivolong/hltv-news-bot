@@ -10,5 +10,8 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "ts-standard": {
+    "project": "./tsconfig.json"
+  }
 }
