@@ -30,6 +30,6 @@ jobs:
           ENABLE_COMMITLINT_STRICT_MODE: true
           ENFORCE_COMMITLINT_CONFIGURATION_CHECK: true
           ESLINT_CONFIG_FILE: .eslintrc.json
-          COMMITLINT_CONFIG_FILE: commitlint.config.js
+          COMMITLINT_CONFIG_FILE: .commitlint.json
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
