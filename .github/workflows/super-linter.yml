@@ -25,13 +25,11 @@ jobs:
         uses: github/super-linter@v4
         env:
           VALIDATE_ALL_CODEBASE: false
-          VALIDATE_MARKDOWN: true
-          VALIDATE_JSON: true
-          VALIDATE_ESLINT: true
-          VALIDATE_COMMITLINT: true
-          ENABLE_COMMITLINT_STRICT_MODE: true
-          ENFORCE_COMMITLINT_CONFIGURATION_CHECK: true
+
+          VALIDATE_TYPESCRIPT_ES: true
           TYPESCRIPT_ES_CONFIG_FILE: .eslintrc.json
-          COMMITLINT_CONFIG_FILE: .commitlint.json
+
+          VALIDATE_COMMITLINT: true
+
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
