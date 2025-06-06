@@ -21,15 +21,41 @@ jobs:
           # Full git history is needed to get all changes within `super-linter`
           fetch-depth: 0
 
-      - name: Lint
+      - name: "Lint: TypeScript"
         uses: github/super-linter@v4
         env:
-          VALIDATE_ALL_CODEBASE: true
-
-          VALIDATE_MARKDOWN: true
-          VALIDATE_JSON: true
+          VALIDATE_ALL_CODEBASE: false
 
           VALIDATE_TYPESCRIPT_ES: true
+
+          DEFAULT_BRANCH: "main"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Lint: JSON"
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+
+          VALIDATE_JSON: true
+
+          DEFAULT_BRANCH: "main"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Lint: Markdown"
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+
+          VALIDATE_MARKDOWN: true
+
+          DEFAULT_BRANCH: "main"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Lint: Commits"
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+
           ENABLE_COMMITLINT_STRICT_MODE: true
           ENFORCE_COMMITLINT_CONFIGURATION_CHECK: true
 
