@@ -1,0 +1,10 @@
+{
+    "activities": [
+        {
+            "name": "BLAST Austin Major",
+            "type": "STREAMING",
+            "url": "https://twitch.tv/blastpremier",
+            "state": "s1mple waiting room"
+        }
+    ]
+}

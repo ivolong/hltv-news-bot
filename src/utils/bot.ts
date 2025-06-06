@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { REST } from "@discordjs/rest";
-import { Client, Collection } from "discord.js";
+import { ActivitiesOptions, Client, Collection } from "discord.js";
 import { Routes } from "discord-api-types/v9";
 import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
@@ -20,12 +20,38 @@ const rss = new Parser({
   timeout: 5000,
 });
 
+const liveEventsLocation = join(
+  __dirname,
+  "..",
+  "..",
+  "storage",
+  `custom_activities.json`,
+);
+
 export function updateActivity(client: Client) {
   const serverCount = client.guilds.cache.size;
 
-  const userActivityString = `/help | ${serverCount.toLocaleString("en")} servers`;
+  let userActivities: ActivitiesOptions[] = [
+    {
+      name: `HLTV | ${serverCount.toLocaleString("en")} servers`,
+      type: "WATCHING" as const,
+      state: "Sending the latest stories to #news-feed",
+    },
+    {
+      name: `/help | ${serverCount.toLocaleString("en")} servers`,
+      type: "LISTENING" as const,
+      state: "Want HLTV News stories in your server?",
+    },
+  ];
 
-  client.user?.setActivity(userActivityString, { type: "WATCHING" });
+  const file = readFileSync(liveEventsLocation);
+  const customActivities = JSON.parse(file.toString());
+  userActivities = userActivities.concat(customActivities.activities);
+
+  const random = Math.floor(Math.random() * userActivities.length);
+  client.user?.setPresence({
+    activities: [userActivities[random]],
+  });
 }
 
 export function postUpdate(

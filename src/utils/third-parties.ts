@@ -16,7 +16,9 @@ export async function updateDiscordBotsGgStats(guildCount: number) {
     });
 
     if (!response.ok) {
-      logger.warn("Failed to post to Discord Bots.gg", { response: await response.text() });
+      logger.warn("Failed to post to Discord Bots.gg", {
+        response: await response.text(),
+      });
     } else {
       logger.info("Statistics posted to Discord Bots.gg");
     }
