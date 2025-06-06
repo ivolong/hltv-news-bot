@@ -12,7 +12,9 @@ HLTV News Bot does not collect or store any personal information.
 
 ### Intended Use
 
-The Bot serves to provide notifications of news story content authored by HLTV.org ApS ("HLTV") as described in their Terms of Service. Notifications include content authored by HLTV. We are not responsible for content authored by HLTV. You may opt out of receiving notifications from the Bot at any time by removing the Bot from any server you have permission for or leaving the server that the Bot has been invited to, and by not using its features.
+The Bot serves to provide notifications of news story content authored by HLTV.org ApS ("HLTV") as described in their Terms of Service. Notifications include content authored by HLTV. We are not responsible for content authored by HLTV.
+
+You may opt out of receiving notifications from the Bot at any time by removing the Bot from any server you have permission for or leaving the server that the Bot has been invited to, and by not using its features.
 
 ### Intended Age
 
