@@ -14,6 +14,8 @@ const client = new Client({
 
 AutoPoster(process.env.TOPGG_CLIENT_TOKEN!, client).on("posted", () => {
   logger.info("Statistics posted to Top.gg");
+
+  updateDiscordBotsGgStats(client.guilds.cache.size);
 });
 
 client.on("ready", ready.bind(null, client));
