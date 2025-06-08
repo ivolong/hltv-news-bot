@@ -3,9 +3,7 @@
 [![CI](https://github.com/ivolong/hltv-news-bot/actions/workflows/ci.yml/badge.svg)](https://github.com/ivolong/hltv-news-bot/actions/workflows/ci.yml)
 [![Super-Linter](https://github.com/ivolong/hltv-news-bot/actions/workflows/super-linter.yml/badge.svg)](https://github.com/ivolong/hltv-news-bot/actions/workflows/super-linter.yml)
 
-[![Discord Bots](https://top.gg/api/widget/status/745404733857988740.svg)](https://top.gg/bot/745404733857988740)
-[![Discord Bots](https://top.gg/api/widget/servers/745404733857988740.svg)](https://top.gg/bot/745404733857988740)
-[![Discord Bots](https://top.gg/api/widget/upvotes/745404733857988740.svg)](https://top.gg/bot/745404733857988740)
+![Discord Status](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.bots.gg%2Fapi%2Fv1%2Fbots%2F745404733857988740&query=guildCount&logo=discord&logoColor=white&label=Servers&link=https%3A%2F%2Fdiscord.bots.gg%2Fbots%2F745404733857988740)
 
 A Discord bot that checks [HLTV](https://hltv.org) for new articles and posts them in your server with optional @ping notifications.
 
