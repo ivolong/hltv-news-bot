@@ -33,15 +33,10 @@ export function updateActivity(client: Client) {
 
   let userActivities: ActivitiesOptions[] = [
     {
-      name: `HLTV | ${serverCount.toLocaleString("en")} servers`,
+      name: `${serverCount.toLocaleString("en")} servers`,
       type: "WATCHING" as const,
       state: "Sending the latest stories to #news-feed",
-    },
-    {
-      name: `/help | ${serverCount.toLocaleString("en")} servers`,
-      type: "LISTENING" as const,
-      state: "Want HLTV News stories in your server?",
-    },
+    }
   ];
 
   const file = readFileSync(liveEventsLocation);
