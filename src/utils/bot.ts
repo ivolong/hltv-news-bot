@@ -36,7 +36,7 @@ export function updateActivity(client: Client) {
       name: `${serverCount.toLocaleString("en")} servers`,
       type: "WATCHING" as const,
       state: "Sending the latest stories to #news-feed",
-    }
+    },
   ];
 
   const file = readFileSync(liveEventsLocation);
