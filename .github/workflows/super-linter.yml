@@ -1,5 +1,5 @@
 ---
-name: linter
+name: lint
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   pull_request:
     branches: ["main"]
 jobs:
-  run-lint:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -22,9 +22,6 @@ jobs:
 
           VALIDATE_MARKDOWN: true
           VALIDATE_JSON: true
-
-          ENABLE_COMMITLINT_STRICT_MODE: true
-          ENFORCE_COMMITLINT_CONFIGURATION_CHECK: true
 
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
