@@ -6,7 +6,10 @@ import interactionCreate from "./events/interactionCreate.js";
 import newArticle from "./events/newArticle.js";
 import ready from "./events/ready.js";
 import { logger } from "./utils/logging.js";
-import { updateDiscordBotsGgStats } from "./utils/third-parties.js";
+import {
+  updateBotlistMeStats,
+  updateDiscordBotsGgStats,
+} from "./utils/third-parties.js";
 
 const client = new Client({
   restRequestTimeout: 60000,
@@ -17,6 +20,7 @@ AutoPoster(process.env.TOPGG_CLIENT_TOKEN!, client).on("posted", () => {
   logger.info("Statistics posted to Top.gg");
 
   updateDiscordBotsGgStats(client.guilds.cache.size);
+  updateBotlistMeStats(client.guilds.cache.size);
 });
 
 client.on("ready", ready.bind(null, client));

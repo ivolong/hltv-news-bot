@@ -26,3 +26,30 @@ export async function updateDiscordBotsGgStats(guildCount: number) {
     logger.error("Error while posting to Discord Bots.gg", error);
   }
 }
+
+export async function updateBotlistMeStats(guildCount: number) {
+  const url = `https://api.botlist.me/api/v1/bots/${process.env.DISCORD_CLIENT_ID!}/stats`;
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: process.env.BOTLIST_ME_CLIENT_TOKEN!,
+      },
+      body: JSON.stringify({
+        server_count: guildCount,
+      }),
+    });
+
+    if (!response.ok) {
+      logger.warn("Failed to post to Botlist.me", {
+        response: await response.text(),
+      });
+    } else {
+      logger.info("Statistics posted to Botlist.me");
+    }
+  } catch (error) {
+    logger.error("Error while posting to Botlist.me", error);
+  }
+}
