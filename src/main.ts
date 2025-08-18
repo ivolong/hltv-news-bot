@@ -9,6 +9,7 @@ import { logger } from "./utils/logging.js";
 import {
   updateBotlistMeStats,
   updateDiscordBotsGgStats,
+  updateDiscordListStats,
 } from "./utils/third-parties.js";
 
 const client = new Client({
@@ -21,6 +22,7 @@ AutoPoster(process.env.TOPGG_CLIENT_TOKEN!, client).on("posted", () => {
 
   updateDiscordBotsGgStats(client.guilds.cache.size);
   updateBotlistMeStats(client.guilds.cache.size);
+  updateDiscordListStats(client.guilds.cache.size);
 });
 
 client.on("ready", ready.bind(null, client));
