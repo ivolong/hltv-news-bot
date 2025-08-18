@@ -62,7 +62,7 @@ export async function updateDiscordListStats(guildCount: number) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: process.env.DISCORD_LIST_CLIENT_TOKEN!,
+        Authorization: `Bearer ${process.env.DISCORD_LIST_CLIENT_TOKEN!}`,
       },
       body: JSON.stringify({
         count: guildCount,
