@@ -70,13 +70,13 @@ export async function updateDiscordListStats(guildCount: number) {
     });
 
     if (!response.ok) {
-      logger.warn("Failed to post to Botlist.me", {
+      logger.warn("Failed to post to Discord List ", {
         response: await response.text(),
       });
     } else {
-      logger.info("Statistics posted to Botlist.me");
+      logger.info("Statistics posted to Discord List");
     }
   } catch (error) {
-    logger.error("Error while posting to Botlist.me", error);
+    logger.error("Error while posting to Discord List ", error);
   }
 }
