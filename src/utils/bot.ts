@@ -1,6 +1,14 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { REST } from "@discordjs/rest";
-import { ActivitiesOptions, Client, Collection } from "discord.js";
+import {
+  ActivitiesOptions,
+  Client,
+  Collection,
+  ForumChannel,
+  GuildForumThreadMessageCreateOptions,
+  TextChannel,
+  ThreadAutoArchiveDuration,
+} from "discord.js";
 import { Routes } from "discord-api-types/v9";
 import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
@@ -49,6 +57,23 @@ export function updateActivity(client: Client) {
   });
 }
 
+export const deliverContent = (
+  channel: TextChannel | ForumChannel,
+  name: string,
+  message: GuildForumThreadMessageCreateOptions,
+  autoArchiveDuration: ThreadAutoArchiveDuration = 60,
+) => {
+  if (channel.type === "GUILD_FORUM") {
+    return channel.threads.create({
+      name,
+      autoArchiveDuration,
+      message,
+    });
+  }
+
+  return channel.send(message);
+};
+
 export function postUpdate(
   client: Client,
   content: string,
@@ -73,9 +98,14 @@ export function postUpdate(
       (channel) => channel.name === "news-feed",
     );
 
-    if (!channel || channel.type !== "GUILD_TEXT") return;
+    if (
+      !channel ||
+      (channel.type !== "GUILD_TEXT" && channel.type !== "GUILD_FORUM")
+    ) {
+      return;
+    }
 
-    channel.send(message).catch(() => {});
+    deliverContent(channel, title, message).catch(() => {});
   });
 }
 
