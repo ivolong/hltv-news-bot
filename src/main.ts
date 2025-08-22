@@ -17,15 +17,13 @@ const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 
-if (process.env.TOPGG_CLIENT_TOKEN) {
-  AutoPoster(process.env.TOPGG_CLIENT_TOKEN, client).on("posted", () => {
-    logger.info("Statistics posted to Top.gg");
+AutoPoster(process.env.TOPGG_CLIENT_TOKEN!, client).on("posted", () => {
+  logger.info("Statistics posted to Top.gg");
 
-    updateDiscordBotsGgStats(client.guilds.cache.size);
-    updateBotlistMeStats(client.guilds.cache.size);
-    updateDiscordListStats(client.guilds.cache.size);
-  });
-}
+  updateDiscordBotsGgStats(client.guilds.cache.size);
+  updateBotlistMeStats(client.guilds.cache.size);
+  updateDiscordListStats(client.guilds.cache.size);
+});
 
 client.on("ready", ready.bind(null, client));
 client.on("guildCreate", guildCreate.bind(null, client));
