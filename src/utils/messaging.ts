@@ -79,6 +79,7 @@ export const deliverContentToAll = (
   };
 
   let channel;
+  const messageWithPing = { ...message };
   client.guilds.cache.forEach((guild) => {
     stats.server.count++;
     stats.server.members += guild.memberCount;
@@ -100,13 +101,13 @@ export const deliverContentToAll = (
     const role = guild.roles.cache.find((role) => role.name === "hltv");
 
     if (role) {
-      message.content = `${message.content} <@&${role.id}>`;
+      messageWithPing.content = `${message.content} <@&${role.id}>`;
       stats.server.withChannel.withRole.count++;
       stats.server.withChannel.withRole.members += guild.memberCount;
     }
 
     let errored: boolean;
-    deliverContent(channel, name, message)
+    deliverContent(channel, name, messageWithPing)
       .catch((error: Error) => {
         errored = true;
 
