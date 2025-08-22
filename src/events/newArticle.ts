@@ -2,6 +2,7 @@ import debounce from "debounce";
 import { Client, Role } from "discord.js";
 import { Item } from "rss-parser";
 
+import { deliverContent } from "../utils/bot.js";
 import { logger } from "../utils/logging.js";
 
 export type HltvArticle = Item & {
@@ -71,7 +72,12 @@ export default function newArticle(client: Client, article: HltvArticle) {
       (channel) => channel.name === "news-feed",
     );
 
-    if (!channel || channel.type !== "GUILD_TEXT") return;
+    if (
+      !channel ||
+      (channel.type !== "GUILD_TEXT" && channel.type !== "GUILD_FORUM")
+    ) {
+      return;
+    }
 
     stats.server.withChannel.count++;
     stats.server.withChannel.members += guild.memberCount;
@@ -112,8 +118,7 @@ export default function newArticle(client: Client, article: HltvArticle) {
     }
 
     let errored: boolean;
-    channel
-      .send(message)
+    deliverContent(channel, article.title ?? "[HLTV News Story]", message)
       .catch((error: Error) => {
         errored = true;
 
