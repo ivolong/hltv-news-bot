@@ -9,6 +9,8 @@ import {
 
 import { logger } from "../utils/logging.js";
 
+const FORUM_POST_MAX_LENGTH = 97;
+
 type StatsType = {
   server: {
     count: number;
@@ -77,6 +79,10 @@ export const deliverContentToAll = (
       roles: 0,
     },
   };
+
+  if (name.length > FORUM_POST_MAX_LENGTH) {
+    name = `${name.substring(0, FORUM_POST_MAX_LENGTH).trim()}...`;
+  }
 
   let channel;
   const messageWithPing = { ...message };
