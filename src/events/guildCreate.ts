@@ -4,7 +4,13 @@ import { getSlashCommandString } from "../utils/command.js";
 import { logger } from "../utils/logging.js";
 
 export default async function guildCreate(client: Client, guild: Guild) {
-  logger.info("Added to new guild", guild);
+  const info = {
+    id: guild.id,
+    name: guild.name,
+    icon: guild.icon,
+    memberCount: guild.memberCount,
+  };
+  logger.info("Added to new guild", info);
 
   guild.roles
     .create({
