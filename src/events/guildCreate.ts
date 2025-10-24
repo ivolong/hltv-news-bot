@@ -7,7 +7,7 @@ export default async function guildCreate(client: Client, guild: Guild) {
   const info = {
     id: guild.id,
     name: guild.name,
-    icon: guild.icon,
+    icon: guild.iconURL(),
     memberCount: guild.memberCount,
   };
   logger.info("Added to new guild", info);
