@@ -23,7 +23,7 @@ export async function updateDiscordBotsGgStats(guildCount: number) {
       logger.info("Statistics posted to Discord Bots.gg");
     }
   } catch (error) {
-    logger.error("Error while posting to Discord Bots.gg", error);
+    logger.error("Error while posting to Discord Bots.gg:", error);
   }
 }
 
@@ -50,7 +50,7 @@ export async function updateBotlistMeStats(guildCount: number) {
       logger.info("Statistics posted to Botlist.me");
     }
   } catch (error) {
-    logger.error("Error while posting to Botlist.me", error);
+    logger.error("Error while posting to Botlist.me:", error);
   }
 }
 
@@ -77,6 +77,6 @@ export async function updateDiscordListStats(guildCount: number) {
       logger.info("Statistics posted to Discord List");
     }
   } catch (error) {
-    logger.error("Error while posting to Discord List ", error);
+    logger.error("Error while posting to Discord List:", error);
   }
 }
