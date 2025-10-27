@@ -69,6 +69,6 @@ export async function declareSlashCommands(commands: SlashCommandBuilder[]) {
       body: commands,
     });
   } catch (error) {
-    logger.error("Error declaring slash commands", error);
+    logger.error("Error declaring slash commands:", error);
   }
 }

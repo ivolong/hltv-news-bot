@@ -25,7 +25,7 @@ export function rssChecker(name: string, url: string, client: Client) {
   (async () => {
     await rss.parseURL(url, function (error: Error, feed: Output<HltvArticle>) {
       if (error) {
-        logger.error(`Error processing RSS feed ${url}`, error);
+        logger.error(`Error processing RSS feed ${url}:`, error);
         return;
       }
 
