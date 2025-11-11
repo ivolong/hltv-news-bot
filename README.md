@@ -3,7 +3,8 @@
 [![CI](https://github.com/ivolong/hltv-news-bot/actions/workflows/ci.yml/badge.svg)](https://github.com/ivolong/hltv-news-bot/actions/workflows/ci.yml)
 [![Super-Linter](https://github.com/ivolong/hltv-news-bot/actions/workflows/super-linter.yml/badge.svg)](https://github.com/ivolong/hltv-news-bot/actions/workflows/super-linter.yml)
 
-[![Add me to your Discord server](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.bots.gg%2Fapi%2Fv1%2Fbots%2F745404733857988740&query=guildCount&suffix=%20servers&style=flat&logo=discord&label=Add%20me%20to%20your%20Discord%20server&labelColor=white&color=3c6ea1)](https://discord.com/oauth2/authorize?client_id=745404733857988740&permissions=2416134160&scope=applications.commands%20bot)
+[![Add me to your Discord server](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.bots.gg%2Fapi%2Fv1%2Fbots%2F745404733857988740&query=guildCount&suffix=%20servers&style=flat&logo=discord&label=Add%20me%20to%20your%20Discord%20server&logoColor=white&color=3c6ea1)](https://discord.com/oauth2/authorize?client_id=745404733857988740&permissions=2416134160&scope=applications.commands%20bot)
+[![Join our server](https://img.shields.io/discord/936701173585543179?logo=discord&logoColor=white&label=Join%20our%20server&color=3c6ea1)](https://discord.gg/dE3NFqTzEx)
 
 A Discord bot that checks [HLTV](https://hltv.org) for new articles and posts them in your server with optional @ping notifications.
 
