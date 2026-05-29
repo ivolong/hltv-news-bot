@@ -1,0 +1,31 @@
+services:
+  install:
+    image: node:18
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: npm install
+
+  build:
+    extends: install
+    command: npm run build
+    depends_on:
+      install:
+        condition: service_completed_successfully
+
+  hltv-news-bot:
+    extends: build
+    environment:
+      - BOTLIST_ME_CLIENT_TOKEN=${BOTLIST_ME_CLIENT_TOKEN}
+      - DECLARE_SLASH_COMMANDS=${DECLARE_SLASH_COMMANDS}
+      - DISCORD_BOTS_GG_TOKEN=${DISCORD_BOTS_GG_TOKEN}
+      - DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID}
+      - DISCORD_CLIENT_TOKEN=${DISCORD_CLIENT_TOKEN}
+      - DISCORD_LIST_CLIENT_TOKEN=${DISCORD_LIST_CLIENT_TOKEN}
+      - TOPGG_CLIENT_TOKEN=${TOPGG_CLIENT_TOKEN}
+    command: npm run start
+    depends_on:
+      build:
+        condition: service_completed_successfully
+    ports:
+      - 8080:8080
