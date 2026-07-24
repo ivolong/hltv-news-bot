@@ -1,4 +1,5 @@
 import { Client } from "discord.js";
+import { ButtonStyle } from "discord-api-types/v9";
 import { Item } from "rss-parser";
 
 import { logger } from "../utils/logging.js";
@@ -34,11 +35,24 @@ export default function newArticle(client: Client, article: HltvArticle) {
           url: article.media.$.url,
         },
         footer: {
-          text: "HLTV.org - The home of competitive Counter-Strike",
+          text: "HLTV.org",
           icon_url:
             "https://www.hltv.org/img/static/favicon/apple-touch-icon.png",
         },
         timestamp: article.isoDate,
+      },
+    ],
+    components: [
+      {
+        type: 1,
+        components: [
+          {
+            type: 2,
+            style: ButtonStyle.Link,
+            label: "Read",
+            url: article.link,
+          },
+        ],
       },
     ],
   };
