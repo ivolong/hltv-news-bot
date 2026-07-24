@@ -16,7 +16,12 @@ export default async function ready(client: Client) {
   setInterval(updateActivity, 60e3, client);
 
   for (;;) {
-    rssChecker("hltv", "https://www.hltv.org/rss/news", client);
+    try {
+      await rssChecker("hltv", "https://www.hltv.org/rss/news", client);
+    } catch (error) {
+      logger.error(logger.error(`Error processing RSS feed:`, error));
+    }
+
     await sleep(5e3);
   }
 }
