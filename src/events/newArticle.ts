@@ -52,6 +52,12 @@ export default function newArticle(client: Client, article: HltvArticle) {
             label: "Read",
             url: article.link,
           },
+          {
+            type: 2,
+            style: ButtonStyle.Link,
+            label: "View comments",
+            url: `${article.link}#comments`,
+          },
         ],
       },
     ],
