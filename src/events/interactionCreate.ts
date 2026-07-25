@@ -1,4 +1,4 @@
-import { Client, Interaction } from "discord.js";
+import { Client, Interaction, MessageFlags } from "discord.js";
 
 import { logger } from "../utils/logging";
 
@@ -21,7 +21,7 @@ export default async function interactionCreate(
 
     await interaction.reply({
       content: "Sorry, an error occurred. Please try again later.",
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     });
   }
 }
