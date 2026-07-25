@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
-import { getSlashCommandString } from "../utils/command.js";
+import { getSlashCommandString } from "../utils/command";
 
 const name = "help";
 const description = "Get help on using this bot";

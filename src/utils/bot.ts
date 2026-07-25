@@ -5,11 +5,11 @@ import { Routes } from "discord-api-types/v9";
 import { readFileSync } from "fs";
 import { join } from "path";
 
-import help from "../commands/help.js";
-import invite from "../commands/invite.js";
-import mute from "../commands/mute.js";
-import notify from "../commands/notify.js";
-import { logger } from "../utils/logging.js";
+import help from "../commands/help";
+import invite from "../commands/invite";
+import mute from "../commands/mute";
+import notify from "../commands/notify";
+import { logger } from "../utils/logging";
 
 const liveEventsLocation = join(
   __dirname,

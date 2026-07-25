@@ -7,7 +7,7 @@ import {
   ThreadAutoArchiveDuration,
 } from "discord.js";
 
-import { logger } from "../utils/logging.js";
+import { logger } from "../utils/logging";
 
 const FORUM_POST_MAX_LENGTH = 97;
 

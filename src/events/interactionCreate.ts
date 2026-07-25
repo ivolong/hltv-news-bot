@@ -1,6 +1,6 @@
 import { Client, Interaction } from "discord.js";
 
-import { logger } from "../utils/logging.js";
+import { logger } from "../utils/logging";
 
 export default async function interactionCreate(
   client: Client,

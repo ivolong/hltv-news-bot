@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 
-import { getSlashCommandString } from "../utils/command.js";
+import { getSlashCommandString } from "../utils/command";
 
 const name = "invite";
 const description = "Get HLTV News notifications in your server";
