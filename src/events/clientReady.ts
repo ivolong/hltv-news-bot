@@ -26,7 +26,7 @@ export default async function clientReady(client: Client) {
     updateDiscordBotsGgStats(client.guilds.cache.size);
     updateBotlistMeStats(client.guilds.cache.size);
     updateDiscordListStats(client.guilds.cache.size);
-  }, 120e3);
+  }, 300e3);
 
   for (;;) {
     try {
