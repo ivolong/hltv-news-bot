@@ -13,13 +13,26 @@ export default {
   data: new SlashCommandBuilder().setName(name).setDescription(description),
 
   async execute(interaction: CommandInteraction) {
-    const [notify, mute, invite] = getSlashCommandString(
-      ["notify", "mute", "invite"],
+    const [notify, mute] = getSlashCommandString(
+      ["notify", "mute"],
       await interaction.client.application?.commands.fetch(),
     );
 
-    interaction.reply(
-      `In order to work, this bot needs a channel called \`#news-feed\` to post articles in and (optionally) a role called \`@hltv\` to ping with notifications.\n\nWant notifications when there's a new article?\nType ${notify} and I'll ping you.\nType ${mute} and I'll stop pinging you.\n\n${invite} to invite me to your server.\n\nJoin our server for further assistance: https://discord.gg/dE3NFqTzEx`,
-    );
+    interaction.reply({
+      content: `In order to work, this bot needs a channel called \`#news-feed\` to post articles in and (optionally) a role called \`@hltv\` to ping with notifications.\n\nWant notifications when there's a new article?\nType ${notify} and I'll ping you.\nType ${mute} and I'll stop pinging you.\n\nJoin our server for further assistance: https://discord.gg/dE3NFqTzEx`,
+      components: [
+        {
+          type: 1,
+          components: [
+            {
+              type: 2,
+              style: "LINK",
+              label: "Add to your server",
+              url: `https://discord.com/oauth2/authorize?client_id=${interaction.client.application?.id}`,
+            },
+          ],
+        },
+      ],
+    });
   },
 };
