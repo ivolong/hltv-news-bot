@@ -1,8 +1,8 @@
 import { Client } from "discord.js";
 
-import { setCommands, updateActivity } from "../utils/bot.js";
-import { logger } from "../utils/logging.js";
-import { rssChecker } from "../utils/rss.js";
+import { setCommands, updateActivity } from "../utils/bot";
+import { logger } from "../utils/logging";
+import { rssChecker } from "../utils/rss";
 
 function sleep(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));

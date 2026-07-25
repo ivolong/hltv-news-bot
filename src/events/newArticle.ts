@@ -2,8 +2,8 @@ import { Client } from "discord.js";
 import { ButtonStyle } from "discord-api-types/v9";
 import { Item } from "rss-parser";
 
-import { logger } from "../utils/logging.js";
-import { deliverContentToAll } from "../utils/messaging.js";
+import { logger } from "../utils/logging";
+import { deliverContentToAll } from "../utils/messaging";
 
 export type HltvArticle = Item & {
   pubDate: Date;

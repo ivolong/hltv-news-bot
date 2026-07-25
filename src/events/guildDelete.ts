@@ -1,6 +1,6 @@
 import { Client, Guild } from "discord.js";
 
-import { logger } from "../utils/logging.js";
+import { logger } from "../utils/logging";
 
 export default async function guildDelete(client: Client, guild: Guild) {
   const channel = guild.channels.cache.find(

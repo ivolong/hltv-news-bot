@@ -1,17 +1,17 @@
 import { Client, Intents } from "discord.js";
 import { AutoPoster } from "topgg-autoposter";
 
-import guildCreate from "./events/guildCreate.js";
-import guildDelete from "./events/guildDelete.js";
-import interactionCreate from "./events/interactionCreate.js";
-import newArticle from "./events/newArticle.js";
-import ready from "./events/ready.js";
-import { logger } from "./utils/logging.js";
+import guildCreate from "./events/guildCreate";
+import guildDelete from "./events/guildDelete";
+import interactionCreate from "./events/interactionCreate";
+import newArticle from "./events/newArticle";
+import ready from "./events/ready";
+import { logger } from "./utils/logging";
 import {
   updateBotlistMeStats,
   updateDiscordBotsGgStats,
   updateDiscordListStats,
-} from "./utils/third-parties.js";
+} from "./utils/third-parties";
 
 const client = new Client({
   restRequestTimeout: 60000,

@@ -1,7 +1,7 @@
 import { Client, Guild } from "discord.js";
 
-import { getSlashCommandString } from "../utils/command.js";
-import { logger } from "../utils/logging.js";
+import { getSlashCommandString } from "../utils/command";
+import { logger } from "../utils/logging";
 
 export default async function guildCreate(client: Client, guild: Guild) {
   let createdChannel = false;
