@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+<channel>
+  <title>HLTV.org - The home of competitive Counter-Strike</title>
+  <description>HLTV.org is the leading Counter-Strike site in the world, featuring news, demos, pictures, statistics, on-site coverage and much much more!</description>
+  <link>https://www.hltv.org/</link>
+  <language>en</language>
+  <ttl>60</ttl>
+  <image>
+    <url>https://www.hltv.org/img/static/openGraphHltvLogo.png</url>
+    <title>HLTV.org - The home of competitive Counter-Strike</title>
+    <link>https://www.hltv.org/</link>
+  </image>
+  <link xmlns="http://www.w3.org/2005/Atom" rel="self" type="application/rss+xml" href="https://www.hltv.org/rss/news"></link>
+  <item>
+    <title>Title</title>
+    <description>Story description.</description>
+    <link>https://www.hltv.org/news/60/hltvorg-no-more/</link>
+    <guid isPermaLink="false">hltvnews60</guid>
+    <pubDate>Thu, 31 Dec 2099 23:59:59 GMT</pubDate>
+    <media:content url="https://www.hltv.org/img/static/openGraphHltvLogo.png"></media:content>
+  </item>
+</channel>
+</rss>
