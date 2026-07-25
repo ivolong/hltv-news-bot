@@ -1,5 +1,4 @@
 import {
-  ApplicationCommand,
   ButtonStyle,
   ChatInputCommandInteraction,
   PermissionFlagsBits,
@@ -11,17 +10,6 @@ import { getSlashCommandString } from "../utils/command";
 const name = "help";
 const description = "Get help on using this bot";
 
-const genericMessage = (
-  notify: ApplicationCommand,
-  mute: ApplicationCommand,
-) => {
-  return `In order to work, this bot needs a channel called \`#news-feed\` to post articles in and (optionally) a role called \`@hltv\` to ping with notifications.
-  
-  Want notifications when there's a new article?
-  Type ${notify} and I'll ping you.
-  Type ${mute} and I'll stop pinging you.`;
-};
-
 async function getMessageContent(interaction: ChatInputCommandInteraction) {
   const [notify, mute] = getSlashCommandString(
     ["notify", "mute"],
@@ -29,7 +17,10 @@ async function getMessageContent(interaction: ChatInputCommandInteraction) {
   );
 
   if (!interaction.guild?.members.me) {
-    return genericMessage;
+    return `In order to work, this bot needs a channel called \`#news-feed\` to post articles in and (optionally) a role called \`@hltv\` to ping with notifications.
+    \nWant notifications when there's a new article?
+    Type ${notify} and I'll ping you.
+    Type ${mute} and I'll stop pinging you.`;
   }
 
   const channel = interaction.guild.channels.cache.find(
