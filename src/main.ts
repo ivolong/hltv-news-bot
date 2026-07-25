@@ -1,11 +1,11 @@
-import { Client, Intents } from "discord.js";
+import { Client, GatewayIntentBits } from "discord.js";
 import { AutoPoster } from "topgg-autoposter";
 
+import clientReady from "./events/clientReady";
 import guildCreate from "./events/guildCreate";
 import guildDelete from "./events/guildDelete";
 import interactionCreate from "./events/interactionCreate";
 import newArticle from "./events/newArticle";
-import ready from "./events/ready";
 import { logger } from "./utils/logging";
 import {
   updateBotlistMeStats,
@@ -14,8 +14,7 @@ import {
 } from "./utils/third-parties";
 
 const client = new Client({
-  restRequestTimeout: 60000,
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 });
 
 if (process.env.TOPGG_CLIENT_TOKEN) {
@@ -28,7 +27,7 @@ if (process.env.TOPGG_CLIENT_TOKEN) {
   });
 }
 
-client.on("ready", ready.bind(null, client));
+client.on("clientReady", clientReady.bind(null, client));
 client.on("guildCreate", guildCreate.bind(null, client));
 client.on("guildDelete", guildDelete.bind(null, client));
 client.on("interactionCreate", interactionCreate.bind(null, client));

@@ -1,5 +1,8 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
+import {
+  ButtonStyle,
+  ChatInputCommandInteraction,
+  SlashCommandBuilder,
+} from "discord.js";
 
 import { getSlashCommandString } from "../utils/command";
 
@@ -12,7 +15,7 @@ export default {
 
   data: new SlashCommandBuilder().setName(name).setDescription(description),
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     const [help] = getSlashCommandString(
       ["help"],
       await interaction.client.application?.commands.fetch(),
@@ -26,7 +29,7 @@ export default {
           components: [
             {
               type: 2,
-              style: "LINK",
+              style: ButtonStyle.Link,
               label: "Add to your server",
               url: `https://discord.com/oauth2/authorize?client_id=${interaction.client.application?.id}`,
             },

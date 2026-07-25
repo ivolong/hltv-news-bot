@@ -1,4 +1,4 @@
-import { Collection } from "discord.js";
+import { CacheType, ChatInputCommandInteraction, Collection } from "discord.js";
 
 declare module "discord.js" {
   export interface Client {
@@ -8,6 +8,6 @@ declare module "discord.js" {
   export interface Command {
     name: string;
     description: string;
-    execute: (command: CommandInteraction<CacheType>) => void;
+    execute: (command: ChatInputCommandInteraction<CacheType>) => void;
   }
 }

@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 
 const name = "mute";
 const description = "Stop getting notified when HLTV publishes an article";
@@ -10,7 +9,7 @@ export default {
 
   data: new SlashCommandBuilder().setName(name).setDescription(description),
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     if (!interaction.inCachedGuild()) return;
 
     const pingRole = interaction.guild.roles.cache.find(
