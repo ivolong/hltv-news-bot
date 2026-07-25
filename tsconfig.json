@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs",
+    "target": "es2023",
+    "module": "NodeNext",
     "rootDir": "./src",
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "outDir": "./dist",
-    "esModuleInterop": true,
+    "lib": ["ES2023"],
+    "resolveJsonModule": true,
+    "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*"],
-  "ts-standard": {
-    "project": "./tsconfig.json"
-  }
+  "include": ["src"]
 }

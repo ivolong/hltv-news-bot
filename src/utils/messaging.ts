@@ -1,8 +1,9 @@
 import debounce from "debounce";
 import {
+  BaseMessageOptions,
+  ChannelType,
   Client,
   ForumChannel,
-  GuildForumThreadMessageCreateOptions,
   TextChannel,
   ThreadAutoArchiveDuration,
 } from "discord.js";
@@ -38,10 +39,10 @@ const logStats = debounce((stats, id) => {
 const deliverContent = (
   channel: TextChannel | ForumChannel,
   name: string,
-  message: GuildForumThreadMessageCreateOptions,
-  autoArchiveDuration: ThreadAutoArchiveDuration = 60,
+  message: BaseMessageOptions,
+  autoArchiveDuration: ThreadAutoArchiveDuration = ThreadAutoArchiveDuration.OneHour,
 ) => {
-  if (channel.type === "GUILD_FORUM") {
+  if (channel.type === ChannelType.GuildForum) {
     return channel.threads.create({
       name,
       autoArchiveDuration,
@@ -55,7 +56,7 @@ const deliverContent = (
 export const deliverContentToAll = (
   client: Client,
   name: string,
-  message: GuildForumThreadMessageCreateOptions,
+  message: BaseMessageOptions,
   id?: string,
 ) => {
   logger.info("Sending content to guilds", { id });
@@ -95,7 +96,8 @@ export const deliverContentToAll = (
 
     if (
       !channel ||
-      (channel.type !== "GUILD_TEXT" && channel.type !== "GUILD_FORUM")
+      (channel.type !== ChannelType.GuildText &&
+        channel.type !== ChannelType.GuildForum)
     ) {
       return;
     }
@@ -120,10 +122,9 @@ export const deliverContentToAll = (
       .catch((error: Error) => {
         errored = true;
 
-        if (!(error.message in stats.message.errors)) {
-          stats.message.errors[error.message] = 0;
-        }
-        stats.message.errors[error.message]++;
+        const key = error.message;
+        stats.message.errors[key] ??= 0;
+        stats.message.errors[key]++;
       })
       .finally(() => {
         if (!errored) {

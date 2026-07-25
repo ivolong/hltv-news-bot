@@ -1,5 +1,10 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
-import { ApplicationCommand, CommandInteraction } from "discord.js";
+import {
+  ApplicationCommand,
+  ButtonStyle,
+  ChatInputCommandInteraction,
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+} from "discord.js";
 
 import { getSlashCommandString } from "../utils/command";
 
@@ -17,7 +22,7 @@ const genericMessage = (
   Type ${mute} and I'll stop pinging you.`;
 };
 
-async function getMessageContent(interaction: CommandInteraction) {
+async function getMessageContent(interaction: ChatInputCommandInteraction) {
   const [notify, mute] = getSlashCommandString(
     ["notify", "mute"],
     await interaction.client.application?.commands.fetch(),
@@ -41,7 +46,9 @@ async function getMessageContent(interaction: CommandInteraction) {
     hasChannelMessage = ":x: I don't see `#news-feed`. Please create it.";
     hasAllPermissions = false;
   } else if (
-    !channel.permissionsFor(interaction.guild.members.me).has("SEND_MESSAGES")
+    !channel
+      .permissionsFor(interaction.guild.members.me)
+      .has(PermissionFlagsBits.SendMessages)
   ) {
     hasChannelMessage = `:x: I can't send messages in <#${channel.id}>. Please update my permissions.`;
     hasAllPermissions = false;
@@ -52,7 +59,9 @@ async function getMessageContent(interaction: CommandInteraction) {
     hasRoleMessage = ":no_bell: I don't see an `@hltv` role. Please create it.";
     hasAllPermissions = false;
   } else if (
-    !interaction.guild.members.me.permissions.has("MENTION_EVERYONE")
+    !interaction.guild.members.me.permissions.has(
+      PermissionFlagsBits.MentionEveryone,
+    )
   ) {
     hasRoleMessage = `:no_bell: I can't ping <@&${role.id}> - please update my permissions.`;
     hasAllPermissions = false;
@@ -71,7 +80,7 @@ export default {
 
   data: new SlashCommandBuilder().setName(name).setDescription(description),
 
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction: ChatInputCommandInteraction) {
     interaction.reply({
       content: `${await getMessageContent(interaction)}\n\nNeed more help? Looking for something else?`,
       components: [
@@ -80,13 +89,13 @@ export default {
           components: [
             {
               type: 2,
-              style: "LINK",
+              style: ButtonStyle.Link,
               label: "Join our server",
               url: "https://discord.gg/dE3NFqTzEx",
             },
             {
               type: 2,
-              style: "LINK",
+              style: ButtonStyle.Link,
               label: "Add to your server",
               url: `https://discord.com/oauth2/authorize?client_id=${interaction.client.application?.id}`,
             },

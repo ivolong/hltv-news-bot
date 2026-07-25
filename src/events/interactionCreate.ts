@@ -6,7 +6,7 @@ export default async function interactionCreate(
   client: Client,
   interaction: Interaction,
 ) {
-  if (!interaction.isCommand()) return;
+  if (!interaction.isChatInputCommand()) return;
 
   const command = client.commands.get(interaction.commandName);
 

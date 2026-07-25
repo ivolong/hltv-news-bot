@@ -26,12 +26,12 @@ export async function rssChecker(name: string, url: string, client: Client) {
   const currentArticle = JSON.parse(file.toString());
 
   const currentArticleDate = new Date(currentArticle.pubDate);
-  const newestArticleDate = new Date(newestArticle.pubDate);
+  const newestArticleDate = new Date(newestArticle?.pubDate);
   const isStale = newestArticleDate < currentArticleDate;
 
   if (
     currentArticle.guid &&
-    newestArticle.guid !== currentArticle.guid &&
+    newestArticle?.guid !== currentArticle.guid &&
     !isStale
   ) {
     const data = JSON.stringify(newestArticle);

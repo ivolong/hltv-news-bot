@@ -1,5 +1,4 @@
-import { Client } from "discord.js";
-import { ButtonStyle } from "discord-api-types/v9";
+import { ButtonStyle, Client } from "discord.js";
 import { Item } from "rss-parser";
 
 import { logger } from "../utils/logging";
@@ -21,9 +20,9 @@ export default function newArticle(client: Client, article: HltvArticle) {
     content: `${article.title} ${article.link}`,
     embeds: [
       {
-        title: article.title,
-        description: article.content,
-        url: article.link,
+        title: `${article.title}`,
+        description: `${article.content}`,
+        url: `${article.link}`,
         color: 0x3c6ea1,
         author: {
           name: "HLTV",
@@ -39,7 +38,7 @@ export default function newArticle(client: Client, article: HltvArticle) {
           icon_url:
             "https://www.hltv.org/img/static/favicon/apple-touch-icon.png",
         },
-        timestamp: article.isoDate,
+        timestamp: `${article.isoDate}`,
       },
     ],
     components: [

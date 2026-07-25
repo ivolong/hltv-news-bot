@@ -8,7 +8,7 @@ function sleep(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export default async function ready(client: Client) {
+export default async function clientReady(client: Client) {
   logger.info("Online");
 
   setCommands(client);
