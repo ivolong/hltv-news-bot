@@ -29,7 +29,7 @@ async function getMessageContent(interaction: ChatInputCommandInteraction) {
   );
 
   if (!interaction.guild?.members.me) {
-    return genericMessage;
+    return genericMessage(notify, mute);
   }
 
   const channel = interaction.guild.channels.cache.find(
