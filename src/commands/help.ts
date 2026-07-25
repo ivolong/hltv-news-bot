@@ -1,5 +1,4 @@
 import {
-  ApplicationCommand,
   ButtonStyle,
   ChatInputCommandInteraction,
   PermissionFlagsBits,
