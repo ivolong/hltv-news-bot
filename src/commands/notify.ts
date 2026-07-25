@@ -1,4 +1,8 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  MessageFlags,
+  SlashCommandBuilder,
+} from "discord.js";
 
 const name = "notify";
 const description = "Get notified when HLTV publishes an article";
@@ -20,7 +24,7 @@ export default {
       await interaction.reply({
         content:
           "There is no `@hltv` role in this server for me to assign (you won't get pinged).",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
@@ -34,7 +38,7 @@ export default {
     await interaction
       .reply({
         content: "Done, role added (you'll get a @ping).",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       })
       .catch(() => {});
   },

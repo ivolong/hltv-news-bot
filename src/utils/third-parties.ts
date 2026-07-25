@@ -1,6 +1,35 @@
 import { logger } from "./logging";
 
+export async function updateTopGgStats(guildCount: number) {
+  if (!process.env.TOPGG_CLIENT_TOKEN) return;
+
+  const url = `https://top.gg/api/bots/${process.env.DISCORD_CLIENT_ID!}/stats`;
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: process.env.TOPGG_CLIENT_TOKEN,
+      },
+      body: JSON.stringify({ server_count: guildCount }),
+    });
+
+    if (!response.ok) {
+      logger.warn("Failed to post to Top.gg", {
+        response: await response.text(),
+      });
+    } else {
+      logger.info("Statistics posted to Top.gg");
+    }
+  } catch (error) {
+    logger.error("Error while posting to Top.gg:", error);
+  }
+}
+
 export async function updateDiscordBotsGgStats(guildCount: number) {
+  if (!process.env.DISCORD_BOTS_GG_TOKEN) return;
+
   const url = `https://discord.bots.gg/api/v1/bots/${process.env.DISCORD_CLIENT_ID!}/stats`;
 
   try {
@@ -8,11 +37,9 @@ export async function updateDiscordBotsGgStats(guildCount: number) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: process.env.DISCORD_BOTS_GG_TOKEN!,
+        Authorization: process.env.DISCORD_BOTS_GG_TOKEN,
       },
-      body: JSON.stringify({
-        guildCount,
-      }),
+      body: JSON.stringify({ guildCount }),
     });
 
     if (!response.ok) {
@@ -28,6 +55,8 @@ export async function updateDiscordBotsGgStats(guildCount: number) {
 }
 
 export async function updateBotlistMeStats(guildCount: number) {
+  if (!process.env.BOTLIST_ME_CLIENT_TOKEN) return;
+
   const url = `https://api.botlist.me/api/v1/bots/${process.env.DISCORD_CLIENT_ID!}/stats`;
 
   try {
@@ -35,11 +64,9 @@ export async function updateBotlistMeStats(guildCount: number) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: process.env.BOTLIST_ME_CLIENT_TOKEN!,
+        Authorization: process.env.BOTLIST_ME_CLIENT_TOKEN,
       },
-      body: JSON.stringify({
-        server_count: guildCount,
-      }),
+      body: JSON.stringify({ server_count: guildCount }),
     });
 
     if (!response.ok) {
@@ -55,6 +82,8 @@ export async function updateBotlistMeStats(guildCount: number) {
 }
 
 export async function updateDiscordListStats(guildCount: number) {
+  if (!process.env.DISCORD_LIST_CLIENT_TOKEN) return;
+
   const url = `https://api.discordlist.gg/v0/bots/${process.env.DISCORD_CLIENT_ID!}/guilds`;
 
   try {
@@ -62,11 +91,9 @@ export async function updateDiscordListStats(guildCount: number) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.DISCORD_LIST_CLIENT_TOKEN!}`,
+        Authorization: `Bearer ${process.env.DISCORD_LIST_CLIENT_TOKEN}`,
       },
-      body: JSON.stringify({
-        count: guildCount,
-      }),
+      body: JSON.stringify({ count: guildCount }),
     });
 
     if (!response.ok) {
