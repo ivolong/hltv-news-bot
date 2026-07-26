@@ -1,10 +1,7 @@
-import {
-  ButtonStyle,
-  ChatInputCommandInteraction,
-  SlashCommandBuilder,
-} from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 
 import { getSlashCommandString } from "../utils/command";
+import { inviteButton } from "../utils/components";
 
 const name = "invite";
 const description = "Get HLTV News notifications in your server";
@@ -26,14 +23,7 @@ export default {
       components: [
         {
           type: 1,
-          components: [
-            {
-              type: 2,
-              style: ButtonStyle.Link,
-              label: "Add to your server",
-              url: `https://discord.com/oauth2/authorize?client_id=${interaction.client.application?.id}`,
-            },
-          ],
+          components: [inviteButton()],
         },
       ],
     });

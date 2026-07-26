@@ -8,14 +8,10 @@ export default async function guildDelete(client: Client, guild: Guild) {
   );
   const role = guild.roles.cache.find((role) => role.name === "hltv");
 
-  const info = {
-    id: guild.id,
+  logger.info("Removed from guild", {
     name: guild.name,
-    icon: guild.iconURL(),
     memberCount: guild.memberCount,
     hasChannel: Boolean(channel),
     hasRole: Boolean(role),
-  };
-
-  logger.info("Removed from guild", info);
+  });
 }

@@ -1,11 +1,11 @@
 import {
-  ButtonStyle,
   ChatInputCommandInteraction,
   PermissionFlagsBits,
   SlashCommandBuilder,
 } from "discord.js";
 
 import { getSlashCommandString } from "../utils/command";
+import { inviteButton, supportServerButton } from "../utils/components";
 
 const name = "help";
 const description = "Get help on using this bot";
@@ -19,8 +19,8 @@ async function getMessageContent(interaction: ChatInputCommandInteraction) {
   if (!interaction.guild?.members.me) {
     return `In order to work, this bot needs a channel called \`#news-feed\` to post articles in and (optionally) a role called \`@hltv\` to ping with notifications.
     \nWant notifications when there's a new article?
-    Type ${notify} and I'll ping you.
-    Type ${mute} and I'll stop pinging you.`;
+Type ${notify} and I'll ping you.
+Type ${mute} and I'll stop pinging you.`;
   }
 
   const channel = interaction.guild.channels.cache.find(
@@ -77,20 +77,7 @@ export default {
       components: [
         {
           type: 1,
-          components: [
-            {
-              type: 2,
-              style: ButtonStyle.Link,
-              label: "Join our server",
-              url: "https://discord.gg/dE3NFqTzEx",
-            },
-            {
-              type: 2,
-              style: ButtonStyle.Link,
-              label: "Add to your server",
-              url: `https://discord.com/oauth2/authorize?client_id=${interaction.client.application?.id}`,
-            },
-          ],
+          components: [supportServerButton(), inviteButton()],
         },
       ],
     });

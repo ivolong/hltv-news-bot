@@ -12,12 +12,12 @@ export default async function interactionCreate(
 
   if (!command) return;
 
-  logger.info("Slash command used", interaction);
+  logger.info("Slash command used", { command: command.name });
 
   try {
     await command.execute(interaction);
   } catch (error) {
-    if (error) logger.error("Error executing slash command:", error);
+    if (error) logger.error("Error executing slash command", error);
 
     await interaction.reply({
       content: "Sorry, an error occurred. Please try again later.",

@@ -1,0 +1,28 @@
+import { ButtonStyle } from "discord.js";
+
+export const inviteButton = () => {
+  return {
+    type: 2,
+    style: ButtonStyle.Link,
+    label: "Add to your server",
+    url: `https://discord.com/oauth2/authorize?client_id=${process.env.DISCORD_CLIENT_ID}`,
+  };
+};
+
+export const supportServerButton = () => {
+  return {
+    type: 2,
+    style: ButtonStyle.Link,
+    label: "Join our server",
+    url: "https://discord.gg/dE3NFqTzEx",
+  };
+};
+
+export const supportButton = () => {
+  return {
+    type: 2,
+    style: ButtonStyle.Link,
+    label: "❤️ Support me",
+    url: "https://ko-fi.com/ivolong",
+  };
+};

@@ -1,6 +1,11 @@
-import { ButtonStyle, ChannelType, Client, Guild } from "discord.js";
+import { ChannelType, Client, Guild } from "discord.js";
 
 import { getSlashCommandString } from "../utils/command";
+import {
+  inviteButton,
+  supportButton,
+  supportServerButton,
+} from "../utils/components";
 import { logger } from "../utils/logging";
 
 export default async function guildCreate(client: Client, guild: Guild) {
@@ -10,12 +15,14 @@ export default async function guildCreate(client: Client, guild: Guild) {
   try {
     await guild.roles.create({
       name: "hltv",
-      color: "#3c6ea1",
+      colors: {
+        primaryColor: "#3c6ea1",
+      },
       reason: "Receives HLTV News article notifications.",
     });
     createdRole = true;
   } catch (error) {
-    logger.warn("Unable to create role:", error);
+    logger.warn("Unable to create role", error);
   }
 
   const [notify, mute, help] = getSlashCommandString(
@@ -32,7 +39,7 @@ export default async function guildCreate(client: Client, guild: Guild) {
     });
     createdChannel = true;
   } catch (error) {
-    logger.warn("Unable to create channel:", error);
+    logger.warn("Unable to create channel", error);
   }
 
   if (channel && channel.isTextBased()) {
@@ -60,41 +67,22 @@ export default async function guildCreate(client: Client, guild: Guild) {
           {
             type: 1,
             components: [
-              {
-                type: 2,
-                style: ButtonStyle.Link,
-                label: "❤️ Support me",
-                url: "https://ko-fi.com/ivolong",
-              },
-              {
-                type: 2,
-                style: ButtonStyle.Link,
-                label: "Add to another server",
-                url: `https://discord.com/oauth2/authorize?client_id=${client.application?.id}`,
-              },
-              {
-                type: 2,
-                style: ButtonStyle.Link,
-                label: "Need more help?",
-                url: "https://discord.gg/dE3NFqTzEx",
-              },
+              supportButton(),
+              inviteButton(),
+              supportServerButton(),
             ],
           },
         ],
       })
       .catch((error: Error) => {
-        logger.warn("Unable to send welcome message:", error);
+        logger.warn("Unable to send welcome message", error);
       });
   }
 
-  const info = {
-    id: guild.id,
+  logger.info("Added to new guild", {
     name: guild.name,
-    icon: guild.iconURL(),
     memberCount: guild.memberCount,
     createdChannel,
     createdRole,
-  };
-
-  logger.info("Added to new guild", info);
+  });
 }
