@@ -9,11 +9,11 @@ import { Routes } from "discord-api-types/v10";
 import { readFileSync } from "fs";
 import { join } from "path";
 
+import { guildCache } from "../cache/guilds";
 import help from "../commands/help";
 import invite from "../commands/invite";
 import mute from "../commands/mute";
 import notify from "../commands/notify";
-import { logger } from "../utils/logging";
 
 const liveEventsLocation = join(
   __dirname,
@@ -47,8 +47,6 @@ export function updateActivity(client: Client) {
 }
 
 export function setCommands(client: Client) {
-  logger.info("Loading commands");
-
   const commands: SlashCommandBuilder[] = [];
 
   client.commands = new Collection();
@@ -64,17 +62,33 @@ export function setCommands(client: Client) {
 }
 
 export async function declareSlashCommands(commands: SlashCommandBuilder[]) {
-  logger.info("Declaring slash commands", { commands });
-
   const rest = new REST({ version: "10" }).setToken(
     process.env.DISCORD_CLIENT_TOKEN!,
   );
 
-  try {
-    await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID!), {
-      body: commands,
-    });
-  } catch (error) {
-    logger.error("Error declaring slash commands", error);
-  }
+  await rest.put(Routes.applicationCommands(process.env.DISCORD_CLIENT_ID!), {
+    body: commands,
+  });
+}
+
+export async function populateCache(client: Client) {
+  client.guilds.cache.forEach((guild) => {
+    const channel = guild.channels.cache.find(
+      (channel) => channel.name === "news-feed",
+    );
+
+    if (!channel) return;
+
+    const role = guild.roles.cache.find((role) => role.name === "hltv");
+
+    const guildInfo = {
+      channelId: channel.id,
+      memberCount: guild.memberCount,
+      roleId: role?.id,
+    };
+
+    guildCache.set(guild.id, guildInfo);
+  });
+
+  return guildCache.size;
 }

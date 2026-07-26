@@ -1,6 +1,6 @@
 import { Client } from "discord.js";
 
-import { setCommands, updateActivity } from "../utils/bot";
+import { populateCache, setCommands, updateActivity } from "../utils/bot";
 import { logger } from "../utils/logging";
 import { rssChecker } from "../utils/rss";
 import { updateStats } from "../utils/stats";
@@ -12,7 +12,16 @@ function sleep(milliseconds: number) {
 export default async function clientReady(client: Client) {
   logger.info("Online");
 
-  setCommands(client);
+  logger.info("Populating cache");
+  const size = await populateCache(client);
+  logger.info("Populated cache", { size });
+
+  logger.info("Setting commands");
+  try {
+    setCommands(client);
+  } catch (error) {
+    logger.error("Error settings commands", error);
+  }
 
   setInterval(updateActivity, 60e3, client);
 

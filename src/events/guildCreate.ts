@@ -1,5 +1,6 @@
 import { ChannelType, Client, Guild } from "discord.js";
 
+import { guildCache } from "../cache/guilds";
 import { getSlashCommandString } from "../utils/command";
 import {
   inviteButton,
@@ -12,8 +13,9 @@ export default async function guildCreate(client: Client, guild: Guild) {
   let createdChannel = false;
   let createdRole = false;
 
+  let role;
   try {
-    await guild.roles.create({
+    role = await guild.roles.create({
       name: "hltv",
       colors: {
         primaryColor: "#3c6ea1",
@@ -77,6 +79,14 @@ export default async function guildCreate(client: Client, guild: Guild) {
       .catch((error: Error) => {
         logger.warn("Unable to send welcome message", error);
       });
+  }
+
+  if (channel) {
+    guildCache.set(guild.id, {
+      channelId: channel.id,
+      roleId: role?.id,
+      memberCount: guild.memberCount,
+    });
   }
 
   logger.info("Added to new guild", {
