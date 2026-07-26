@@ -12,7 +12,7 @@ async function update(url: string, request: RequestInit) {
   try {
     response = await fetch(url, request);
   } catch (error) {
-    logger.warning("Error while posting statistics", url, error);
+    logger.warn("Error while posting statistics", url, error);
     return;
   }
 
