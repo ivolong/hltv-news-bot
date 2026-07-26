@@ -1,6 +1,7 @@
 import { ButtonStyle, Client } from "discord.js";
 import { Item } from "rss-parser";
 
+import { inviteButton } from "../utils/components";
 import { logger } from "../utils/logging";
 import { deliverContentToAll } from "../utils/messaging";
 
@@ -57,12 +58,7 @@ export default function newArticle(client: Client, article: HltvArticle) {
             label: "View comments",
             url: `${article.link}#comments`,
           },
-          {
-            type: 2,
-            style: ButtonStyle.Link,
-            label: "Add to your server",
-            url: `https://discord.com/oauth2/authorize?client_id=${client.application?.id}`,
-          },
+          inviteButton(),
         ],
       },
     ],
