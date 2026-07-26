@@ -26,7 +26,7 @@ export default async function clientReady(client: Client) {
         client,
       );
     } catch (error) {
-      logger.warning("Error processing RSS feed", error);
+      logger.warn("Error processing RSS feed", error);
     }
 
     await sleep(5e3);
