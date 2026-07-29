@@ -3,7 +3,10 @@ import {
   ActivityType,
   Client,
   Collection,
+  GuildBasedChannel,
+  Role,
   SlashCommandBuilder,
+  Snowflake,
 } from "discord.js";
 import { Routes } from "discord-api-types/v10";
 import { readFileSync } from "fs";
@@ -23,6 +26,17 @@ const liveEventsLocation = join(
   `custom_activities.json`,
 );
 
+export const CHANNEL_NAME = "news-feed";
+export const ROLE_NAME = "hltv";
+
+export function getChannel(cache: Collection<string, GuildBasedChannel>) {
+  return cache.find((channel) => channel.name === CHANNEL_NAME);
+}
+
+export function getRole(cache: Collection<Snowflake, Role>) {
+  return cache.find((role) => role.name === ROLE_NAME);
+}
+
 export function updateActivity(client: Client) {
   const serverCount = client.guilds.cache.size;
 
@@ -30,7 +44,7 @@ export function updateActivity(client: Client) {
     {
       name: `${serverCount.toLocaleString("en")} servers`,
       type: ActivityType.Watching,
-      state: "Sending the latest stories to #news-feed",
+      state: `Sending the latest stories to #${CHANNEL_NAME}`,
     },
   ];
 

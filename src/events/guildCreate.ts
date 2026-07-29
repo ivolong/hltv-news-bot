@@ -1,5 +1,6 @@
 import { ChannelType, Client, Guild } from "discord.js";
 
+import { CHANNEL_NAME, ROLE_NAME } from "../utils/bot";
 import { getSlashCommandString } from "../utils/command";
 import {
   inviteButton,
@@ -14,7 +15,7 @@ export default async function guildCreate(client: Client, guild: Guild) {
 
   try {
     await guild.roles.create({
-      name: "hltv",
+      name: ROLE_NAME,
       colors: {
         primaryColor: "#3c6ea1",
       },
@@ -33,7 +34,7 @@ export default async function guildCreate(client: Client, guild: Guild) {
   let channel;
   try {
     channel = await guild.channels.create({
-      name: "news-feed",
+      name: CHANNEL_NAME,
       type: ChannelType.GuildText,
       reason: "News feed from HLTV.",
     });
