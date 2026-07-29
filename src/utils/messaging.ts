@@ -8,6 +8,7 @@ import {
 } from "discord.js";
 
 import { logger } from "../utils/logging";
+import { getChannel, getRole } from "./bot";
 
 const FORUM_POST_MAX_LENGTH = 97;
 
@@ -84,9 +85,7 @@ export const deliverContentToAll = async (
     stats.server.count++;
     stats.server.members += guild.memberCount;
 
-    const channel = guild.channels.cache.find(
-      (channel) => channel.name === "news-feed",
-    );
+    const channel = getChannel(guild.channels.cache);
 
     if (
       !channel ||
@@ -99,7 +98,7 @@ export const deliverContentToAll = async (
     stats.server.withChannel.count++;
     stats.server.withChannel.members += guild.memberCount;
 
-    const role = guild.roles.cache.find((role) => role.name === "hltv");
+    const role = getRole(guild.roles.cache);
     let messageWithPing;
 
     if (role) {

@@ -4,6 +4,7 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 
+import { CHANNEL_NAME, getChannel, getRole, ROLE_NAME } from "../utils/bot";
 import { getSlashCommandString } from "../utils/command";
 import { inviteButton, supportServerButton } from "../utils/components";
 
@@ -17,24 +18,20 @@ async function getMessageContent(interaction: ChatInputCommandInteraction) {
   );
 
   if (!interaction.guild?.members.me) {
-    return `In order to work, this bot needs a channel called \`#news-feed\` to post articles in and (optionally) a role called \`@hltv\` to ping with notifications.
+    return `In order to work, this bot needs a channel called \`#${CHANNEL_NAME}\` to post articles in and (optionally) a role called \`@${ROLE_NAME}\` to ping with notifications.
     \nWant notifications when there's a new article?
 Type ${notify} and I'll ping you.
 Type ${mute} and I'll stop pinging you.`;
   }
 
-  const channel = interaction.guild.channels.cache.find(
-    (channel) => channel.name === "news-feed",
-  );
-  const role = interaction.guild.roles.cache.find(
-    (role) => role.name === "hltv",
-  );
+  const channel = getChannel(interaction.guild.channels.cache);
+  const role = getRole(interaction.guild.roles.cache);
 
   let hasAllPermissions = true;
 
   let hasChannelMessage = `:white_check_mark: <#${channel?.id}> found - I'll send new articles there.`;
   if (!channel) {
-    hasChannelMessage = ":x: I don't see `#news-feed`. Please create it.";
+    hasChannelMessage = `:x: I don't see \`#${CHANNEL_NAME}\`. Please create it.`;
     hasAllPermissions = false;
   } else if (
     !channel
@@ -47,7 +44,7 @@ Type ${mute} and I'll stop pinging you.`;
 
   let hasRoleMessage = `:white_check_mark: <@&${role?.id}> found - use ${notify} ${mute} to toggle pings.`;
   if (!role) {
-    hasRoleMessage = ":no_bell: I don't see an `@hltv` role. Please create it.";
+    hasRoleMessage = `:no_bell: I don't see an \`@${ROLE_NAME}\` role. Please create it.`;
     hasAllPermissions = false;
   } else if (
     !interaction.guild.members.me.permissions.has(

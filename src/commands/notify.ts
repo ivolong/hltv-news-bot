@@ -4,6 +4,8 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 
+import { getRole, ROLE_NAME } from "../utils/bot";
+
 const name = "notify";
 const description = "Get notified when HLTV publishes an article";
 
@@ -16,14 +18,11 @@ export default {
   async execute(interaction: ChatInputCommandInteraction) {
     if (!interaction.inCachedGuild()) return;
 
-    const pingRole = interaction.guild?.roles.cache.find(
-      (role) => role.name === "hltv",
-    );
+    const pingRole = getRole(interaction.guild?.roles.cache);
 
     if (!pingRole) {
       await interaction.reply({
-        content:
-          "There is no `@hltv` role in this server for me to assign (you won't get pinged).",
+        content: `There is no \`@${ROLE_NAME}\` role in this server for me to assign (you won't get pinged).`,
         flags: MessageFlags.Ephemeral,
       });
       return;
