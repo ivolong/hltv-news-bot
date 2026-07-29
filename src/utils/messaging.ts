@@ -1,4 +1,3 @@
-import debounce from "debounce";
 import {
   BaseMessageOptions,
   ChannelType,
@@ -26,15 +25,11 @@ type StatsType = {
     };
   };
   message: {
-    errors: { [key: string]: number };
+    errors: Record<string, number>;
     members: number;
     roles: number;
   };
 };
-
-const logStats = debounce((stats, id) => {
-  logger.info(`Content delivered to guilds`, { id, stats });
-}, 10e3);
 
 const deliverContent = (
   channel: TextChannel | ForumChannel,
@@ -53,7 +48,7 @@ const deliverContent = (
   return channel.send(message);
 };
 
-export const deliverContentToAll = (
+export const deliverContentToAll = async (
   client: Client,
   name: string,
   message: BaseMessageOptions,
@@ -85,12 +80,11 @@ export const deliverContentToAll = (
     name = `${name.substring(0, FORUM_POST_MAX_LENGTH).trim()}...`;
   }
 
-  let channel;
-  client.guilds.cache.forEach((guild) => {
+  const deliveries = client.guilds.cache.map(async (guild) => {
     stats.server.count++;
     stats.server.members += guild.memberCount;
 
-    channel = guild.channels.cache.find(
+    const channel = guild.channels.cache.find(
       (channel) => channel.name === "news-feed",
     );
 
@@ -117,25 +111,20 @@ export const deliverContentToAll = (
       stats.server.withChannel.withRole.members += guild.memberCount;
     }
 
-    let errored: boolean;
-    deliverContent(channel, name, messageWithPing ?? message)
-      .catch((error: Error) => {
-        errored = true;
+    try {
+      await deliverContent(channel, name, messageWithPing ?? message);
+      stats.message.members += guild.memberCount;
 
-        const key = error.message;
-        stats.message.errors[key] ??= 0;
-        stats.message.errors[key]++;
-      })
-      .finally(() => {
-        if (!errored) {
-          stats.message.members += guild.memberCount;
-
-          if (role) stats.message.roles++;
-        }
-
-        logStats(stats, id);
-      });
+      if (role) stats.message.roles++;
+    } catch (error) {
+      const key = error instanceof Error ? error.message : String(error);
+      stats.message.errors[key] ??= 0;
+      stats.message.errors[key]++;
+    }
   });
+
+  await Promise.allSettled(deliveries);
+  logger.info(`Content delivered to guilds`, { id, stats });
 };
 
 export const postUpdate = (
@@ -154,5 +143,5 @@ export const postUpdate = (
     ],
   };
 
-  deliverContentToAll(client, title, message);
+  return deliverContentToAll(client, title, message);
 };
