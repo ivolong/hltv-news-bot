@@ -86,14 +86,7 @@ export const deliverContentToAll = async (
     stats.server.members += guild.memberCount;
 
     const channel = getChannel(guild.channels.cache);
-
-    if (
-      !channel ||
-      (channel.type !== ChannelType.GuildText &&
-        channel.type !== ChannelType.GuildForum)
-    ) {
-      return;
-    }
+    if (!channel) return;
 
     stats.server.withChannel.count++;
     stats.server.withChannel.members += guild.memberCount;

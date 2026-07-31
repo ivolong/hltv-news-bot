@@ -1,12 +1,15 @@
 import { REST } from "@discordjs/rest";
 import {
   ActivityType,
+  ChannelType,
   Client,
   Collection,
+  ForumChannel,
   GuildBasedChannel,
   Role,
   SlashCommandBuilder,
   Snowflake,
+  TextChannel,
 } from "discord.js";
 import { Routes } from "discord-api-types/v10";
 import { readFileSync } from "fs";
@@ -27,10 +30,17 @@ const liveEventsLocation = join(
 );
 
 export const CHANNEL_NAME = "news-feed";
+const SUPPORTED_CHANNEL_TYPES = [ChannelType.GuildText, ChannelType.GuildForum];
 export const ROLE_NAME = "hltv";
 
 export function getChannel(cache: Collection<string, GuildBasedChannel>) {
-  return cache.find((channel) => channel.name === CHANNEL_NAME);
+  const channel = cache.find(
+    (channel) =>
+      channel.name === CHANNEL_NAME &&
+      SUPPORTED_CHANNEL_TYPES.includes(channel.type),
+  );
+
+  return (channel as TextChannel | ForumChannel) || undefined;
 }
 
 export function getRole(cache: Collection<Snowflake, Role>) {
