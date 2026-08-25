@@ -10,11 +10,12 @@ export default async function channelUpdate(
   if (
     oldChannel instanceof DMChannel ||
     newChannel instanceof DMChannel ||
+    oldChannel.name === newChannel.name ||
     !newChannel.isSendable()
   )
     return;
 
-  if (oldChannel.name == CHANNEL_NAME && newChannel.name !== CHANNEL_NAME) {
+  if (oldChannel.name == CHANNEL_NAME) {
     logger.info("Supported channel was renamed");
 
     newChannel.send(
@@ -22,7 +23,7 @@ export default async function channelUpdate(
     );
   }
 
-  if (newChannel.name == CHANNEL_NAME && oldChannel.name !== CHANNEL_NAME) {
+  if (newChannel.name == CHANNEL_NAME) {
     logger.info("Unknown channel was renamed");
 
     newChannel.send(
