@@ -5,7 +5,7 @@ import clientReady from "./events/clientReady";
 import guildCreate from "./events/guildCreate";
 import guildDelete from "./events/guildDelete";
 import interactionCreate from "./events/interactionCreate";
-import newArticle from "./events/newArticle";
+import newArticle, { EventNewArticle } from "./events/newArticle";
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
@@ -26,7 +26,7 @@ client.on(Events.GuildDelete, (guild) => {
 client.on(Events.InteractionCreate, (interaction) => {
   interactionCreate(client, interaction);
 });
-client.on("newArticle", (article) => {
+client.on(EventNewArticle, (article) => {
   newArticle(client, article);
 });
 
