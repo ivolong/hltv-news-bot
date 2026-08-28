@@ -1,10 +1,10 @@
 import { ButtonStyle } from "discord.js";
 
-export const inviteButton = () => {
+export const inviteButton = (label: string = "Add to your server") => {
   return {
     type: 2,
     style: ButtonStyle.Link,
-    label: "Add to your server",
+    label,
     url: `https://discord.com/oauth2/authorize?client_id=${process.env.DISCORD_CLIENT_ID}`,
   };
 };

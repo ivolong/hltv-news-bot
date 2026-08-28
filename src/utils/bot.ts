@@ -6,6 +6,7 @@ import {
   Collection,
   ForumChannel,
   GuildBasedChannel,
+  PermissionFlagsBits,
   Role,
   SlashCommandBuilder,
   Snowflake,
@@ -32,6 +33,10 @@ const liveEventsLocation = join(
 export const CHANNEL_NAME = "news-feed";
 const SUPPORTED_CHANNEL_TYPES = [ChannelType.GuildText, ChannelType.GuildForum];
 export const ROLE_NAME = "hltv";
+export const REQUIRED_PERMISISONS = [
+  { name: "Manage channels", id: PermissionFlagsBits.ManageChannels },
+  { name: "Send messages", id: PermissionFlagsBits.SendMessages },
+];
 
 export function getChannel(cache: Collection<string, GuildBasedChannel>) {
   const channel = cache.find(
