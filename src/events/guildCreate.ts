@@ -1,6 +1,6 @@
-import { ChannelType, Client, Guild } from "discord.js";
+import { ChannelType, Client, Guild, PermissionFlagsBits } from "discord.js";
 
-import { CHANNEL_NAME, ROLE_NAME } from "../utils/bot";
+import { CHANNEL_NAME, REQUIRED_PERMISISONS, ROLE_NAME } from "../utils/bot";
 import { getSlashCommandString } from "../utils/command";
 import {
   inviteButton,
@@ -13,17 +13,19 @@ export default async function guildCreate(client: Client, guild: Guild) {
   let createdChannel = false;
   let createdRole = false;
 
-  try {
-    await guild.roles.create({
-      name: ROLE_NAME,
-      colors: {
-        primaryColor: "#3c6ea1",
-      },
-      reason: "Receives HLTV News article notifications.",
-    });
-    createdRole = true;
-  } catch (error) {
-    logger.warn("Unable to create role", error);
+  if (guild.members.me?.permissions.has(PermissionFlagsBits.ManageRoles)) {
+    try {
+      await guild.roles.create({
+        name: ROLE_NAME,
+        colors: {
+          primaryColor: "#3c6ea1",
+        },
+        reason: "Receives HLTV News article notifications.",
+      });
+      createdRole = true;
+    } catch (error) {
+      logger.warn("Failed to create role", error);
+    }
   }
 
   const [notify, mute, help] = getSlashCommandString(
@@ -32,18 +34,25 @@ export default async function guildCreate(client: Client, guild: Guild) {
   );
 
   let channel;
-  try {
-    channel = await guild.channels.create({
-      name: CHANNEL_NAME,
-      type: ChannelType.GuildText,
-      reason: "News feed from HLTV.",
-    });
-    createdChannel = true;
-  } catch (error) {
-    logger.warn("Unable to create channel", error);
+
+  if (guild.members.me?.permissions.has(PermissionFlagsBits.ManageChannels)) {
+    try {
+      channel = await guild.channels.create({
+        name: CHANNEL_NAME,
+        type: ChannelType.GuildText,
+        reason: "News feed from HLTV.",
+      });
+      createdChannel = true;
+    } catch (error) {
+      logger.warn("Failed to create channel", error);
+    }
   }
 
-  if (channel && channel.isTextBased()) {
+  if (
+    channel &&
+    channel.isTextBased() &&
+    guild.members.me?.permissions.has(PermissionFlagsBits.SendMessages)
+  ) {
     channel
       .send({
         content: "https://discord.gg/dE3NFqTzEx",
@@ -76,8 +85,15 @@ export default async function guildCreate(client: Client, guild: Guild) {
         ],
       })
       .catch((error: Error) => {
-        logger.warn("Unable to send welcome message", error);
+        logger.warn("Failed to send welcome message", error);
       });
+  }
+
+  const missingPermissions = REQUIRED_PERMISISONS.filter(
+    (permission) => !guild.members.me?.permissions.has(permission.id),
+  );
+  if (missingPermissions.length > 0) {
+    handleMissingPermissions(guild, missingPermissions);
   }
 
   logger.info("Added to new guild", {
@@ -85,5 +101,42 @@ export default async function guildCreate(client: Client, guild: Guild) {
     memberCount: guild.memberCount,
     createdChannel,
     createdRole,
+    missingPermissions: missingPermissions.map((permission) => permission.name),
   });
+}
+
+function handleMissingPermissions(
+  guild: Guild,
+  missingPermissions: { name: string }[],
+) {
+  const defaultGuildChannelId =
+    guild.widgetChannelId ||
+    guild.rulesChannelId ||
+    guild.publicUpdatesChannelId ||
+    guild.systemChannelId ||
+    guild.safetyAlertsChannelId ||
+    guild.afkChannelId ||
+    guild.channels.cache.first()?.id;
+  const guildReference = defaultGuildChannelId
+    ? `<#${defaultGuildChannelId}>`
+    : `'${guild.name}'`;
+
+  guild.fetchOwner().then((guildOwner) =>
+    guildOwner
+      .send({
+        content: `Hi, I was just added to your server ${guildReference} (by you or another member) but I was not granted some permissions:\n- ${missingPermissions.map((permission) => permission.name).join("\n- ")}\n\nWithout these permissions, I cannot function properly.\n\nFor an easy setup experience, please **kick me** and then add me again.`,
+        components: [
+          {
+            type: 1,
+            components: [inviteButton("Add me again")],
+          },
+        ],
+      })
+      .catch((error) =>
+        logger.error(
+          "Failed to send insufficient permissions message to owner",
+          error,
+        ),
+      ),
+  );
 }
