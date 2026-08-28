@@ -3,6 +3,8 @@ import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 import Parser from "rss-parser";
 
+import { EventNewArticle } from "../events/newArticle";
+
 const rss = new Parser({
   customFields: {
     item: ["pubDate", ["media:content", "media", { keepArray: false }]],
@@ -36,6 +38,6 @@ export async function rssChecker(name: string, url: string, client: Client) {
   ) {
     const data = JSON.stringify(newestArticle);
     writeFileSync(articleStorageFileLocation, data);
-    client.emit("newArticle", newestArticle);
+    client.emit(EventNewArticle, newestArticle);
   }
 }

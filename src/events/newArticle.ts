@@ -71,3 +71,5 @@ export default function newArticle(client: Client, article: HltvArticle) {
     article.guid,
   );
 }
+
+export const EventNewArticle = "newArticle";

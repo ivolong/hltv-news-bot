@@ -13,22 +13,12 @@ import {
   TextChannel,
 } from "discord.js";
 import { Routes } from "discord-api-types/v10";
-import { readFileSync } from "fs";
-import { join } from "path";
 
 import help from "../commands/help";
 import invite from "../commands/invite";
 import mute from "../commands/mute";
 import notify from "../commands/notify";
 import { logger } from "../utils/logging";
-
-const liveEventsLocation = join(
-  __dirname,
-  "..",
-  "..",
-  "storage",
-  `custom_activities.json`,
-);
 
 export const CHANNEL_NAME = "news-feed";
 const SUPPORTED_CHANNEL_TYPES = [ChannelType.GuildText, ChannelType.GuildForum];
@@ -53,25 +43,14 @@ export function getRole(cache: Collection<Snowflake, Role>) {
 }
 
 export function updateActivity(client: Client) {
-  const serverCount = client.guilds.cache.size;
-
-  let userActivities = [
-    {
-      name: `${serverCount.toLocaleString("en")} servers`,
-      type: ActivityType.Watching,
-      state: `Sending the latest stories to #${CHANNEL_NAME}`,
-    },
-  ];
-
-  const file = readFileSync(liveEventsLocation);
-  const customActivities = JSON.parse(file.toString());
-  userActivities = userActivities.concat(customActivities.activities);
-
-  const random = Math.floor(Math.random() * userActivities.length);
-  if (!userActivities[random]) return;
-
   client.user?.setPresence({
-    activities: [userActivities[random]],
+    activities: [
+      {
+        name: `${client.guilds.cache.size.toLocaleString("en")} servers`,
+        type: ActivityType.Watching,
+        state: `Sending the latest stories to #${CHANNEL_NAME}`,
+      },
+    ],
   });
 }
 
