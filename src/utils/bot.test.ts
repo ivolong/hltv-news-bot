@@ -11,7 +11,7 @@ import { CHANNEL_NAME, getChannel, getRole, ROLE_NAME } from "./bot";
 
 describe("bot", () => {
   describe("getRole", () => {
-    const monitoredRole = { name: ROLE_NAME } as Role;
+    const monitoredRole = { name: ROLE_NAME + "1" } as Role;
     const otherRole = { name: "Moderator" } as Role;
 
     it("monitored role", () => {
