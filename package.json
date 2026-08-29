@@ -11,6 +11,7 @@
     "format:fix": "prettier --write .",
     "dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "build": "tsc",
+    "test": "vitest run",
     "start": "node ./dist/main.js"
   },
   "dependencies": {
@@ -42,6 +43,7 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "prettier": "^3.5.3",
     "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "vitest": "^4.1.11"
   }
 }
