@@ -69,7 +69,7 @@ export default {
   data: new SlashCommandBuilder().setName(name).setDescription(description),
 
   async execute(interaction: ChatInputCommandInteraction) {
-    interaction.reply({
+    interaction.editReply({
       content: `${await getMessageContent(interaction)}\n\nNeed more help? Looking for something else?`,
       components: [
         {

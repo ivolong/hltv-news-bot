@@ -8,6 +8,7 @@ declare module "discord.js" {
   export interface Command {
     name: string;
     description: string;
+    ephemeral?: boolean;
     execute: (command: ChatInputCommandInteraction<CacheType>) => void;
   }
 }

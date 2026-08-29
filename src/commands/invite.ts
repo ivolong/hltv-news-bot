@@ -18,7 +18,7 @@ export default {
       await interaction.client.application?.commands.fetch(),
     );
 
-    interaction.reply({
+    interaction.editReply({
       content: `Add me to your server and follow the required steps. Check out ${help} for assistance.`,
       components: [
         {
