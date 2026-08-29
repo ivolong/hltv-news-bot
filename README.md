@@ -1,6 +1,7 @@
 # HLTV News Bot
 
 [![CI](https://github.com/ivolong/hltv-news-bot/actions/workflows/ci.yml/badge.svg)](https://github.com/ivolong/hltv-news-bot/actions/workflows/ci.yml)
+[![Test](https://github.com/ivolong/hltv-news-bot/actions/workflows/test.yml/badge.svg)](https://github.com/ivolong/hltv-news-bot/actions/workflows/test.yml)
 [![Super-Linter](https://github.com/ivolong/hltv-news-bot/actions/workflows/super-linter.yml/badge.svg)](https://github.com/ivolong/hltv-news-bot/actions/workflows/super-linter.yml)
 [![Healthcheck](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.bots.gg%2Fapi%2Fv1%2Fbots%2F745404733857988740&query=online&logo=discord&logoColor=white&label=healthy)](https://discord.gg/dE3NFqTzEx)
 
