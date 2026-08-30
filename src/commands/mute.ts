@@ -1,6 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 
 import { getRole, ROLE_NAME } from "../utils/bot";
+import { logger } from "../utils/logging";
 
 const name = "mute";
 const description = "Stop getting notified when HLTV publishes an article";
@@ -29,16 +30,18 @@ export default {
       return;
     }
 
-    await interaction.member?.roles.remove(pingRole).catch(async () => {
+    try {
+      await interaction.member?.roles.remove(pingRole);
+    } catch (error) {
+      logger.warn("Failed to remove user from role", error);
       await interaction.editReply(
-        `Sorry, I don't have permission to manage the <@&${pingRole.id}> role. Please contact a server administrator.`,
+        `Sorry, I wasn't able to remove you from the <@&${pingRole.id}> role. Please try again or contact a server administrator.`,
       );
-    });
+      return;
+    }
 
-    await interaction
-      .editReply({
-        content: "Done, role removed (you won't get pinged).",
-      })
-      .catch(() => {});
+    interaction.editReply({
+      content: "Done, role removed (you won't get pinged).",
+    });
   },
 };
