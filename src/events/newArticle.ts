@@ -6,7 +6,7 @@ import { logger } from "../utils/logging";
 import { deliverContentToAll } from "../utils/messaging";
 
 export type HltvArticle = Item & {
-  pubDate: Date;
+  pubDate: string;
   media: {
     $: {
       url: string;
