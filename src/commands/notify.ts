@@ -1,6 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 
 import { getRole, ROLE_NAME } from "../utils/bot";
+import { logger } from "../utils/logging";
 
 const name = "notify";
 const description = "Get notified when HLTV publishes an article";
@@ -29,16 +30,18 @@ export default {
       return;
     }
 
-    await interaction.member?.roles.add(pingRole).catch(async () => {
+    try {
+      await interaction.member?.roles.add(pingRole);
+    } catch (error) {
+      logger.warn("Failed to add user to role", error);
       await interaction.editReply(
-        `Sorry, I don't have permission to manage the <@&${pingRole.id}> role. Please contact the server administrator.`,
+        `Sorry, I wasn't able to add you to the <@&${pingRole.id}> role. Please try again or contact the server administrator.`,
       );
-    });
+      return;
+    }
 
-    await interaction
-      .editReply({
-        content: "Done, role added (you'll get a @ping).",
-      })
-      .catch(() => {});
+    interaction.editReply({
+      content: "Done, role added (you'll get a @ping).",
+    });
   },
 };
