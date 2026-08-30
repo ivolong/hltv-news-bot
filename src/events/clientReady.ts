@@ -21,7 +21,6 @@ export default async function clientReady(client: Client) {
   for (;;) {
     try {
       await rssChecker(
-        "hltv",
         `${process.env.HLTV_ENDPOINT ?? "https://www.hltv.org"}/rss/news`,
         client,
       );

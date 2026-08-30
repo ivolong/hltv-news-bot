@@ -1,9 +1,9 @@
 import { Client } from "discord.js";
-import { readFileSync, writeFileSync } from "fs";
-import { join } from "path";
 import Parser from "rss-parser";
 
-import { EventNewArticle } from "../events/newArticle";
+import { EventNewArticle, HltvArticle } from "../events/newArticle";
+import { getLatestArticle, setLatestArticle } from "./cache";
+import { logger } from "./logging";
 
 const rss = new Parser({
   customFields: {
@@ -12,32 +12,43 @@ const rss = new Parser({
   timeout: 4e3,
 });
 
-export async function rssChecker(name: string, url: string, client: Client) {
-  const articleStorageFileLocation = join(
-    __dirname,
-    "..",
-    "..",
-    "storage",
-    `current_${name}_article.json`,
-  );
+function parseItem(item?: HltvArticle) {
+  if (!item) return;
 
-  const feed = await rss.parseURL(url);
-  const newestArticle = feed.items[0];
+  const parsedItem = item;
 
-  const file = readFileSync(articleStorageFileLocation);
-  const currentArticle = JSON.parse(file.toString());
+  if (!item.pubDate || !new Date(item.pubDate)) return;
+  if (!item.guid || item.guid.length < 1) return;
 
+  return parsedItem;
+}
+
+function isNewArticle(currentArticle: HltvArticle, newArticle: HltvArticle) {
   const currentArticleDate = new Date(currentArticle.pubDate);
-  const newestArticleDate = new Date(newestArticle?.pubDate);
+  const newestArticleDate = new Date(newArticle.pubDate);
   const isStale = newestArticleDate < currentArticleDate;
 
-  if (
-    currentArticle.guid &&
-    newestArticle?.guid !== currentArticle.guid &&
-    !isStale
-  ) {
-    const data = JSON.stringify(newestArticle);
-    writeFileSync(articleStorageFileLocation, data);
-    client.emit(EventNewArticle, newestArticle);
+  return (
+    currentArticle.guid && newArticle?.guid !== currentArticle.guid && !isStale
+  );
+}
+
+export async function rssChecker(url: string, client: Client) {
+  const feed = await rss.parseURL(url);
+  const newestArticle = parseItem(feed.items[0]);
+  if (!newestArticle) {
+    logger.warn("Got unexpected article", { raw: feed.items[0] });
+    return;
   }
+
+  const currentArticle = getLatestArticle();
+  if (!currentArticle) {
+    setLatestArticle(newestArticle);
+    return;
+  }
+
+  if (!isNewArticle(currentArticle, newestArticle)) return;
+
+  setLatestArticle(newestArticle);
+  client.emit(EventNewArticle, newestArticle);
 }
