@@ -14,7 +14,7 @@ describe("cache", () => {
       const cacheValueToSet = {
         title: "",
         link: "",
-        pubDate: "",
+        pubDate: new Date(),
         media: { $: { url: "" } },
         content: "",
         contentSnippet: "",

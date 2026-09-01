@@ -1,9 +1,18 @@
 import { Client } from "discord.js";
-import Parser from "rss-parser";
+import Parser, { Item } from "rss-parser";
 
-import { EventNewArticle, HltvArticle } from "../events/newArticle";
+import { EventNewArticle } from "../events/newArticle";
 import { getLatestArticle, setLatestArticle } from "./cache";
 import { logger } from "./logging";
+
+export type HltvArticle = Omit<Item, "pubDate"> & {
+  pubDate: Date;
+  media?: {
+    $: {
+      url: string;
+    };
+  };
+};
 
 const rss = new Parser({
   customFields: {
@@ -12,25 +21,30 @@ const rss = new Parser({
   timeout: 4e3,
 });
 
-function parseItem(item?: HltvArticle) {
+export function parseItem(item?: unknown): HltvArticle | undefined {
   if (!item) return;
+  if (typeof item !== "object") return;
 
-  const parsedItem = item;
+  if (!("pubDate" in item) || typeof item.pubDate !== "string") return;
+  if (!("guid" in item) || typeof item.guid !== "string") return;
 
-  if (!item.pubDate || !new Date(item.pubDate)) return;
-  if (!item.guid || item.guid.length < 1) return;
+  if (isNaN(new Date(item.pubDate).getTime())) return;
+  if (item.guid.length < 1) return;
 
-  return parsedItem;
+  return {
+    ...item,
+    guid: item.guid,
+    pubDate: new Date(item.pubDate),
+  };
 }
 
-function isNewArticle(currentArticle: HltvArticle, newArticle: HltvArticle) {
-  const currentArticleDate = new Date(currentArticle.pubDate);
-  const newestArticleDate = new Date(newArticle.pubDate);
-  const isStale = newestArticleDate < currentArticleDate;
+export function isNewArticle(
+  currentArticle: HltvArticle,
+  newArticle: HltvArticle,
+) {
+  const isStale = newArticle.pubDate < currentArticle.pubDate;
 
-  return (
-    currentArticle.guid && newArticle?.guid !== currentArticle.guid && !isStale
-  );
+  return newArticle.guid !== currentArticle.guid && !isStale;
 }
 
 export async function rssChecker(url: string, client: Client) {
