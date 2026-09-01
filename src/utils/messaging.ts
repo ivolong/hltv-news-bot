@@ -18,6 +18,7 @@ type StatsType = {
     members: number;
     withChannel: {
       count: number;
+      guildForumCount: number;
       members: number;
       withRole: {
         count: number;
@@ -63,6 +64,7 @@ export const deliverContentToAll = async (
       members: 0,
       withChannel: {
         count: 0,
+        guildForumCount: 0,
         members: 0,
         withRole: {
           count: 0,
@@ -90,6 +92,10 @@ export const deliverContentToAll = async (
 
     stats.server.withChannel.count++;
     stats.server.withChannel.members += guild.memberCount;
+
+    if (channel.type === ChannelType.GuildForum) {
+      stats.server.withChannel.guildForumCount++;
+    }
 
     const role = getRole(guild.roles.cache);
     let messageWithPing;
