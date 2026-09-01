@@ -4,7 +4,6 @@ import {
   ChannelType,
   Client,
   Collection,
-  ForumChannel,
   GuildBasedChannel,
   PermissionFlagsBits,
   Role,
@@ -21,7 +20,7 @@ import notify from "../commands/notify";
 import { logger } from "../utils/logging";
 
 export const CHANNEL_NAME = "news-feed";
-const SUPPORTED_CHANNEL_TYPES = [ChannelType.GuildText, ChannelType.GuildForum];
+const SUPPORTED_CHANNEL_TYPE = ChannelType.GuildText;
 export const ROLE_NAME = "hltv";
 export const REQUIRED_PERMISISONS = [
   { name: "Manage channels", id: PermissionFlagsBits.ManageChannels },
@@ -31,11 +30,10 @@ export const REQUIRED_PERMISISONS = [
 export function getChannel(cache: Collection<string, GuildBasedChannel>) {
   const channel = cache.find(
     (channel) =>
-      channel.name === CHANNEL_NAME &&
-      SUPPORTED_CHANNEL_TYPES.includes(channel.type),
+      channel.name === CHANNEL_NAME && channel.type === SUPPORTED_CHANNEL_TYPE,
   );
 
-  return (channel as TextChannel | ForumChannel) || undefined;
+  return (channel as TextChannel) || undefined;
 }
 
 export function getRole(cache: Collection<Snowflake, Role>) {

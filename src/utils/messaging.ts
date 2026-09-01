@@ -1,16 +1,7 @@
-import {
-  BaseMessageOptions,
-  ChannelType,
-  Client,
-  ForumChannel,
-  TextChannel,
-  ThreadAutoArchiveDuration,
-} from "discord.js";
+import { BaseMessageOptions, Client } from "discord.js";
 
 import { logger } from "../utils/logging";
 import { getChannel, getRole } from "./bot";
-
-const FORUM_POST_MAX_LENGTH = 97;
 
 type StatsType = {
   server: {
@@ -18,7 +9,6 @@ type StatsType = {
     members: number;
     withChannel: {
       count: number;
-      guildForumCount: number;
       members: number;
       withRole: {
         count: number;
@@ -31,23 +21,6 @@ type StatsType = {
     members: number;
     roles: number;
   };
-};
-
-const deliverContent = (
-  channel: TextChannel | ForumChannel,
-  name: string,
-  message: BaseMessageOptions,
-  autoArchiveDuration: ThreadAutoArchiveDuration = ThreadAutoArchiveDuration.OneHour,
-) => {
-  if (channel.type === ChannelType.GuildForum) {
-    return channel.threads.create({
-      name,
-      autoArchiveDuration,
-      message,
-    });
-  }
-
-  return channel.send(message);
 };
 
 export const deliverContentToAll = async (
@@ -64,7 +37,6 @@ export const deliverContentToAll = async (
       members: 0,
       withChannel: {
         count: 0,
-        guildForumCount: 0,
         members: 0,
         withRole: {
           count: 0,
@@ -79,10 +51,6 @@ export const deliverContentToAll = async (
     },
   };
 
-  if (name.length > FORUM_POST_MAX_LENGTH) {
-    name = `${name.substring(0, FORUM_POST_MAX_LENGTH).trim()}...`;
-  }
-
   const deliveries = client.guilds.cache.map(async (guild) => {
     stats.server.count++;
     stats.server.members += guild.memberCount;
@@ -92,10 +60,6 @@ export const deliverContentToAll = async (
 
     stats.server.withChannel.count++;
     stats.server.withChannel.members += guild.memberCount;
-
-    if (channel.type === ChannelType.GuildForum) {
-      stats.server.withChannel.guildForumCount++;
-    }
 
     const role = getRole(guild.roles.cache);
     let messageWithPing;
@@ -110,7 +74,7 @@ export const deliverContentToAll = async (
     }
 
     try {
-      await deliverContent(channel, name, messageWithPing ?? message);
+      await channel.send(messageWithPing ?? message);
       stats.message.members += guild.memberCount;
 
       if (role) stats.message.roles++;
