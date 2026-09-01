@@ -32,16 +32,6 @@ Ask the bot for help by typing <kbd>/help</kbd>.
 
 Additional support can be found in the [community Discord server](https://discord.gg/dE3NFqTzEx).
 
-## ⚠️ Experimental Features ⚠️
-
-HLTV News Bot also supports sending new articles in threads in a forum channel. If you would to use the thread/forum feature, you can:
-
-1. Remove the <kbd>#news-feed</kbd> text channel.
-2. Create a forum channel called <kbd>#news-feed</kbd>.
-3. Give the bot permission to read and send messages in the <kbd>#news-feed</kbd> forum channel.
-
-To revert to a text channel, undo these steps.
-
 ## Issues & Contributions
 
 Feel free to report an issue or open a pull request on this repository.
