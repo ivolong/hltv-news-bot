@@ -14,12 +14,13 @@ export type HltvArticle = Omit<Item, "pubDate"> & {
   };
 };
 
-const rss = new Parser({
-  customFields: {
-    item: ["pubDate", ["media:content", "media", { keepArray: false }]],
-  },
-  timeout: 4e3,
-});
+const rss = () =>
+  new Parser({
+    customFields: {
+      item: ["pubDate", ["media:content", "media", { keepArray: false }]],
+    },
+    timeout: 4e3,
+  });
 
 export function parseItem(item?: unknown): HltvArticle | undefined {
   if (!item) return;
@@ -48,7 +49,7 @@ export function isNewArticle(
 }
 
 export async function rssChecker(url: string, client: Client) {
-  const feed = await rss.parseURL(url);
+  const feed = await rss().parseURL(url);
   const newestArticle = parseItem(feed.items[0]);
   if (!newestArticle) {
     logger.warn("Got unexpected article", { raw: feed.items[0] });

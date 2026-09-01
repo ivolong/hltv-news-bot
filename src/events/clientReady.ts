@@ -18,7 +18,7 @@ export default async function clientReady(client: Client) {
 
   setInterval(updateStats, 10 * 60 * 1000, client.guilds.cache.size);
 
-  for (;;) {
+  while (client.isReady()) {
     try {
       await rssChecker(
         `${process.env.HLTV_ENDPOINT ?? "https://www.hltv.org"}/rss/news`,
