@@ -1,18 +1,9 @@
 import { ButtonStyle, Client } from "discord.js";
-import { Item } from "rss-parser";
 
 import { inviteButton } from "../utils/components";
 import { logger } from "../utils/logging";
 import { deliverContentToAll } from "../utils/messaging";
-
-export type HltvArticle = Item & {
-  pubDate: string;
-  media: {
-    $: {
-      url: string;
-    };
-  };
-};
+import { HltvArticle } from "../utils/rss";
 
 export default function newArticle(client: Client, article: HltvArticle) {
   logger.info("New article received", article);
@@ -32,7 +23,7 @@ export default function newArticle(client: Client, article: HltvArticle) {
           url: "https://www.hltv.org",
         },
         image: {
-          url: article.media.$.url,
+          url: `${article.media?.$.url}`,
         },
         footer: {
           text: "HLTV.org",

@@ -1,4 +1,4 @@
-import { HltvArticle } from "../events/newArticle";
+import { HltvArticle } from "./rss";
 
 type Cache = {
   latestArticle?: HltvArticle;
