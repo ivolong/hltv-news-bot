@@ -1,6 +1,7 @@
 import { Client } from "discord.js";
 import Parser, { Item } from "rss-parser";
 
+import { TIME_SECOND } from "../events/clientReady";
 import { EventNewArticle } from "../events/newArticle";
 import { getLatestArticle, setLatestArticle } from "./cache";
 import { logger } from "./logging";
@@ -19,7 +20,7 @@ const rss = () =>
     customFields: {
       item: ["pubDate", ["media:content", "media", { keepArray: false }]],
     },
-    timeout: 4e3,
+    timeout: 8 * TIME_SECOND,
   });
 
 export function parseItem(item?: unknown): HltvArticle | undefined {
