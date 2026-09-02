@@ -16,7 +16,7 @@ export default async function clientReady(client: Client) {
 
   setInterval(updateActivity, 60e3, client);
 
-  setInterval(updateStats, 10 * 60 * 1000, client.guilds.cache.size);
+  setInterval(() => updateStats(client.guilds.cache.size), 10 * 60 * 1000);
 
   while (client.isReady()) {
     try {
