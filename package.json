@@ -11,7 +11,7 @@
     "format:fix": "prettier --write .",
     "dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "build": "tsc",
-    "test": "vitest --coverage --coverage.reporter=text run",
+    "test": "vitest --coverage --coverage.reporter=text --silent=true run",
     "start": "node ./dist/main.js"
   },
   "dependencies": {
