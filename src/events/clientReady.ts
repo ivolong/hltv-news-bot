@@ -7,7 +7,7 @@ import { updateStats } from "../utils/stats";
 
 export const TIME_SECOND = 1000;
 
-function sleep(milliseconds: number) {
+export function sleep(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
