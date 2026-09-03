@@ -1,6 +1,9 @@
-import { describe, expect, it } from "vitest";
+import Parser from "rss-parser";
+import { describe, expect, it, vi } from "vitest";
 
-import { isNewArticle, parseItem } from "./rss";
+import { EventNewArticle } from "../events/newArticle";
+import { getLatestArticle, setLatestArticle } from "./cache";
+import { isNewArticle, parseItem, rssChecker } from "./rss";
 
 type BaseItem = {
   title?: string;
@@ -61,11 +64,89 @@ function getHltvArticle({
 }
 
 describe("rss", () => {
+  describe("rssChecker", () => {
+    it("populates cache for the first time without emitting", async () => {
+      expect(getLatestArticle()).toBe(undefined);
+
+      const firstItem = getHltvItem({
+        guid: "current",
+        pubDate: "January 2, 2000",
+      });
+
+      vi.spyOn(Parser.prototype, "parseURL").mockResolvedValueOnce({
+        items: [firstItem],
+      });
+      const client = { emit: vi.fn() };
+
+      await rssChecker("https://hltv.org/rss/news", client as never);
+
+      expect(getLatestArticle()).toStrictEqual(parseItem(firstItem));
+      expect(client.emit).not.toHaveBeenCalled();
+    });
+
+    it("ignores an invalid feed item", async () => {
+      vi.spyOn(Parser.prototype, "parseURL").mockResolvedValueOnce({
+        items: [{}],
+      });
+      const client = { emit: vi.fn() };
+
+      await rssChecker("https://hltv.org/rss/news", client as never);
+
+      expect(client.emit).not.toHaveBeenCalled();
+    });
+
+    it("ignores a stale feed item", async () => {
+      const currentArticle = getHltvArticle({
+        guid: "current",
+        pubDate: new Date("January 2, 2000"),
+      });
+      setLatestArticle(currentArticle);
+      vi.spyOn(Parser.prototype, "parseURL").mockResolvedValueOnce({
+        items: [
+          getHltvItem({
+            guid: "old",
+            pubDate: "January 1, 2000",
+          }),
+        ],
+      });
+      const client = { emit: vi.fn() };
+
+      await rssChecker("https://hltv.org/rss/news", client as never);
+
+      expect(getLatestArticle()).toStrictEqual(currentArticle);
+      expect(client.emit).not.toHaveBeenCalled();
+    });
+
+    it("updates the cache and emits a new article", async () => {
+      setLatestArticle(
+        getHltvArticle({
+          guid: "current",
+          pubDate: new Date("January 1, 2000"),
+        }),
+      );
+      const item = getHltvItem({
+        guid: "new",
+        pubDate: "January 2, 2000",
+      });
+      vi.spyOn(Parser.prototype, "parseURL").mockResolvedValueOnce({
+        items: [item],
+      });
+      const client = { emit: vi.fn() };
+
+      await rssChecker("https://hltv.org/rss/news", client as never);
+
+      const article = getLatestArticle();
+      expect(getLatestArticle()).toStrictEqual(parseItem(item));
+      expect(client.emit).toHaveBeenCalledWith(EventNewArticle, article);
+    });
+  });
+
   describe("parseItem", () => {
     it("empty items return nothing", () => {
       expect(parseItem()).toBe(undefined);
       expect(parseItem(undefined)).toBe(undefined);
       expect(parseItem(null)).toBe(undefined);
+      expect(parseItem(1)).toBe(undefined);
       expect(parseItem({})).toBe(undefined);
       expect(parseItem({ something: "anything" })).toBe(undefined);
     });

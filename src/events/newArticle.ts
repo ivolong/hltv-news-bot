@@ -55,12 +55,7 @@ export default function newArticle(client: Client, article: HltvArticle) {
     ],
   };
 
-  deliverContentToAll(
-    client,
-    article.title ?? "[HLTV News Story]",
-    message,
-    article.guid,
-  );
+  deliverContentToAll(client, `${article.title}`, message, article.guid);
 }
 
 export const EventNewArticle = "newArticle";
