@@ -1,4 +1,4 @@
-import { Client, Events, GatewayIntentBits } from "discord.js";
+import { Client, Events, GatewayIntentBits, Options } from "discord.js";
 
 import channelUpdate from "./events/channelUpdate";
 import clientReady from "./events/clientReady";
@@ -9,6 +9,10 @@ import newArticle, { EventNewArticle } from "./events/newArticle";
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+  makeCache: Options.cacheWithLimits({
+    ...Options.DefaultMakeCacheSettings,
+    ReactionManager: 0,
+  }),
 });
 
 client.on(Events.ChannelUpdate, (oldChannel, newChannel) => {
