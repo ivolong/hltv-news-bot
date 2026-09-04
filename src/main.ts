@@ -12,6 +12,7 @@ const client = new Client({
   makeCache: Options.cacheWithLimits({
     ...Options.DefaultMakeCacheSettings,
     ReactionManager: 0,
+    UserManager: 0,
   }),
 });
 
