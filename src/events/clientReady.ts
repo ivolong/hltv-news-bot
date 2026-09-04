@@ -29,20 +29,6 @@ export function getRemainingTimeForInterval(
   return minWaitIntervalMs - timeWaited;
 }
 
-function logProcessStats(client: Client) {
-  const processUsage = process.memoryUsage();
-
-  logger.info("Memory usage summary", {
-    rssUsed: (processUsage.rss / 1024 / 1024).toFixed(1),
-    heapUsed: (processUsage.heapUsed / 1024 / 1024).toFixed(1),
-    caches: {
-      guilds: client.guilds.cache.size,
-      users: client.users.cache.size,
-      channels: client.channels.cache.size,
-    },
-  });
-}
-
 export default async function clientReady(client: Client) {
   logger.info("Online");
 
@@ -51,8 +37,6 @@ export default async function clientReady(client: Client) {
   setInterval(updateActivity, 60 * TIME_SECOND, client);
 
   setInterval(() => updateStats(client.guilds.cache.size), 600 * TIME_SECOND);
-
-  setInterval(logProcessStats, 2 * 60 * 60 * TIME_SECOND, client);
 
   let startTime;
   while (client.isReady()) {
