@@ -12,7 +12,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "build": "tsc",
     "test": "vitest --coverage --coverage.reporter=text --silent=true run",
-    "start": "node ./dist/main.js"
+    "start": "node --max-old-space-size=200 ./dist/main.js"
   },
   "dependencies": {
     "@discordjs/rest": "^2.4.0",
