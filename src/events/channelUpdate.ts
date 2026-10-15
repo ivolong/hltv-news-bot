@@ -18,16 +18,24 @@ export default async function channelUpdate(
   if (oldChannel.name == CHANNEL_NAME) {
     logger.info("Supported channel was renamed");
 
-    newChannel.send(
-      `I see the \`#${CHANNEL_NAME}\` channel has been renamed. Please change the name back to \`#${CHANNEL_NAME}\` if you wish to continue receiving HLTV articles. I can only send HLTV articles to a channel named \`#${CHANNEL_NAME}\`, sorry.`,
-    );
+    newChannel
+      .send(
+        `I see the \`#${CHANNEL_NAME}\` channel has been renamed. Please change the name back to \`#${CHANNEL_NAME}\` if you wish to continue receiving HLTV articles. I can only send HLTV articles to a channel named \`#${CHANNEL_NAME}\`, sorry.`,
+      )
+      .catch((error: Error) => {
+        logger.warn("Failed to send channel rename message", error);
+      });
   }
 
   if (newChannel.name == CHANNEL_NAME) {
     logger.info("Unknown channel was renamed");
 
-    newChannel.send(
-      `I see this channel has been renamed \`#${CHANNEL_NAME}\`. I will post HLTV articles in here.`,
-    );
+    newChannel
+      .send(
+        `I see this channel has been renamed \`#${CHANNEL_NAME}\`. I will post HLTV articles in here.`,
+      )
+      .catch((error: Error) => {
+        logger.warn("Failed to send channel rename message", error);
+      });
   }
 }
