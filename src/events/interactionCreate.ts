@@ -12,11 +12,16 @@ export default async function interactionCreate(
 
   if (!command) return;
 
-  await interaction.deferReply({
-    flags: command.ephemeral ? MessageFlags.Ephemeral : undefined,
-  });
-
   logger.info("Slash command used", { command: command.name });
+
+  try {
+    await interaction.deferReply({
+      flags: command.ephemeral ? MessageFlags.Ephemeral : undefined,
+    });
+  } catch (error) {
+    logger.error("Error occurred deferring reply", error);
+    return;
+  }
 
   try {
     await command.execute(interaction);
