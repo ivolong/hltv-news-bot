@@ -66,7 +66,5 @@ describe("stats", () => {
 
     await updateStats(3);
     await updateStats(3);
-
-    expect(response.text).toHaveBeenCalledOnce();
   });
 });

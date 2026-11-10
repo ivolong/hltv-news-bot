@@ -59,8 +59,9 @@ export async function updateStats(guildCount: number) {
     }
 
     if (!response.ok) {
-      logger.warn("Unexpected response while posting statistics", url, {
-        response: await response.text(),
+      logger.warn("Unexpected response while posting statistics", {
+        url,
+        status: response.status,
       });
     }
   });
