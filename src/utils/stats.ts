@@ -54,7 +54,7 @@ export async function updateStats(guildCount: number) {
     try {
       response = await fetch(url, request);
     } catch (error) {
-      logger.warn("Error while posting statistics", url, error);
+      logger.warn("Error while posting statistics", error);
       return;
     }
 
